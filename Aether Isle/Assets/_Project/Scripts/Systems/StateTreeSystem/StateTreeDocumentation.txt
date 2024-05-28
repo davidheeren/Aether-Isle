@@ -1,0 +1,17 @@
+
+Copyable
+	Node
+		*State
+			RootState
+			HolderState
+		Selector
+		TwoSelector
+		*Modifier
+			LockTimerModifier
+			NullTimerModifier
+	*Comparison
+		Not
+		Or
+		And
+
+* can inherit from to create custom logic
