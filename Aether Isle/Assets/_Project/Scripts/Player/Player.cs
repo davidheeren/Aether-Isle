@@ -7,9 +7,7 @@ namespace Game
     [RequireComponent(typeof(Movement))]
     public class Player : MonoBehaviour
     {
-        [SerializeField] float maxSpeed = 5;
-
-        [field: SerializeField, ReadOnly] public Vector2 aimDir { get; private set; } = Vector2.up;
+        public Vector2 aimDir { get; private set; } = Vector2.up; 
         bool isMouseAim = false;
         bool canMoveMouse = false; // So that first mouse movement is ignored
 
@@ -57,7 +55,7 @@ namespace Game
 
         void FixedUpdate()
         {
-            movement.MoveVelocity(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * maxSpeed);
+            movement.MoveVelocity(InputManager.Instance.input.Game.Move.ReadValue<Vector2>());
         }
     }
 }
