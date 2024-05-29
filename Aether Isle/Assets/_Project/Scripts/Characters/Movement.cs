@@ -12,7 +12,9 @@ namespace Game
         [SerializeField] float acceleration = 15;
         [SerializeField] float deceleration = 10;
 
-        Vector2 targetVelocity;
+        public Vector2 targetVelocity {  get; private set; }
+
+        bool wasSetLastFrame;
 
         Rigidbody2D rb;
 
@@ -24,6 +26,7 @@ namespace Game
         public void MoveVelocity(Vector2 targetDir)
         {
             targetVelocity = targetDir * targetSpeed;
+            wasSetLastFrame = true;
         }
 
         private void FixedUpdate()
@@ -39,7 +42,10 @@ namespace Game
 
             rb.AddForce(force);
 
-            targetVelocity = Vector2.zero;
+            if (!wasSetLastFrame)
+                targetVelocity = Vector2.zero;
+
+            wasSetLastFrame = false;
         }
     }
 }

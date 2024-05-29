@@ -17,8 +17,7 @@ namespace Game
 
         void Update()
         {
-            Vector2 move = InputManager.Instance.input.Game.Move.ReadValue<Vector2>();
-            bool isMove = move != Vector2.zero;
+            bool isMove = InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
 
             if (isMove && state != States.walk)
             {
@@ -31,9 +30,6 @@ namespace Game
                 animator.Play("PlayerIdle");
                 state = States.idle;
             }
-
-            if (move.x != 0)
-                transform.localScale = new Vector3(Mathf.Sign(move.x), 1, 1);
         }
     }
 }

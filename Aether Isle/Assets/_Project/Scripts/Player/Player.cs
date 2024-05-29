@@ -11,11 +11,13 @@ namespace Game
         bool isMouseAim = false;
         bool canMoveMouse = false; // So that first mouse movement is ignored
 
+        Camera cam;
         Movement movement;
 
         void Awake()
         {
             movement = GetComponent<Movement>();
+            cam = Camera.main;
 
             InputManager.Instance.input.Game.MousePosition.performed += OnMouseMove;
             InputManager.Instance.input.Game.AimDir.performed += OnRightStickMove;
@@ -43,7 +45,7 @@ namespace Game
         void UpdateAimDir()
         {
             if (isMouseAim)
-                aimDir = (InputManager.Instance.input.Game.MousePosition.ReadValue<Vector2>() - (Vector2)Camera.main.WorldToScreenPoint(transform.position)).normalized;
+                aimDir = (InputManager.Instance.input.Game.MousePosition.ReadValue<Vector2>() - (Vector2)cam.WorldToScreenPoint(transform.position)).normalized;
             else
             {
                 Vector2 newAimDir = InputManager.Instance.input.Game.AimDir.ReadValue<Vector2>();
