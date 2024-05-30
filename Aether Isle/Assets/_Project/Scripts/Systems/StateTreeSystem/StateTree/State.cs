@@ -71,7 +71,7 @@ namespace StateTree
         }
 
         protected virtual void EnterState() { if (rootState.debugState) Debug.Log("Enter: " + name); }
-        protected virtual void UpdateState() { if (rootState.debugState) Debug.Log("Update: " + name); }
+        protected virtual void UpdateState() { /*if (rootState.debugState) Debug.Log("Update: " + name);*/ }
         protected virtual void ExitState() { if (rootState.debugState) Debug.Log("Exit: " + name); }
 
 

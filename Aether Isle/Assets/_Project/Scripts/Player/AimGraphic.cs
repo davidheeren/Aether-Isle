@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
+using Utilities;
 
 namespace Game
 {
     public class AimGraphic : MonoBehaviour
     {
-        [SerializeField] Player player;
+        [SerializeField] PlayerAimDirection aim;
 
-        const float turnSpeed = 50;
+        [SerializeField] float decay = 50;
 
         private void Update()
         {
-            float angle = Mathf.Atan2(player.aimDir.y, player.aimDir.x) * Mathf.Rad2Deg - 90;
+            float targetAngle = Mathf.Atan2(aim.aimDir.y, aim.aimDir.x) * Mathf.Rad2Deg - 90;
 
-            angle = Mathf.DeltaAngle(transform.eulerAngles.z, angle) * turnSpeed * Time.deltaTime + transform.eulerAngles.z;
-
-            transform.eulerAngles = Vector3.forward * angle;
+            transform.eulerAngles = Vector3.forward * Smoothing.ExpDecayAngle(transform.eulerAngles.z, targetAngle, decay, Time.deltaTime);
         }
     }
 }

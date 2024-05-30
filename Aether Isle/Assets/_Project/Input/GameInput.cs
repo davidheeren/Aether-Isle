@@ -56,6 +56,24 @@ namespace Input
                     ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cbef3d4-30bd-4691-9751-51b52239741e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""578893f7-de49-4c43-b289-0cee70737201"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -234,6 +252,50 @@ namespace Input
                     ""action"": ""AimDir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aebbbde3-a35e-4e87-a098-a85cf4754d15"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f5730e5-c8a8-490a-8f7a-5048737bee10"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a76e1ed2-080a-45ea-9a9d-22ca93f29d89"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c5766f8-3ff9-4016-8349-69df2a73ceb9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -312,6 +374,8 @@ namespace Input
             m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
             m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
             m_Game_AimDir = m_Game.FindAction("AimDir", throwIfNotFound: true);
+            m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
+            m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -389,6 +453,8 @@ namespace Input
         private readonly InputAction m_Game_Move;
         private readonly InputAction m_Game_MousePosition;
         private readonly InputAction m_Game_AimDir;
+        private readonly InputAction m_Game_Attack;
+        private readonly InputAction m_Game_Roll;
         public struct GameActions
         {
             private @GameInput m_Wrapper;
@@ -396,6 +462,8 @@ namespace Input
             public InputAction @Move => m_Wrapper.m_Game_Move;
             public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
             public InputAction @AimDir => m_Wrapper.m_Game_AimDir;
+            public InputAction @Attack => m_Wrapper.m_Game_Attack;
+            public InputAction @Roll => m_Wrapper.m_Game_Roll;
             public InputActionMap Get() { return m_Wrapper.m_Game; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -414,6 +482,12 @@ namespace Input
                 @AimDir.started += instance.OnAimDir;
                 @AimDir.performed += instance.OnAimDir;
                 @AimDir.canceled += instance.OnAimDir;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
+                @Roll.started += instance.OnRoll;
+                @Roll.performed += instance.OnRoll;
+                @Roll.canceled += instance.OnRoll;
             }
 
             private void UnregisterCallbacks(IGameActions instance)
@@ -427,6 +501,12 @@ namespace Input
                 @AimDir.started -= instance.OnAimDir;
                 @AimDir.performed -= instance.OnAimDir;
                 @AimDir.canceled -= instance.OnAimDir;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
+                @Roll.started -= instance.OnRoll;
+                @Roll.performed -= instance.OnRoll;
+                @Roll.canceled -= instance.OnRoll;
             }
 
             public void RemoveCallbacks(IGameActions instance)
@@ -559,6 +639,8 @@ namespace Input
             void OnMove(InputAction.CallbackContext context);
             void OnMousePosition(InputAction.CallbackContext context);
             void OnAimDir(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
+            void OnRoll(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

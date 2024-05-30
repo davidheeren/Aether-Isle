@@ -1,9 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StateTree
 {
-    [Serializable]
     public class HolderState : State
     {
         // This state does nothing

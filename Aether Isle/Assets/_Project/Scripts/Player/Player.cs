@@ -1,63 +1,73 @@
-using CustomInspector;
+using StateTree;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Utilities;
 
 namespace Game
 {
     [RequireComponent(typeof(Movement))]
     public class Player : MonoBehaviour
     {
-        public Vector2 aimDir { get; private set; } = Vector2.up; 
-        bool isMouseAim = false;
-        bool canMoveMouse = false; // So that first mouse movement is ignored
+        [SerializeField] float rollSpeed = 10;
+        [SerializeField] GameObject attackPrefab;
+        [SerializeField] AudioClip rollSFX;
+        [SerializeField] AudioClip attackSFX;
 
-        Camera cam;
         Movement movement;
+        PlayerAimDirection aim;
 
-        void Awake()
+        [SerializeField] RootState rootState;
+
+        private void Awake()
         {
             movement = GetComponent<Movement>();
-            cam = Camera.main;
+            aim = GetComponent<PlayerAimDirection>();
 
-            InputManager.Instance.input.Game.MousePosition.performed += OnMouseMove;
-            InputManager.Instance.input.Game.AimDir.performed += OnRightStickMove;
-        }
+            Node runBranch = new VirtualState(null, UpdateRunState, null, null);
+            Node rollBranch = new NullBeforeModifier(0.5f, new LockModifier(0.25f, new VirtualState(EnterRollState, UpdateRollState, null, null)));
+            Node attackBranch = new NullBeforeModifier(0.5f, new LockModifier(0.25f, new VirtualState(EnterAttackState, null, null, null)));
 
-        void OnMouseMove(InputAction.CallbackContext context)
-        {
-            // This input action is performed once on start for some reason
-            if (canMoveMouse)
-                isMouseAim = true;
-            else
-                canMoveMouse = true;
-        }
 
-        void OnRightStickMove(InputAction.CallbackContext context)
-        {
-            isMouseAim = false;
+
+            rootState = new RootState(rootState.CopyJson(), new Selector(new Node[] { new If(new VirtualCondition(RollCondition), rollBranch), new If(new VirtualCondition(AttackCondition), attackBranch), runBranch }));
         }
 
         private void Update()
         {
-            UpdateAimDir();
+            rootState.UpdateStateTree();
         }
 
-        void UpdateAimDir()
-        {
-            if (isMouseAim)
-                aimDir = (InputManager.Instance.input.Game.MousePosition.ReadValue<Vector2>() - (Vector2)cam.WorldToScreenPoint(transform.position)).normalized;
-            else
-            {
-                Vector2 newAimDir = InputManager.Instance.input.Game.AimDir.ReadValue<Vector2>();
-                if (newAimDir != Vector2.zero)
-                    aimDir = InputManager.Instance.input.Game.AimDir.ReadValue<Vector2>();
-            }
-        }
-
-
-        void FixedUpdate()
+        void UpdateRunState()
         {
             movement.MoveVelocity(InputManager.Instance.input.Game.Move.ReadValue<Vector2>());
+        }
+
+        void EnterAttackState()
+        {
+            Instantiate(attackPrefab, transform.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(aim.aimDir.y, aim.aimDir.x) * Mathf.Rad2Deg));
+            SFXManager.Instance.PlaySFXClip(attackSFX, transform.position);
+        }
+
+        Vector2 rollDir;
+
+        void EnterRollState()
+        {
+            rollDir = InputManager.Instance.input.Game.Move.ReadValue<Vector2>();
+            SFXManager.Instance.PlaySFXClip(rollSFX, transform.position);
+        }
+
+        void UpdateRollState()
+        {
+            movement.MoveVelocity(rollDir, speed: rollSpeed);
+        }
+
+        bool RollCondition()
+        {
+            return InputManager.Instance.input.Game.Roll.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
+        }
+
+        bool AttackCondition()
+        {
+            return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
         }
     }
 }

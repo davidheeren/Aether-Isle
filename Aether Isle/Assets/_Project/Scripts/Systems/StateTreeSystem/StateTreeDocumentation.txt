@@ -4,12 +4,16 @@ Copyable
 		*State
 			RootState
 			HolderState
+			VirtualState
 		Selector
 		TwoSelector
 		*Modifier
-			LockTimerModifier
-			NullTimerModifier
+			LockModifier
+			LockIfModifier
+			NullAfterModifier
+			NullBeforeModifier
 	*Comparison
+		VirtualCondition
 		Not
 		Or
 		And

@@ -9,6 +9,8 @@ namespace StateTree
     {
         protected Node child;
 
+        protected State firstChildState;
+
         protected List<State> parentStates = new List<State>(); // All the states "above" this modifier
 
         public Modifier(string copyJson, Node child) : base(copyJson)
@@ -20,13 +22,11 @@ namespace StateTree
         {
             base.Setup(); // Just to print names 
 
-            State firstChildState = GetFirstChildState(this);
-
-            if (firstChildState == null)
-                Debug.LogError("Modifier does not have a single child firstState");
+            firstChildState = GetFirstChildState(this);
 
             // I don't think we have to unsubscribe
             firstChildState.OnEnterState += EnterChildState;
+            firstChildState.OnUpdateState += UpdateChildState;
             firstChildState.OnExitState += ExitChildState;
 
             SetAllParentStates(this);
@@ -45,17 +45,24 @@ namespace StateTree
         }
 
         State GetFirstChildState(Node startNode) // Excludes the start node
-
         {
             if (startNode.children == null)
+            {
+                Debug.LogError("Modifier does not have a child firstState");
                 return null;
+            }
             if (startNode.children.Count != 1)
+            {
+                Debug.LogError("Found more than one child below this modifier");
                 return null;
+            }
 
-            if (startNode.children[0] is State)
-                return (State)startNode.children[0];
+            Node firstChild = startNode.children[0];
 
-            return GetFirstParentState(startNode.children[0]);
+            if (firstChild is State)
+                return (State)firstChild;
+
+            return GetFirstChildState(firstChild);
         }
 
         State GetFirstParentState(Node startNode) // Excludes the start node

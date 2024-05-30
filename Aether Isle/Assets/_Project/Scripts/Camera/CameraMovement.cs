@@ -1,11 +1,13 @@
 using UnityEngine;
+using Utilities;
 
 namespace Game
 {
     public class CameraMovement : MonoBehaviour
     {
         [SerializeField] Transform target;
-        [SerializeField] float smoothAmount = 0;
+        [SerializeField] bool hardLock = false;
+        [SerializeField] float decay = 10;
 
         void LateUpdate()
         {
@@ -14,9 +16,9 @@ namespace Game
 
             Vector2 pos = target.position;
             
-            if (smoothAmount != 0)
+            if (!hardLock)
             {
-                pos = ((target.position - transform.position) / smoothAmount * Time.deltaTime) + transform.position;
+                pos = Smoothing.ExpDecay(transform.position, pos, decay, Time.deltaTime);
             }
 
             transform.position = new Vector3(pos.x, pos.y, transform.position.z);

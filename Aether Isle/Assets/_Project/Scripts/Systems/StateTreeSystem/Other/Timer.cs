@@ -40,5 +40,13 @@ namespace StateTree
         {
             timeAtStart = Mathf.Infinity;
         }
+
+        /// <summary>
+        /// Timer will always be done
+        /// </summary>
+        public void ForceDone()
+        {
+            timeAtStart = Mathf.NegativeInfinity;
+        }
     }
 }

@@ -112,7 +112,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1ab9b69c5606b4d917a4e5e17a9396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
+  rollSpeed: 10
+  attackPrefab: {fileID: 0}
+  rootState:
+    name: RootState
+    debugSetup: 0
+    debugState: 0
+    debugGeneral: 0
 --- !u!114 &8215939192289853287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,8 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45326cdbab0f7954a96e5e9f3bc80dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 15
-  deceleration: 10
+  defaultSpeed: 5
+  defaultAcceleration: 15
+  defaultDeceleration: 10
 --- !u!1 &2641812028690182897
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29dfd44311eed17419108cd971211582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 3635772865461670629}
+  aim: {fileID: 0}
+  decay: 50
 --- !u!1 &5062650430537483085
 GameObject:
   m_ObjectHideFlags: 0

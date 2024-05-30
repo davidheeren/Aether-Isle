@@ -15,7 +15,7 @@ namespace StateTree
                                 new HolderState(
                                     new FillerNodeTest(
                                         new FillerNodeTest(
-                                            new LockTimerModifier(1, 
+                                            new LockModifier(1, 
                                                 new HolderState(null)))))));
             */
 

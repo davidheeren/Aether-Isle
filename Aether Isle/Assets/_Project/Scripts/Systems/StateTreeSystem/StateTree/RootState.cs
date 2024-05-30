@@ -11,6 +11,7 @@ namespace StateTree
         public bool debugGeneral = false;
 
         private RootState() : base(null, null) { }
+        public RootState(Node child) : this(null, child) { }
         public RootState(string copyJson, Node child) : base(copyJson, child)
         {
             SetupWrapper(this);

@@ -3,21 +3,23 @@ namespace StateTree
 {
     public class If : Node
     {
+        Condition condition;
         Node child;
 
-        public If(Node child) : base(null)
+        public If(Condition condition, Node child) : base(null)
         {
+            this.condition = condition;
             this.child = child;
         }
 
         public override State Evaluate()
         {
-            State state = child.Evaluate();
+            State state = null;
 
-            if (state != null)
-                return state;
+            if (condition.Calculate())
+                state = child.Evaluate();
 
-            return null;
+            return state;
         }
 
         protected override void SetChildrenParentRelationships()
