@@ -8,11 +8,9 @@ namespace Game
         // Custom movement solution using forces
         // Runs after all other scripts
 
-        [SerializeField] float defaultSpeed = 5;
         [SerializeField] float defaultAcceleration = 15;
         [SerializeField] float defaultDeceleration = 10;
 
-        float currentSpeed;
         float currentAcceleration;
         float currentDeceleration;
 
@@ -28,16 +26,14 @@ namespace Game
             ResetValues();
         }
 
-        public void MoveVelocity(Vector2 targetDir, float ?speed = null, float ?acceleration = null, float ?deceleration = null)
+        public void MoveVelocity(Vector2 targetVelocity, float ?acceleration = null, float ?deceleration = null)
         {
-            if (speed != null)
-                currentSpeed = speed.Value;
             if (acceleration != null)
                 currentAcceleration = acceleration.Value;
             if (deceleration != null)
                 currentDeceleration = deceleration.Value;
 
-            targetVelocity = targetDir * currentSpeed;
+            this.targetVelocity = targetVelocity;
             wasSetLastFrame = true;
         }
 
@@ -73,7 +69,6 @@ namespace Game
 
         void ResetValues()
         {
-            currentSpeed = defaultSpeed;
             currentAcceleration = defaultAcceleration;
             currentDeceleration = defaultDeceleration;
         }

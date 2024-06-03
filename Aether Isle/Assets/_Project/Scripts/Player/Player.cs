@@ -4,60 +4,69 @@ using Utilities;
 
 namespace Game
 {
-    [RequireComponent(typeof(Movement))]
+    [RequireComponent(typeof(Movement), typeof(PlayerAimDirection))]
     public class Player : MonoBehaviour
     {
-        [SerializeField] float rollSpeed = 10;
-        [SerializeField] GameObject attackPrefab;
-        [SerializeField] AudioClip rollSFX;
-        [SerializeField] AudioClip attackSFX;
+        [Header("General Vars")]
+        [SerializeField] Animator animator;
+
+        [Header("States")]
+        [SerializeField] RootState rootState;
+        [SerializeField] PlayerSwimState swimState;
+        [SerializeField] PlayerRunState runState;
+        [SerializeField] PlayerDashState dashState;
+        [SerializeField] PlayerAttackState attackState;
+
+        [Header("Conditions")]
+        [SerializeField] CheckGroundCondition swimCondition;
+
+        [Header("Modifier Vars")]
+        [SerializeField] float dashDuration = 0.25f;
+        [SerializeField] float dashCooldown = 0.5f;
+        [Space(10)]
+        [SerializeField] float attackDuration = 0.25f;
+        [SerializeField] float attackCooldown = 0.5f;
 
         Movement movement;
         PlayerAimDirection aim;
 
-        [SerializeField] RootState rootState;
+        private void OnDrawGizmosSelected()
+        {
+            swimCondition.DrawBox(transform);
+        }
 
         private void Awake()
         {
+            // Components
             movement = GetComponent<Movement>();
             aim = GetComponent<PlayerAimDirection>();
 
-            Node runBranch = new VirtualState(null, UpdateRunState, null, null);
-            Node rollBranch = new NullBeforeModifier(0.5f, new LockModifier(0.25f, new VirtualState(EnterRollState, UpdateRollState, null, null)));
-            Node attackBranch = new NullBeforeModifier(0.5f, new LockModifier(0.25f, new VirtualState(EnterAttackState, null, null, null)));
+            // Conditions
+            swimCondition = new CheckGroundCondition(swimCondition.CopyJson(), transform);
 
+            // State Branches
+            Node swimBranch = new PlayerSwimState(swimState.CopyJson(), movement, animator, null);
+            Node runBranch = new PlayerRunState(runState.CopyJson(), movement, animator, null);
+            Node dashBranch = new NullCooldownModifier(dashCooldown, new LockDurationModifier(dashDuration, 1, new PlayerDashState(dashState.CopyJson(), movement, null)));
+            Node attackBranch = new NullCooldownModifier(attackCooldown, new LockDurationModifier(attackDuration, null, new PlayerAttackState(attackState.CopyJson(), transform, aim, animator, movement, null)));
+            Node idleBranch = new PlayerIdleState(animator, null);
 
+            // Large Branches
+            Node groundedBranch = new HolderState(new Selector(new Node[] {
+                            new If(new VirtualCondition(RollCondition), dashBranch),
+                            new If(new VirtualCondition(AttackCondition), attackBranch),
+                            new If(new VirtualCondition(IdleCondition), idleBranch),
+                            runBranch }));
 
-            rootState = new RootState(rootState.CopyJson(), new Selector(new Node[] { new If(new VirtualCondition(RollCondition), rollBranch), new If(new VirtualCondition(AttackCondition), attackBranch), runBranch }));
+            // State Tree
+            rootState = new RootState(rootState.CopyJson(), new Selector(new Node[] {
+                            new If(swimCondition, swimBranch),
+                            groundedBranch}));
         }
 
         private void Update()
         {
             rootState.UpdateStateTree();
-        }
-
-        void UpdateRunState()
-        {
-            movement.MoveVelocity(InputManager.Instance.input.Game.Move.ReadValue<Vector2>());
-        }
-
-        void EnterAttackState()
-        {
-            Instantiate(attackPrefab, transform.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(aim.aimDir.y, aim.aimDir.x) * Mathf.Rad2Deg));
-            SFXManager.Instance.PlaySFXClip(attackSFX, transform.position);
-        }
-
-        Vector2 rollDir;
-
-        void EnterRollState()
-        {
-            rollDir = InputManager.Instance.input.Game.Move.ReadValue<Vector2>();
-            SFXManager.Instance.PlaySFXClip(rollSFX, transform.position);
-        }
-
-        void UpdateRollState()
-        {
-            movement.MoveVelocity(rollDir, speed: rollSpeed);
         }
 
         bool RollCondition()
@@ -68,6 +77,11 @@ namespace Game
         bool AttackCondition()
         {
             return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
+        }
+
+        bool IdleCondition()
+        {
+            return InputManager.Instance.input.Game.Move.ReadValue<Vector2>() == Vector2.zero;
         }
     }
 }

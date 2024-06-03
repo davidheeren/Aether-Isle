@@ -91,11 +91,14 @@ namespace StateTree
         /// Locks or unlocks all states "above" it
         /// </summary>
         /// <param name="canEvaluate"></param>
-        protected void LockAllParentStates(bool isLock)
+        protected void LockParentStates(int? depth, bool isLock)
         {
-            foreach (State state in parentStates)
+            int lockDepth = parentStates.Count;
+            if (depth != null) lockDepth = depth.Value;
+
+            for (int i = 0; i < lockDepth; ++i)
             {
-                state.isLocked = isLock;
+                parentStates[i].isLocked = isLock;
             }
         }
     }

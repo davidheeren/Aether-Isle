@@ -8,12 +8,13 @@ Copyable
 		Selector
 		TwoSelector
 		*Modifier
-			LockModifier
+			LockDurationModifier
 			LockIfModifier
-			NullAfterModifier
-			NullBeforeModifier
+			NullDurationModifier
+			NullCooldownModifier
 	*Comparison
 		VirtualCondition
+		EventCondition
 		Not
 		Or
 		And

@@ -60,6 +60,12 @@ namespace StateTree
             currentSubState?.UpdateStateWrapper();
         }
 
+        public void FixedUpdateStateWrapper()
+        {
+            FixedUpdateState();
+            currentSubState?.FixedUpdateStateWrapper();
+        }
+
         public void ExitStateWrapper()
         {
             ExitState();
@@ -71,7 +77,8 @@ namespace StateTree
         }
 
         protected virtual void EnterState() { if (rootState.debugState) Debug.Log("Enter: " + name); }
-        protected virtual void UpdateState() { /*if (rootState.debugState) Debug.Log("Update: " + name);*/ }
+        protected virtual void UpdateState() { }
+        protected virtual void FixedUpdateState() { }
         protected virtual void ExitState() { if (rootState.debugState) Debug.Log("Exit: " + name); }
 
 

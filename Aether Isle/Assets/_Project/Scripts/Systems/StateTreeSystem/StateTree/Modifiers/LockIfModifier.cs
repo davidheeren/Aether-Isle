@@ -4,11 +4,14 @@ namespace StateTree
     public class LockIfModifier : Modifier
     {
         Condition condition;
+        int? depth;
+
         bool isLocked = false;
 
-        public LockIfModifier(Condition condition, Node child) : base(null, child)
+        public LockIfModifier(Condition condition, int? depth, Node child) : base(null, child)
         {
             this.condition = condition;
+            this.depth = depth;
         }
 
         public override State Evaluate()
@@ -20,12 +23,12 @@ namespace StateTree
         {
             if (condition.Calculate() && !isLocked)
             {
-                LockAllParentStates(true);
+                LockParentStates(depth, true);
             }
 
             if (!condition.Calculate() && isLocked)
             {
-                LockAllParentStates(false);
+                LockParentStates(depth, false);
             }
         }
     }

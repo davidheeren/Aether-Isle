@@ -24,10 +24,9 @@ namespace StateTree
             UpdateStateWrapper();
         }
 
-        // Avoid debugging update
-        protected override void UpdateState()
+        public void FixedUpdateStateTree()
         {
-
+            FixedUpdateStateWrapper();
         }
     }
 }

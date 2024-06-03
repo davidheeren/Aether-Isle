@@ -4,6 +4,7 @@ namespace Game
 {
     public class Enemy : MonoBehaviour
     {
+        [SerializeField] float moveSpeed = 3;
         [SerializeField] float detectionRadius = 5;
         [SerializeField] LayerMask playerMask;
 
@@ -20,7 +21,7 @@ namespace Game
 
             if (player != null)
             {
-                movement.MoveVelocity((player.transform.position - transform.position).normalized);
+                movement.MoveVelocity((player.transform.position - transform.position).normalized * moveSpeed);
             }
         }
     }

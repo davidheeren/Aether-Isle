@@ -8,9 +8,6 @@ namespace StateTree
 
         public VirtualCondition(ConditionMethod condition) : base(null)
         {
-            if (condition == null)
-                Debug.LogError("Condition Method cannot be null");
-
             this.condition = condition;
         }
 
