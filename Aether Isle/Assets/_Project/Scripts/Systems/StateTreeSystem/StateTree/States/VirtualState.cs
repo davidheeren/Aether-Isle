@@ -6,12 +6,14 @@ namespace StateTree
     {
         Action EnterMethod;
         Action UpdateMethod;
+        Action FixedUpdateMethod;
         Action ExitMethod;
 
-        public VirtualState(Action EnterMethod, Action UpdateMethod, Action ExitMethod, Node child) : base(null, child)
+        public VirtualState(Action EnterMethod, Action UpdateMethod, Action FixedUpdateMethod, Action ExitMethod, Node child) : base(null, child)
         {
             this.EnterMethod = EnterMethod;
             this.UpdateMethod = UpdateMethod;
+            this.FixedUpdateMethod = FixedUpdateMethod;
             this.ExitMethod = ExitMethod;
         }
 
@@ -25,6 +27,11 @@ namespace StateTree
         {
             base.UpdateState();
             UpdateMethod?.Invoke();
+        }
+        protected override void FixedUpdateState()
+        {
+            base.FixedUpdateState();
+            FixedUpdateMethod?.Invoke();
         }
         protected override void ExitState()
         {

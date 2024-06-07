@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StateTree
+namespace StateTree.Test
 {
     public class FillerNodeTest : Node
     {

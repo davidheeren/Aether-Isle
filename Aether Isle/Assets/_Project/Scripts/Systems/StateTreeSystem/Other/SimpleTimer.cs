@@ -3,14 +3,13 @@ using UnityEngine;
 
 namespace StateTree
 {
-    [Serializable]
-    public class Timer
+    public class SimpleTimer
     {
         public float delay { get; private set; }
 
         float timeAtStart;
 
-        public Timer(float delay)
+        public SimpleTimer(float delay)
         {
             timeAtStart = Time.time;
             this.delay = delay;
@@ -34,7 +33,7 @@ namespace StateTree
         }
 
         /// <summary>
-        /// Timer will never be done
+        /// SimpleTimer will never be done
         /// </summary>
         public void Stop()
         {
@@ -42,7 +41,7 @@ namespace StateTree
         }
 
         /// <summary>
-        /// Timer will always be done
+        /// SimpleTimer will always be done
         /// </summary>
         public void ForceDone()
         {

@@ -1,17 +1,21 @@
 
+----Inheritance Overview----
+
 Copyable
 	Node
 		*State
 			RootState
 			HolderState
 			VirtualState
-		Selector
-		TwoSelector
 		*Modifier
 			LockDurationModifier
 			LockIfModifier
 			NullDurationModifier
 			NullCooldownModifier
+			LockNullModifier
+		Selector
+		TwoSelector
+		If
 	*Comparison
 		VirtualCondition
 		EventCondition
@@ -19,4 +23,84 @@ Copyable
 		Or
 		And
 
-* can inherit from to create custom logic
+*can inherit from to create custom logic
+
+
+----Class Overview----
+
+-Copyable
+	-has a CopyJson() fucntion
+	-because we set up the tree with constructors and create new instances, it is useful to be able to copy all the serializable data from a serialized class in the inspector
+
+-Node 
+	-the class that the state tree is made up of
+	-has a Evaluate() funciton that returns the best State class "below" it
+	-has one parent Node and a list of all child Nodes
+	-has a Setup() function that is called once the RootNode has been instantiated
+
+-State
+	-class where actual behavior code is written
+	-has EnterState(), UpdateState(), FixedUpdateState(), and ExitState() functions
+
+-RootState
+	-the root of the state tree
+	-has UpdateStateTree() which first evaluates all the best states, then updates them accordingly
+	-has FixedUpdateStateTree() for the fixed update loop
+
+-HolderState
+	-does nothing state
+	-useful for organization purposes
+
+-VirtualState
+	-has delegate methods for all state methods
+
+-Modifier
+	-has a reference to the first state "below" it to modify called child state
+
+-LockDurationModifier
+	-when the child state enters, it locks this state for a duration
+	-has a depth of how many states to lock
+		.lock depth of 1 would lock only the child state so other sibling states cannot enter but allow other states "above" it to change, which would exit the child state
+		.lock depth of null would lock all states above it up to the root state
+
+-LockIfModifier
+	-has condition of when to lock
+	-has lock depth
+
+-NullDurationModifier
+	-returns null once a duration has passed after the child state enters
+
+-NullCooldownModifier
+	-returns null for a duration once the child state exits
+
+-LockNullModifier
+	-IN DEVELOPMENT DO NOT USE
+	-combination of LockDuration, NullDuration, and NullCooldown for simplicity
+
+-Selector
+	-has an array of child nodes
+	-loops through child nodes and returns the first !null state
+
+-Two Selector
+	-a Selector with only two children for simplicity
+
+-If 
+	-takes a condition and a child Node
+	-if the condition is true, it returns the child Nodes Evaluate()
+	-else, it returns null
+
+-Comparison
+	-has a Calculate() funciton that returns a bool
+
+-VirtualCondition
+	-has a delegate bool function
+
+-EventCondition
+	-subscribes to an event
+	-when that event is called, it will return true the next time the Calculate() function is called
+	-could be frame late, depending on script execution order
+
+-Not
+-Or
+-And
+	-all self-explanatory

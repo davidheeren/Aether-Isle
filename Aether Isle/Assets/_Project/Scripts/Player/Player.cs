@@ -32,6 +32,7 @@ namespace Game
 
         private void OnDrawGizmosSelected()
         {
+            // Just to draw the box where we are checking for water
             swimCondition.DrawBox(transform);
         }
 

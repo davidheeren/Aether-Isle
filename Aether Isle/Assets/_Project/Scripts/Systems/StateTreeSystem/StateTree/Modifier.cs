@@ -98,6 +98,12 @@ namespace StateTree
 
             for (int i = 0; i < lockDepth; ++i)
             {
+                if (i > parentStates.Count)
+                {
+                    Debug.LogWarning("Lock depth greater than parent states count");
+                    break;
+                }
+
                 parentStates[i].isLocked = isLock;
             }
         }

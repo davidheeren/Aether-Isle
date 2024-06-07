@@ -3,7 +3,7 @@ using Utilities;
 
 public class SFXManager : Singleton<SFXManager>
 {
-    const float distFalloff = 20; // distance it starts to fall off
+    const float distFalloff = 10; // distance it starts to fall off
     AudioSource source;
     Transform camT;
 
@@ -17,11 +17,15 @@ public class SFXManager : Singleton<SFXManager>
 
     public void PlaySFXClip(AudioClip clip, Vector2 pos)
     {
-        float sqrDist = (pos - (Vector2)camT.position).sqrMagnitude;
+        source.PlayOneShot(clip, GetVolumeFromPosition(pos));
+    }
+
+    public static float GetVolumeFromPosition(Vector2 pos)
+    {
+        float sqrDist = (pos - (Vector2)Instance.camT.position).sqrMagnitude;
         float distFactor = Mathf.Clamp01(distFalloff * distFalloff / sqrDist);
         if (distFactor < 0.1)
             distFactor = 0;
-
-        source.PlayOneShot(clip, distFactor);
+        return distFactor;
     }
 }

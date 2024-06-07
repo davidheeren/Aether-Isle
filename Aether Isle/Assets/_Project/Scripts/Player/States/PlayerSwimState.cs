@@ -26,7 +26,7 @@ namespace Game
 
             aimGraphic.SetActive(false);
 
-            //animator.Play("Run");
+            animator.Play("Swim");
         }
 
         protected override void UpdateState()

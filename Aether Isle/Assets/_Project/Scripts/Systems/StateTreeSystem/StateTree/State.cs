@@ -8,10 +8,11 @@ namespace StateTree
     {
         Node child;
 
-        State newSubState;
-        State currentSubState;
+        State possibleSubState; // The new possible sub state
+        State currentSubState; // The current sub state that is updated
 
-        [NonSerialized] public bool isLocked = false;
+        [NonSerialized] public bool isLocked = false; // Locks current sub state from changing
+        [NonSerialized] public bool canReenter = false; // Exits then enters itself if locked and evaluated
 
         public event Action OnEnterState;
         public event Action OnUpdateState;
@@ -26,14 +27,7 @@ namespace StateTree
         public override State Evaluate() // Evaluate is called first, then UpdateStateWrapper
         {
             if (child != null)
-            {
-                State potentialSubState = child.Evaluate();
-
-                if (!isLocked)
-                {
-                    newSubState = potentialSubState;
-                }
-            }
+                possibleSubState = child.Evaluate();
 
             return this;
         }
@@ -50,10 +44,18 @@ namespace StateTree
             UpdateState();
             OnUpdateState?.Invoke();
 
-            if (newSubState != currentSubState)
+            if (!isLocked)
+            {
+                if (possibleSubState != currentSubState)
+                {
+                    currentSubState?.ExitStateWrapper();
+                    currentSubState = possibleSubState;
+                    currentSubState?.EnterStateWrapper();
+                }
+            }
+            else if (currentSubState.canReenter && (possibleSubState == currentSubState))
             {
                 currentSubState?.ExitStateWrapper();
-                currentSubState = newSubState;
                 currentSubState?.EnterStateWrapper();
             }
 
@@ -73,7 +75,7 @@ namespace StateTree
 
             currentSubState?.ExitStateWrapper();
             currentSubState = null;
-            newSubState = null;
+            possibleSubState = null;
         }
 
         protected virtual void EnterState() { if (rootState.debugState) Debug.Log("Enter: " + name); }

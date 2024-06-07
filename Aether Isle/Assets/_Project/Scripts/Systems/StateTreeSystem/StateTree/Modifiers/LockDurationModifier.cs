@@ -4,19 +4,28 @@ namespace StateTree
     public class LockDurationModifier : Modifier
     {
         int? depth;
+        bool canReenter;
 
-        Timer timer; // Timer is null if the delay is null (infinite)
+        SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
         bool isLocked = false;
 
-        public LockDurationModifier(float? delay, int? depth, Node child) : base(null, child)
+        public LockDurationModifier(float? delay, int? depth, Node child) : this(delay, depth, false, child) { }
+        public LockDurationModifier(float? delay, int? depth, bool canReenter, Node child) : base(null, child)
         {
             this.depth = depth;
+            this.canReenter = canReenter;
 
             if (delay != null)
             {
-                timer = new Timer(delay.Value);
+                timer = new SimpleTimer(delay.Value);
                 timer.Stop();
             }
+        }
+
+        protected override void Setup()
+        {
+            base.Setup();
+            firstChildState.canReenter = canReenter;
         }
 
         protected override void EnterChildState()

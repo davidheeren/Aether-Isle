@@ -4,14 +4,14 @@ namespace StateTree
 {
     public class NullCooldownModifier : Modifier
     {
-        Timer timer; // Timer is null if the delay is null (infinite)
+        SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
         bool hasEnteredSateOnce;
 
         public NullCooldownModifier(float? delay, Node child) : base(null, child)
         {
             if (delay != null)
             {
-                timer = new Timer(delay.Value);
+                timer = new SimpleTimer(delay.Value);
                 timer.ForceDone();
             }
         }

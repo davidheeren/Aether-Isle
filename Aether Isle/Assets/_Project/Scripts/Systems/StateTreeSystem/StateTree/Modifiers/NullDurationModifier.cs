@@ -3,11 +3,11 @@ namespace StateTree
 {
     public class NullDurationModifier : Modifier
     {
-        Timer timer; // Timer is null if the delay is null (infinite)
+        SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
 
         public NullDurationModifier(float delay, Node child) : base(null, child)
         {
-            timer = new Timer(delay);
+            timer = new SimpleTimer(delay);
             timer.Stop();
         }
 

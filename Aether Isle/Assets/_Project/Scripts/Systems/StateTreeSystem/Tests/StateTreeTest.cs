@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace StateTree
+namespace StateTree.Test
 {
     public class StateTreeTest : MonoBehaviour
     {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8179654490789571816}
   - component: {fileID: 2122538596896592859}
   - component: {fileID: 116924069840068445}
+  - component: {fileID: 6517814105394293651}
   m_Layer: 0
   m_Name: Melee
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: -463650476, guid: e4ecf63ae7805ef4091c0c0d010d88eb, type: 3}
+  m_Sprite: {fileID: 1616343496, guid: e4ecf63ae7805ef4091c0c0d010d88eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -171,3 +172,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 0.4
+--- !u!114 &6517814105394293651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8749031412601284731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d170e744e41bf1d468a306a0fe39afae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  hitSpeed: 25

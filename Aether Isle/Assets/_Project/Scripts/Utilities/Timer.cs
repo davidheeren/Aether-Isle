@@ -79,7 +79,7 @@ namespace Utilities
         {
             if (isPaused)
             {
-                Debug.LogWarning("Paused Timer while already paused");
+                Debug.LogWarning("Paused SimpleTimer while already paused");
                 return;
             }
 
@@ -94,7 +94,7 @@ namespace Utilities
         {
             if (!isPaused)
             {
-                Debug.LogWarning("Resumed Timer while already resumed");
+                Debug.LogWarning("Resumed SimpleTimer while already resumed");
                 return;
             }
 
