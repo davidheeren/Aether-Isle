@@ -304,24 +304,46 @@ namespace Input
             ""id"": ""7892b735-9146-4337-ba27-354cd57f0455"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""e8d81ce3-ae94-4fe3-80a2-f71a65f65ae4"",
-                    ""expectedControlType"": """",
+                    ""name"": ""Point"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""48db9221-1049-4d77-be3e-8987b8bbb44a"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""31108699-8abf-4c3f-a2a0-0bcea4618a30"",
-                    ""path"": """",
+                    ""id"": ""c0aa4a6a-21cc-484d-829c-e74139a1c9bd"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a3b36a9-adff-4739-af9b-eb62b39e7ec1"",
+                    ""path"": ""<Pen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""647287c4-69e6-4b52-96ae-cff26bd318a6"",
+                    ""path"": ""<Touchscreen>/touch*/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -332,9 +354,9 @@ namespace Input
             ""id"": ""49844b1c-f67d-4151-89d4-da4fcd0ce951"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Toggle Inventory"",
                     ""type"": ""Button"",
-                    ""id"": ""1f9034df-052a-483b-b0b2-f1ba0995241e"",
+                    ""id"": ""442d5989-e5c4-4337-8a00-6376f7a2523a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -344,12 +366,23 @@ namespace Input
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""19a7b08a-1671-4c4f-a2d1-62279f2e1b7c"",
-                    ""path"": """",
+                    ""id"": ""921be0bf-ebee-4bcd-811c-b71e1d294136"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Toggle Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c695b01-9d19-4d11-a673-04263af96e97"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -378,10 +411,10 @@ namespace Input
             m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-            m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
+            m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
             // Scene
             m_Scene = asset.FindActionMap("Scene", throwIfNotFound: true);
-            m_Scene_Newaction = m_Scene.FindAction("New action", throwIfNotFound: true);
+            m_Scene_ToggleInventory = m_Scene.FindAction("Toggle Inventory", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -528,12 +561,12 @@ namespace Input
         // UI
         private readonly InputActionMap m_UI;
         private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-        private readonly InputAction m_UI_Newaction;
+        private readonly InputAction m_UI_Point;
         public struct UIActions
         {
             private @GameInput m_Wrapper;
             public UIActions(@GameInput wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Newaction => m_Wrapper.m_UI_Newaction;
+            public InputAction @Point => m_Wrapper.m_UI_Point;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -543,16 +576,16 @@ namespace Input
             {
                 if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Point.started += instance.OnPoint;
+                @Point.performed += instance.OnPoint;
+                @Point.canceled += instance.OnPoint;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
             {
-                @Newaction.started -= instance.OnNewaction;
-                @Newaction.performed -= instance.OnNewaction;
-                @Newaction.canceled -= instance.OnNewaction;
+                @Point.started -= instance.OnPoint;
+                @Point.performed -= instance.OnPoint;
+                @Point.canceled -= instance.OnPoint;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -574,12 +607,12 @@ namespace Input
         // Scene
         private readonly InputActionMap m_Scene;
         private List<ISceneActions> m_SceneActionsCallbackInterfaces = new List<ISceneActions>();
-        private readonly InputAction m_Scene_Newaction;
+        private readonly InputAction m_Scene_ToggleInventory;
         public struct SceneActions
         {
             private @GameInput m_Wrapper;
             public SceneActions(@GameInput wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Newaction => m_Wrapper.m_Scene_Newaction;
+            public InputAction @ToggleInventory => m_Wrapper.m_Scene_ToggleInventory;
             public InputActionMap Get() { return m_Wrapper.m_Scene; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -589,16 +622,16 @@ namespace Input
             {
                 if (instance == null || m_Wrapper.m_SceneActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_SceneActionsCallbackInterfaces.Add(instance);
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @ToggleInventory.started += instance.OnToggleInventory;
+                @ToggleInventory.performed += instance.OnToggleInventory;
+                @ToggleInventory.canceled += instance.OnToggleInventory;
             }
 
             private void UnregisterCallbacks(ISceneActions instance)
             {
-                @Newaction.started -= instance.OnNewaction;
-                @Newaction.performed -= instance.OnNewaction;
-                @Newaction.canceled -= instance.OnNewaction;
+                @ToggleInventory.started -= instance.OnToggleInventory;
+                @ToggleInventory.performed -= instance.OnToggleInventory;
+                @ToggleInventory.canceled -= instance.OnToggleInventory;
             }
 
             public void RemoveCallbacks(ISceneActions instance)
@@ -644,11 +677,11 @@ namespace Input
         }
         public interface IUIActions
         {
-            void OnNewaction(InputAction.CallbackContext context);
+            void OnPoint(InputAction.CallbackContext context);
         }
         public interface ISceneActions
         {
-            void OnNewaction(InputAction.CallbackContext context);
+            void OnToggleInventory(InputAction.CallbackContext context);
         }
     }
 }

@@ -43,14 +43,14 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -93,20 +93,33 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackGround_0
+      name: UI_EquipmentPanel_Left_9Slice
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 480
-        height: 270
+        x: 288
+        y: 317
+        width: 12
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 3, z: 0, w: 4}
       customData: 
       outline: []
       physicsShape: []
@@ -114,6 +127,94 @@ TextureImporter:
       bones: []
       spriteID: 7b3d98cff6950ff40800000000000000
       internalID: 5760202260919997367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Title_Block
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 337
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9625d389a72cf8b4d966050e09fafe23
+      internalID: 733282166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_MainPanel_9Slice
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 314
+        width: 44
+        height: 38
+      alignment: 9
+      pivot: {x: 0.5217391, y: 0.35897437}
+      border: {x: 18, y: 5, z: 16, w: 17}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 507029247fae9c74e9378a0f86de8834
+      internalID: -1671973688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Item_Slot
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 286
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 098c2f9f4ba272d4da448f733dca6df7
+      internalID: -1715125578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_CharPanel_9Slice
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 301
+        width: 26
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 4, y: 4, z: 4, w: 4}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9d7291b609a9f343bb67239940a5a78
+      internalID: -276119181
       vertices: []
       indices: 
       edges: []
@@ -130,7 +231,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BackGround_0: 5760202260919997367
+      UI_CharPanel_9Slice: -276119181
+      UI_EquipmentPanel_Left_9Slice: 5760202260919997367
+      UI_Item_Slot: -1715125578
+      UI_MainPanel_9Slice: -1671973688
+      UI_Title_Block: 733282166
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
