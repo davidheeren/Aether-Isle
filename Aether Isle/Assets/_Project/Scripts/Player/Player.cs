@@ -11,7 +11,7 @@ namespace Game
         [SerializeField] Animator animator;
 
         [Header("States")]
-        [SerializeField] RootState rootState;
+        [SerializeField] RootState playerRoot;
         [SerializeField] PlayerSwimState swimState;
         [SerializeField] PlayerRunState runState;
         [SerializeField] PlayerDashState dashState;
@@ -27,9 +27,6 @@ namespace Game
         [SerializeField] float attackDuration = 0.25f;
         [SerializeField] float attackCooldown = 0.5f;
 
-        Movement movement;
-        PlayerAimDirection aim;
-
         private void OnDrawGizmosSelected()
         {
             // Just to draw the box where we are checking for water
@@ -39,8 +36,8 @@ namespace Game
         private void Awake()
         {
             // Components
-            movement = GetComponent<Movement>();
-            aim = GetComponent<PlayerAimDirection>();
+             Movement movement = GetComponent<Movement>();
+            PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
 
             // Conditions
             swimCondition = new CheckGroundCondition(swimCondition.CopyJson(), transform);
@@ -48,8 +45,8 @@ namespace Game
             // State Branches
             Node swimBranch = new PlayerSwimState(swimState.CopyJson(), movement, animator, null);
             Node runBranch = new PlayerRunState(runState.CopyJson(), movement, animator, null);
-            Node dashBranch = new NullCooldownModifier(dashCooldown, new LockDurationModifier(dashDuration, 1, new PlayerDashState(dashState.CopyJson(), movement, null)));
-            Node attackBranch = new NullCooldownModifier(attackCooldown, new LockDurationModifier(attackDuration, null, new PlayerAttackState(attackState.CopyJson(), transform, aim, animator, movement, null)));
+            Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, new PlayerDashState(dashState.CopyJson(), movement, null));
+            Node attackBranch = new LockNullModifier(attackDuration, null, attackCooldown, new PlayerAttackState(attackState.CopyJson(), transform, aim, animator, movement, null));
             Node idleBranch = new PlayerIdleState(animator, null);
 
             // Large Branches
@@ -60,24 +57,26 @@ namespace Game
                             runBranch }));
 
             // State Tree
-            rootState = new RootState(rootState.CopyJson(), new Selector(new Node[] {
+            playerRoot = new RootState(playerRoot.CopyJson(), new Selector(new Node[] {
                             new If(swimCondition, swimBranch),
                             groundedBranch}));
         }
 
         private void Update()
         {
-            rootState.UpdateStateTree();
+            playerRoot.UpdateStateTree();
         }
 
         bool RollCondition()
         {
-            return InputManager.Instance.input.Game.Roll.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
+            //return InputManager.Instance.input.Game.Roll.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
+            return InputManager.Instance.input.Game.Roll.IsPressed() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
         }
 
         bool AttackCondition()
         {
-            return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
+            //return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
+            return InputManager.Instance.input.Game.Attack.IsPressed();
         }
 
         bool IdleCondition()

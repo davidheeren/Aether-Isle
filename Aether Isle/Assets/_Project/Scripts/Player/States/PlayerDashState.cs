@@ -32,7 +32,7 @@ namespace Game
         {
             base.UpdateState();
 
-            movement.MoveVelocity(dashDir * dashSpeed);
+            movement.Move(dashDir * dashSpeed);
         }
     }
 }

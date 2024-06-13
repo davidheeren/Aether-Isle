@@ -20,7 +20,7 @@ namespace StateTree
         protected override void Setup()
         {
             base.Setup();
-            firstChildState.canReenter = canReenter;
+            subState.canReenter = canReenter;
         }
 
         public override State Evaluate()
@@ -28,16 +28,16 @@ namespace StateTree
             return child.Evaluate();
         }
 
-        protected override void UpdateChildState()
+        protected override void UpdateSubState()
         {
             if (condition.Calculate() && !isLocked)
             {
-                LockParentStates(depth, true);
+                subState.LockSuperStates(depth, true);
             }
 
             if (!condition.Calculate() && isLocked)
             {
-                LockParentStates(depth, false);
+                subState.LockSuperStates(depth, false);
             }
         }
     }

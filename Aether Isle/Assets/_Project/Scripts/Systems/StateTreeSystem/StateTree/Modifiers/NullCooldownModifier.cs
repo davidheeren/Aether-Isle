@@ -5,7 +5,7 @@ namespace StateTree
     public class NullCooldownModifier : Modifier
     {
         SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
-        bool hasEnteredSateOnce;
+        bool hasEnteredSateOnce; // If the delay is infinite, we can still enter the state once
 
         public NullCooldownModifier(float? delay, Node child) : base(null, child)
         {
@@ -16,12 +16,12 @@ namespace StateTree
             }
         }
 
-        protected override void EnterChildState()
+        protected override void EnterSubState()
         {
             if (timer != null) timer.ForceDone();
         }
 
-        protected override void ExitChildState()
+        protected override void ExitSubState()
         {
             if (timer != null) timer.Reset();
         }

@@ -9,7 +9,7 @@ namespace StateTree.Test
         private void Start()
         {
             /*
-            rootState = new RootState(rootState.CopyJson(), 
+            playerRoot = new RootState(playerRoot.CopyJson(), 
                             new HolderState(
                                 new HolderState(
                                     new FillerNodeTest(

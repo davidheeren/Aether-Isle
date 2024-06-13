@@ -25,18 +25,18 @@ namespace StateTree
         protected override void Setup()
         {
             base.Setup();
-            firstChildState.canReenter = canReenter;
+            subState.canReenter = canReenter;
         }
 
-        protected override void EnterChildState()
+        protected override void EnterSubState()
         {
             if (timer != null) timer.Reset();
 
-            LockParentStates(depth, true);
+            subState.LockSuperStates(depth, true);
             isLocked = true;
         }
 
-        protected override void ExitChildState()
+        protected override void ExitSubState()
         {
             if (timer != null)
             {
@@ -45,7 +45,8 @@ namespace StateTree
                 // In case a higher state than the depth was changed
                 if (isLocked)
                 {
-                    LockParentStates(depth, false);
+                    subState.LockSuperStates(depth, false);
+                    isLocked = false;
                 }
             }
         }
@@ -55,13 +56,14 @@ namespace StateTree
             return child.Evaluate();
         }
 
-        protected override void UpdateChildState()
+        protected override void UpdateSubState()
         {
             if (timer == null) return;
 
             if (timer.isDone && isLocked)
             {
-                LockParentStates(depth, false);
+                subState.LockSuperStates(depth, false);
+                isLocked = false;
             }
         }
     }

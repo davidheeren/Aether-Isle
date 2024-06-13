@@ -11,12 +11,12 @@ namespace StateTree
             timer.Stop();
         }
 
-        protected override void EnterChildState()
+        protected override void EnterSubState()
         {
             timer.Reset();
         }
 
-        protected override void ExitChildState()
+        protected override void ExitSubState()
         {
             timer.Stop();
         }

@@ -74,7 +74,6 @@ Copyable
 	-returns null for a duration once the child state exits
 
 -LockNullModifier
-	-IN DEVELOPMENT DO NOT USE
 	-combination of LockDuration, NullDuration, and NullCooldown for simplicity
 
 -Selector

@@ -58,7 +58,7 @@ namespace Input
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""AttackTest"",
+                    ""name"": ""CollisionDamage"",
                     ""type"": ""Button"",
                     ""id"": ""2cbef3d4-30bd-4691-9751-51b52239741e"",
                     ""expectedControlType"": """",
@@ -282,7 +282,7 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""AttackTest"",
+                    ""action"": ""CollisionDamage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -293,7 +293,7 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""AttackTest"",
+                    ""action"": ""CollisionDamage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -407,7 +407,7 @@ namespace Input
             m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
             m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
             m_Game_AimDir = m_Game.FindAction("AimDir", throwIfNotFound: true);
-            m_Game_Attack = m_Game.FindAction("AttackTest", throwIfNotFound: true);
+            m_Game_Attack = m_Game.FindAction("CollisionDamage", throwIfNotFound: true);
             m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);

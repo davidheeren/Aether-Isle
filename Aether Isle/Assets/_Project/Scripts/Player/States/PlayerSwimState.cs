@@ -9,6 +9,7 @@ namespace Game
     {
         [SerializeField] float swimSpeed = 2;
         [SerializeField] GameObject aimGraphic;
+        [SerializeField] AudioClip spashSFX;
 
         Movement movement;
         Animator animator;
@@ -26,6 +27,8 @@ namespace Game
 
             aimGraphic.SetActive(false);
 
+            SFXManager.Instance.PlaySFXClip(spashSFX, movement.transform.position);
+
             animator.Play("Swim");
         }
 
@@ -33,7 +36,7 @@ namespace Game
         {
             base.UpdateState();
 
-            movement.MoveVelocity(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * swimSpeed);
+            movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * swimSpeed);
         }
 
         protected override void ExitState()

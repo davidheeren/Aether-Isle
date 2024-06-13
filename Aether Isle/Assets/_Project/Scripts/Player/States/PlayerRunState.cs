@@ -30,7 +30,7 @@ namespace Game
         {
             base.UpdateState();
 
-            movement.MoveVelocity(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * runSpeed);
+            movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * runSpeed);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace Game
         // Custom movement solution using forces
         // Runs after all other scripts
 
-        [SerializeField] float defaultAcceleration = 15;
-        [SerializeField] float defaultDeceleration = 10;
+        [SerializeField] float defaultAcceleration = 12;
+        [SerializeField] float defaultDeceleration = 7;
 
         float currentAcceleration;
         float currentDeceleration;
@@ -26,7 +26,7 @@ namespace Game
             ResetValues();
         }
 
-        public void MoveVelocity(Vector2 targetVelocity, float ?acceleration = null, float ?deceleration = null)
+        public void Move(Vector2 targetVelocity, float ?acceleration = null, float ?deceleration = null)
         {
             if (acceleration != null)
                 currentAcceleration = acceleration.Value;
@@ -39,7 +39,9 @@ namespace Game
 
         private void FixedUpdate()
         {
-            
+            if (!wasSetLastFrame)
+                targetVelocity = Vector2.zero;
+
             Vector2 deltaVelocity = targetVelocity - rb.velocity;
             Vector2 force = Vector2.zero;
             if (targetVelocity == Vector2.zero)
@@ -48,20 +50,7 @@ namespace Game
                 force = deltaVelocity * currentAcceleration;
             
 
-
-            /*
-            Vector2 force = Vector2.zero;
-            if (targetVelocity == Vector2.zero)
-                force = Smoothing.ExpDecay(rb.velocity, targetVelocity, decay, Time.fixedDeltaTime) * currentDeceleration;
-            else
-                force = Smoothing.ExpDecay(rb.velocity, targetVelocity, decay, Time.fixedDeltaTime) * currentAcceleration;
-            */
-
-
             rb.AddForce(force);
-
-            if (!wasSetLastFrame)
-                targetVelocity = Vector2.zero;
 
             ResetValues();
             wasSetLastFrame = false;

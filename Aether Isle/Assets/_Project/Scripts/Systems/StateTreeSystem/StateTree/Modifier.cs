@@ -9,9 +9,7 @@ namespace StateTree
     {
         protected Node child;
 
-        protected State firstChildState;
-
-        protected List<State> parentStates = new List<State>(); // All the states "above" this modifier
+        protected State subState;
 
         public Modifier(string copyJson, Node child) : base(copyJson)
         {
@@ -22,19 +20,17 @@ namespace StateTree
         {
             base.Setup(); // Just to print names 
 
-            firstChildState = GetFirstChildState(this);
+            subState = GetFirstSubState(this);
 
             // I don't think we have to unsubscribe
-            firstChildState.OnEnterState += EnterChildState;
-            firstChildState.OnUpdateState += UpdateChildState;
-            firstChildState.OnExitState += ExitChildState;
-
-            SetAllParentStates(this);
+            subState.OnEnterState += EnterSubState;
+            subState.OnUpdateState += UpdateSubState;
+            subState.OnExitState += ExitSubState;
         }
 
-        protected virtual void EnterChildState() { }
-        protected virtual void UpdateChildState() { }
-        protected virtual void ExitChildState() { }
+        protected virtual void EnterSubState() { }
+        protected virtual void UpdateSubState() { }
+        protected virtual void ExitSubState() { }
 
 
         public abstract override State Evaluate();
@@ -44,7 +40,7 @@ namespace StateTree
             SetupChild(child);
         }
 
-        State GetFirstChildState(Node startNode) // Excludes the start node
+        State GetFirstSubState(Node startNode) // Excludes the start node
         {
             if (startNode.children == null)
             {
@@ -62,50 +58,7 @@ namespace StateTree
             if (firstChild is State)
                 return (State)firstChild;
 
-            return GetFirstChildState(firstChild);
-        }
-
-        State GetFirstParentState(Node startNode) // Excludes the start node
-        {
-            if (startNode.parent == null) 
-                return null;
-
-            if (startNode.parent is State)
-                return (State)startNode.parent;
-
-            return GetFirstParentState(startNode.parent);
-        }
-
-        void SetAllParentStates(Node startNode) // Sets the parent nodes
-        {
-            State firstState = GetFirstParentState(startNode);
-
-            if (firstState != null)
-            {
-                parentStates.Add(firstState);
-                SetAllParentStates(firstState);
-            }
-        }
-
-        /// <summary>
-        /// Locks or unlocks all states "above" it
-        /// </summary>
-        /// <param name="canEvaluate"></param>
-        protected void LockParentStates(int? depth, bool isLock)
-        {
-            int lockDepth = parentStates.Count;
-            if (depth != null) lockDepth = depth.Value;
-
-            for (int i = 0; i < lockDepth; ++i)
-            {
-                if (i > parentStates.Count)
-                {
-                    Debug.LogWarning("Lock depth greater than parent states count");
-                    break;
-                }
-
-                parentStates[i].isLocked = isLock;
-            }
+            return GetFirstSubState(firstChild);
         }
     }
 }

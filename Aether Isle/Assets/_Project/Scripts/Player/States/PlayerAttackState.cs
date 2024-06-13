@@ -42,7 +42,7 @@ namespace Game
         {
             base.UpdateState();
 
-            movement.MoveVelocity(initialAimDir * moveAttackDirSpeed);
+            movement.Move(initialAimDir * moveAttackDirSpeed);
         }
     }
 }

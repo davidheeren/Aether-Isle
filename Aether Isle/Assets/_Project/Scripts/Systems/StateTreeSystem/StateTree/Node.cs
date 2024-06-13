@@ -69,21 +69,25 @@ namespace StateTree
         /// </summary>
         protected virtual void Setup()
         {
-            
             if (!rootState.debugSetup)
                 return;
 
+            string log = "This: " + name;
+
             if (parent == null)
-                Debug.Log("Parent: " + "null");
+                log += "\nParent: " + "null";
             else
-                Debug.Log("Parent: " + parent.name);
+                log += "\nParent: " + parent.name;
 
-            Debug.Log("This: " + name);
+            for (int i = 0; i < children.Count; i++)
+            {
+                log += "\nChild " + i + ": " + children[i].name;
+            }
 
-            foreach (Node child in children)
-                Debug.Log("Child: " + child.name);
+            if (children.Count == 0)
+                log += "\nNo children";
 
-            Debug.Log("----------");
+            Debug.Log(log);
         }
     }
 }
