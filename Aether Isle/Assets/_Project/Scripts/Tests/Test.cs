@@ -1,12 +1,20 @@
 using UnityEngine;
+using Utilities;
 
 namespace Game
 {
     public class Test : MonoBehaviour
     {
+        [SerializeField] LayerMask mask;
+
         private void Awake()
         {
-            Debug.Log("\nLine1\nLine2");
+            mask = mask.GetLayerMaskByName("Enemy");
+        }
+
+        private void Update()
+        {
+
         }
     }
 }

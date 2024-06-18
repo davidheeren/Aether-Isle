@@ -42,14 +42,14 @@ namespace StateTree
 
         State GetFirstSubState(Node startNode) // Excludes the start node
         {
-            if (startNode.children == null)
+            if (startNode.children.Count == 0)
             {
-                Debug.LogError("Modifier does not have a child firstState");
+                Debug.LogError("Modifier does not have a subState");
                 return null;
             }
-            if (startNode.children.Count != 1)
+            else if (startNode.children.Count > 1)
             {
-                Debug.LogError("Found more than one child below this modifier");
+                Debug.LogError("Found more than one subState below this modifier");
                 return null;
             }
 

@@ -1,0 +1,129 @@
+﻿using StateTree;
+using System;
+using UnityEngine;
+using Utilities;
+
+namespace Game
+{
+    [Serializable]
+    public class FindTargetState : State
+    {
+        [Header("Vars")]
+        [SerializeField] float updateTime = 0.25f;
+        [SerializeField] float detectionRadius = 8;
+        [SerializeField] LayerMask targetMask;
+        [SerializeField] LayerMask losMask;
+
+        [Header("Debug")]
+        [SerializeField] bool drawLOS;
+
+        Transform transform;
+        Ref<Transform> target;
+
+        Collider2D targetCollider;
+        Timer timer;
+
+        // For Debuging
+        Vector2 losStart;
+        Vector2 losEnd;
+        Color losColor;
+
+        private FindTargetState() : base(null, null) { }
+        public FindTargetState(string copyJson, Transform transform, Ref<Transform> target, Node child = null) : base(copyJson, child)
+        {
+            this.target = target;
+            this.transform = transform;
+            timer = new Timer(updateTime);
+        }
+
+        public void DrawRadius(Vector2 pos)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(pos, detectionRadius);
+        }
+
+        protected override void EnterState()
+        {
+            base.EnterState();
+
+            UpdateTarget();
+            timer.Reset();
+        }
+
+        protected override void UpdateState()
+        {
+            if (timer.isDone)
+            {
+                UpdateTarget();
+                timer.Reset();
+            }
+
+            DrawLOS();
+        }
+
+        void UpdateTarget()
+        {
+            if (target.value == null)
+                GetNewTarget();
+            else
+                CheckCurrentTarget();
+        }
+
+        void GetNewTarget()
+        {
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, detectionRadius, targetMask);
+
+            foreach (Collider2D col in cols)
+            {
+                if (CheckLOS(col))
+                {
+                    target.value = col.transform;
+                    targetCollider = col;
+                    break;
+                }
+            }
+
+            if (cols.Length == 0)
+                losColor = new Color(0, 0, 0, 0);
+        }
+
+        void CheckCurrentTarget()
+        {
+            if (!CheckLOS(targetCollider))
+            {
+                target.value = null;
+                targetCollider = null;
+            }
+        }
+
+        bool CheckLOS(Collider2D col)
+        {
+            RaycastHit2D losHit = Physics2D.Raycast(transform.position, (col.transform.position - transform.position).normalized, detectionRadius + 0.5f, losMask);
+
+            if (losHit.collider == null)
+            {
+                losColor = new Color(0, 0, 0, 0);
+                return false;
+            }
+
+            losStart = transform.position;
+            losEnd = losHit.point;
+
+            if (losHit.collider != col)
+            {
+                losColor = Color.red;
+
+                return false;
+            }
+
+            losColor = Color.green;
+            return true;
+        }
+
+        void DrawLOS()
+        {
+            if (drawLOS)
+                Debug.DrawLine(losStart, losEnd, losColor);
+        }
+    }
+} 

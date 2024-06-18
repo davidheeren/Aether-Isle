@@ -9,7 +9,7 @@ namespace StateTree
         Action FixedUpdateMethod;
         Action ExitMethod;
 
-        public VirtualState(Action EnterMethod, Action UpdateMethod, Action FixedUpdateMethod, Action ExitMethod, Node child) : base(null, child)
+        public VirtualState(Action EnterMethod, Action UpdateMethod, Action FixedUpdateMethod, Action ExitMethod, Node child = null) : base(null, child)
         {
             this.EnterMethod = EnterMethod;
             this.UpdateMethod = UpdateMethod;

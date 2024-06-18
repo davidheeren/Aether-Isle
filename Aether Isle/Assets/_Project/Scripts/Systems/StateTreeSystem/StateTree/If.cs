@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 namespace StateTree
 {
     public class If : Node
@@ -10,6 +11,9 @@ namespace StateTree
         {
             this.condition = condition;
             this.child = child;
+
+            if (child == null)
+                Debug.LogError("If's child cannot be null");
         }
 
         public override State Evaluate()

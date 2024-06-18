@@ -13,7 +13,7 @@ namespace Game
         Animator animator;
 
         private PlayerRunState() : base(null, null) { }
-        public PlayerRunState(string copyJson, Movement movement, Animator animator, Node child) : base(copyJson, child)
+        public PlayerRunState(string copyJson, Movement movement, Animator animator, Node child = null) : base(copyJson, child)
         {
             this.movement = movement;
             this.animator = animator;

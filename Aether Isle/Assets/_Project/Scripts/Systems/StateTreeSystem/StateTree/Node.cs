@@ -12,7 +12,7 @@ namespace StateTree
         public Node parent;
         public List<Node> children = new List<Node>();
 
-        public string name;
+        [NonSerialized] public string name;
 
         public Node(string copyJson) : base(copyJson) // I don't need an overflow constructor because this is an abstract class
         {

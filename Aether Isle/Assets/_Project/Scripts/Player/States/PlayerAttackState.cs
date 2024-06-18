@@ -19,7 +19,7 @@ namespace Game
         Vector2 initialAimDir;
 
         private PlayerAttackState() : base(null, null) { }
-        public PlayerAttackState(string copyJson, Transform playerT, PlayerAimDirection aim, Animator animator, Movement movement, Node child) : base(copyJson, child)
+        public PlayerAttackState(string copyJson, Transform playerT, PlayerAimDirection aim, Animator animator, Movement movement, Node child = null) : base(copyJson, child)
         {
             this.playerT = playerT;
             this.aim = aim;
@@ -33,7 +33,7 @@ namespace Game
 
             initialAimDir = aim.aimDir;
 
-            GameObject.Instantiate(attackPrefab, playerT.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg));
+            GameObject.Instantiate(attackPrefab, playerT.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90));
             SFXManager.Instance.PlaySFXClip(attackSFX, playerT.position);
             animator.Play("Attack", -1, 0); // Resets anim even if already playing
         }

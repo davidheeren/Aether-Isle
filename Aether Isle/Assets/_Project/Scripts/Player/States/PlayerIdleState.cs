@@ -7,7 +7,7 @@ namespace Game
     {
         Animator animator;
 
-        public PlayerIdleState(Animator animator, Node child) : base(null, child)
+        public PlayerIdleState(Animator animator, Node child = null) : base(null, child)
         {
             this.animator = animator;
         }

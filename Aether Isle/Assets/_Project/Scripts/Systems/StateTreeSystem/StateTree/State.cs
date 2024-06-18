@@ -7,19 +7,19 @@ namespace StateTree
     [Serializable]
     public abstract class State : Node
     {
-        Node child;
-
         State possibleSubState; // The new possible sub state
         State currentSubState; // The current sub state that is updated
 
         protected List<State> superStates = new List<State>(); // All the states "above" this modifier
 
+        Node child;
+
         [NonSerialized] public bool isLocked = false; // Locks current sub state from changing
         [NonSerialized] public bool canReenter = false; // Exits then enters itself if locked and evaluated
 
-        public event Action OnEnterState;
-        public event Action OnUpdateState;
-        public event Action OnExitState;
+        public Action OnEnterState;
+        public Action OnUpdateState;
+        public Action OnExitState;
 
         public State(string copyJson, Node child) : base(copyJson)
         {
@@ -34,7 +34,6 @@ namespace StateTree
             SetAllSuperStates(this);
         }
 
-
         public override State Evaluate() // Evaluate is called first, then UpdateStateWrapper
         {
             if (!CanEnterState())
@@ -48,6 +47,7 @@ namespace StateTree
 
         protected virtual bool CanEnterState() => true; // Override this in your custom State to have your own If Node in the state itself
 
+        #region EnterUdateExit
         public void EnterStateWrapper()
         {
             EnterState();
@@ -55,7 +55,7 @@ namespace StateTree
             // We do not need to call the current sub states enter method because we set it to null on the exit so it will be called on the evaluate method
         }
 
-        public void UpdateStateWrapper()
+        public virtual void UpdateStateWrapper()
         {
             UpdateState();
             OnUpdateState?.Invoke();
@@ -84,7 +84,7 @@ namespace StateTree
             currentSubState?.FixedUpdateStateWrapper();
         }
 
-        public void ExitStateWrapper()
+        public virtual void ExitStateWrapper()
         {
             ExitState();
             OnExitState?.Invoke();
@@ -98,8 +98,10 @@ namespace StateTree
         protected virtual void UpdateState() { }
         protected virtual void FixedUpdateState() { }
         protected virtual void ExitState() { if (rootState.debugState) Debug.Log("Exit: " + name); }
+        #endregion
 
 
+        #region SuperStates
         State GetFirstSuperState(Node startNode) 
         {
             // Excludes the start node
@@ -145,5 +147,6 @@ namespace StateTree
                 superStates[i].isLocked = isLock;
             }
         }
+        #endregion
     }
 }

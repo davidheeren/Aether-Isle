@@ -15,7 +15,7 @@ namespace Game
         Animator animator;
 
         private PlayerSwimState() : base(null, null) { }
-        public PlayerSwimState(string copyJson, Movement movement, Animator animator, Node child) : base(copyJson, child)
+        public PlayerSwimState(string copyJson, Movement movement, Animator animator, Node child = null) : base(copyJson, child)
         {
             this.movement = movement;
             this.animator = animator;
