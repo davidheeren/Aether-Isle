@@ -17,7 +17,8 @@ public class SFXManager : Singleton<SFXManager>
 
     public void PlaySFXClip(AudioClip clip, Vector2 pos)
     {
-        source.PlayOneShot(clip, GetVolumeFromPosition(pos));
+        if (clip != null)
+            source.PlayOneShot(clip, GetVolumeFromPosition(pos));
     }
 
     public static float GetVolumeFromPosition(Vector2 pos)

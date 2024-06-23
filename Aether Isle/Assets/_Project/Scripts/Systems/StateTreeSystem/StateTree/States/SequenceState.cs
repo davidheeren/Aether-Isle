@@ -26,7 +26,7 @@ namespace StateTree
 
                 if (possibleSubStates[i] == null)
                 {
-                    //return null;
+                    return null;
                 }
             }
 
@@ -37,7 +37,7 @@ namespace StateTree
         {
             foreach (Node child in _children)
             {
-                SetupChild(child);
+                AddChild(child);
             }
         }
 
@@ -48,20 +48,7 @@ namespace StateTree
 
             for (int i = 0; i < currentSubStates.Length;i++)
             {
-                if (!isLocked)
-                {
-                    if (possibleSubStates[i] != currentSubStates[i])
-                    {
-                        currentSubStates[i]?.ExitStateWrapper();
-                        currentSubStates[i] = possibleSubStates[i];
-                        currentSubStates[i]?.EnterStateWrapper();
-                    }
-                }
-                else if (currentSubStates[i].canReenter && (possibleSubStates[i] == currentSubStates[i]))
-                {
-                    currentSubStates[i]?.ExitStateWrapper();
-                    currentSubStates[i]?.EnterStateWrapper();
-                }
+                SetCurrentSubState(possibleSubStates[i], ref currentSubStates[i]);
 
                 currentSubStates[i]?.UpdateStateWrapper();
             }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Game
 {
     public interface IInteractable

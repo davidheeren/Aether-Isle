@@ -14,7 +14,7 @@ namespace Game
         float currentAcceleration;
         float currentDeceleration;
 
-        public Vector2 targetVelocity {  get; private set; }
+        public Vector2 targetVelocity { get; private set; }
 
         bool wasSetLastFrame;
 
@@ -26,7 +26,7 @@ namespace Game
             ResetValues();
         }
 
-        public void Move(Vector2 targetVelocity, float ?acceleration = null, float ?deceleration = null)
+        public void Move(Vector2 targetVelocity, float? acceleration = null, float? deceleration = null)
         {
             if (acceleration != null)
                 currentAcceleration = acceleration.Value;
@@ -43,14 +43,12 @@ namespace Game
                 targetVelocity = Vector2.zero;
 
             Vector2 deltaVelocity = targetVelocity - rb.velocity;
-            Vector2 force = Vector2.zero;
-            if (targetVelocity == Vector2.zero)
-                force = deltaVelocity * currentDeceleration;
-            else
-                force = deltaVelocity * currentAcceleration;
-            
 
-            rb.AddForce(force);
+            float acceleration = targetVelocity != Vector2.zero ? currentAcceleration : currentDeceleration;
+            //float acceleration = wasSetLastFrame ? currentAcceleration : currentDeceleration;
+
+
+            rb.AddForce(deltaVelocity * acceleration);
 
             ResetValues();
             wasSetLastFrame = false;

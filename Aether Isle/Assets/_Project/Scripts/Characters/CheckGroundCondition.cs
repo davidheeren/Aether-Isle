@@ -1,6 +1,6 @@
-using UnityEngine;
 using StateTree;
 using System;
+using UnityEngine;
 
 namespace Game
 {

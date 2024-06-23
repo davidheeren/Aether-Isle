@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace StateTree.Test
 {
     public class FillerNodeTest : Node
@@ -18,7 +16,7 @@ namespace StateTree.Test
 
         protected override void SetChildrenParentRelationships()
         {
-            SetupChild(child);
+            AddChild(child);
         }
     }
 }

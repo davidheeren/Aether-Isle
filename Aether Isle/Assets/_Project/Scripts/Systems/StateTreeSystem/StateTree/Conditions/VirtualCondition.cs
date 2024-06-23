@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace StateTree
 {
     public class VirtualCondition : Condition

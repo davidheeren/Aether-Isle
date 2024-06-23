@@ -1,4 +1,3 @@
-using UnityEngine;
 using Input;
 using Utilities;
 

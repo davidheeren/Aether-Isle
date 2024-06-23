@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CustomInspector.Editor
-{   
+{
     [CustomPropertyDrawer(typeof(HideFieldAttribute))]
     public class HideFieldAttributeDrawer : PropertyDrawer
     {

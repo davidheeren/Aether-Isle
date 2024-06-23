@@ -6,19 +6,20 @@ using Utilities;
 namespace Game
 {
     [Serializable]
-    public class FindTargetState : State
+    public class FindTargetTask : Task
     {
         [Header("Vars")]
-        [SerializeField] float updateTime = 0.25f;
+        [SerializeField] float updateTime = 0.1f;
         [SerializeField] float detectionRadius = 8;
         [SerializeField] LayerMask targetMask;
         [SerializeField] LayerMask losMask;
 
         [Header("Debug")]
+        [SerializeField] bool drawRadius;
         [SerializeField] bool drawLOS;
 
         Transform transform;
-        Ref<Transform> target;
+        Ref<Transform> targetRef;
 
         Collider2D targetCollider;
         Timer timer;
@@ -28,45 +29,35 @@ namespace Game
         Vector2 losEnd;
         Color losColor;
 
-        private FindTargetState() : base(null, null) { }
-        public FindTargetState(string copyJson, Transform transform, Ref<Transform> target, Node child = null) : base(copyJson, child)
+        private FindTargetTask() : base(null, null) { }
+        public FindTargetTask(string copyJson, Transform transform, Ref<Transform> target, Node child = null) : base(copyJson, child)
         {
-            this.target = target;
+            this.targetRef = target;
             this.transform = transform;
             timer = new Timer(updateTime);
         }
 
         public void DrawRadius(Vector2 pos)
         {
+            if (!drawRadius) return;
+
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(pos, detectionRadius);
         }
 
-        protected override void EnterState()
-        {
-            base.EnterState();
-
-            UpdateTarget();
-            timer.Reset();
-        }
-
-        protected override void UpdateState()
+        protected override void DoTask()
         {
             if (timer.isDone)
             {
-                UpdateTarget();
+                if (targetRef.value == null)
+                    GetNewTarget();
+                else
+                    CheckCurrentTarget();
+
                 timer.Reset();
             }
 
             DrawLOS();
-        }
-
-        void UpdateTarget()
-        {
-            if (target.value == null)
-                GetNewTarget();
-            else
-                CheckCurrentTarget();
         }
 
         void GetNewTarget()
@@ -77,7 +68,7 @@ namespace Game
             {
                 if (CheckLOS(col))
                 {
-                    target.value = col.transform;
+                    targetRef.value = col.transform;
                     targetCollider = col;
                     break;
                 }
@@ -91,14 +82,14 @@ namespace Game
         {
             if (!CheckLOS(targetCollider))
             {
-                target.value = null;
+                targetRef.value = null;
                 targetCollider = null;
             }
         }
 
         bool CheckLOS(Collider2D col)
         {
-            RaycastHit2D losHit = Physics2D.Raycast(transform.position, (col.transform.position - transform.position).normalized, detectionRadius + 0.5f, losMask);
+            RaycastHit2D losHit = Physics2D.Raycast(transform.position, (col.transform.position - transform.position).normalized, detectionRadius + 0.5f, losMask | targetMask);
 
             if (losHit.collider == null)
             {

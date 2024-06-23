@@ -1,3 +1,4 @@
+using CustomInspector;
 using UnityEngine;
 using Utilities;
 
@@ -5,16 +6,19 @@ namespace Game
 {
     public class Test : MonoBehaviour
     {
-        [SerializeField] LayerMask mask;
+        [Button(nameof(Slow))]
+        [Button(nameof(Fast))]
+        [SerializeField] Vector2 v;
 
-        private void Awake()
+
+        void Slow()
         {
-            mask = mask.GetLayerMaskByName("Enemy");
+            print(v.normalized / v.magnitude);
         }
 
-        private void Update()
+        void Fast()
         {
-
+            print(v.Reciprocal());
         }
     }
 }

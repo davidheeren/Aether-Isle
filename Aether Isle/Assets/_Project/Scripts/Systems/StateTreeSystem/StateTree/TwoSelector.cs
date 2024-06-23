@@ -27,8 +27,8 @@ namespace StateTree
 
         protected override void SetChildrenParentRelationships()
         {
-            SetupChild(child1);
-            SetupChild(child2);
+            AddChild(child1);
+            AddChild(child2);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StateTree
+﻿namespace StateTree
 {
     public class NullCondition<T> : Condition
     {

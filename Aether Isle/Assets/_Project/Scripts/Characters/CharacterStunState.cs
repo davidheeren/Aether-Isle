@@ -5,10 +5,12 @@ using Utilities;
 
 namespace Game
 {
+    [Serializable]
     public class CharacterStunState : State
     {
-        // Automatically locks and returns null if 
+        [SerializeField] AudioClip stunSFX;
 
+        bool canDamage;
         Health health;
         Rigidbody2D rb;
         int? lockDepth;
@@ -21,8 +23,10 @@ namespace Game
 
         bool wasDamaged;
 
-        public CharacterStunState(Health health, Rigidbody2D rb, int? lockDepth, Animator animator, Node child = null) : base(null, child)
+        private CharacterStunState() : base(null, null) { }
+        public CharacterStunState(string copyJson, bool canDamage, Health health, Rigidbody2D rb, int? lockDepth, Animator animator, Node child = null) : base(copyJson, child)
         {
+            this.canDamage = canDamage;
             this.health = health;
             this.rb = rb;
             this.lockDepth = lockDepth;
@@ -62,6 +66,8 @@ namespace Game
         {
             base.EnterState();
 
+            health.canTakeDamage = canDamage;
+
             LockSuperStates(lockDepth, true);
 
             timer = new Timer(damage.stunTime);
@@ -70,6 +76,8 @@ namespace Game
                 rb.velocity = dir.Value * damage.knockbackSpeed;
 
             animator.enabled = false;
+
+            SFXManager.Instance.PlaySFXClip(stunSFX, rb.transform.position);
         }
 
         protected override void UpdateState()
@@ -81,6 +89,8 @@ namespace Game
         protected override void ExitState()
         {
             base.ExitState();
+
+            health.canTakeDamage = true;
 
             animator.enabled = true;
         }

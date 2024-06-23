@@ -17,6 +17,8 @@ namespace StateTree
         [NonSerialized] public bool isLocked = false; // Locks current sub state from changing
         [NonSerialized] public bool canReenter = false; // Exits then enters itself if locked and evaluated
 
+        public Action OnPreExitState;
+
         public Action OnEnterState;
         public Action OnUpdateState;
         public Action OnExitState;
@@ -26,7 +28,7 @@ namespace StateTree
             this.child = child;
         }
 
-        protected override void SetChildrenParentRelationships() => SetupChild(child);
+        protected override void SetChildrenParentRelationships() => AddChild(child);
 
         protected override void Setup()
         {
@@ -47,7 +49,7 @@ namespace StateTree
 
         protected virtual bool CanEnterState() => true; // Override this in your custom State to have your own If Node in the state itself
 
-        #region EnterUdateExit
+        #region EnterUpdateExit
         public void EnterStateWrapper()
         {
             EnterState();
@@ -60,20 +62,7 @@ namespace StateTree
             UpdateState();
             OnUpdateState?.Invoke();
 
-            if (!isLocked)
-            {
-                if (possibleSubState != currentSubState)
-                {
-                    currentSubState?.ExitStateWrapper();
-                    currentSubState = possibleSubState;
-                    currentSubState?.EnterStateWrapper();
-                }
-            }
-            else if (currentSubState.canReenter && (possibleSubState == currentSubState))
-            {
-                currentSubState?.ExitStateWrapper();
-                currentSubState?.EnterStateWrapper();
-            }
+            SetCurrentSubState(possibleSubState, ref currentSubState);
 
             currentSubState?.UpdateStateWrapper();
         }
@@ -100,6 +89,26 @@ namespace StateTree
         protected virtual void ExitState() { if (rootState.debugState) Debug.Log("Exit: " + name); }
         #endregion
 
+        protected void SetCurrentSubState(State _possibleSubState, ref State _currentSubState)
+        {
+            if (!isLocked && _possibleSubState != _currentSubState)
+                _currentSubState?.OnPreExitState?.Invoke();
+
+            if (!isLocked)
+            {
+                if (_possibleSubState != _currentSubState)
+                {
+                    _currentSubState?.ExitStateWrapper();
+                    _currentSubState = _possibleSubState;
+                    _currentSubState?.EnterStateWrapper();
+                }
+            }
+            else if (_currentSubState.canReenter && (_possibleSubState == _currentSubState))
+            {
+                _currentSubState?.ExitStateWrapper();
+                _currentSubState?.EnterStateWrapper();
+            }
+        }
 
         #region SuperStates
         State GetFirstSuperState(Node startNode) 

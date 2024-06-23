@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using Game;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Utilities;

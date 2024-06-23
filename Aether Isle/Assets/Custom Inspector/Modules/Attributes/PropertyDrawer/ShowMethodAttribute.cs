@@ -23,7 +23,7 @@ namespace CustomInspector
         /// </summary>
         public string tooltip = null;
 
-        
+
         /// <param name="getmethodPath">The name of the method to display</param>
         public ShowMethodAttribute(string getmethodPath)
         {

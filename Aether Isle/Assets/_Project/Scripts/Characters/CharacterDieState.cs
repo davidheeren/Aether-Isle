@@ -1,12 +1,15 @@
 ﻿using StateTree;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Utilities;
 
 namespace Game
 {
+    [Serializable]
     public class CharacterDieState : State
     {
+        [SerializeField] AudioClip dieSFX;
+
         Collider2D collider;
         Rigidbody2D rb;
         Animator animator;
@@ -19,7 +22,7 @@ namespace Game
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        public CharacterDieState(Health health, Collider2D collider, Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, Node child = null) : base(null, child)
+        public CharacterDieState(string copyJson, Health health, Collider2D collider, Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, Node child = null) : base(copyJson, child)
         {
             this.collider = collider;
             this.rb = rb;
@@ -50,6 +53,7 @@ namespace Game
             collider.enabled = false;
             rb.velocity = Vector2.zero;
             animator.Play("Die");
+            SFXManager.Instance.PlaySFXClip(dieSFX, rb.transform.position);
         }
 
         protected override void UpdateState()
@@ -74,4 +78,4 @@ namespace Game
             spriteRenderer.color = col;
         }
     }
-} 
+}

@@ -12,7 +12,7 @@ namespace CustomInspector.Editor
         {
             DecimalsAttribute d = (DecimalsAttribute)attribute;
 
-            if(property.propertyType == SerializedPropertyType.Float
+            if (property.propertyType == SerializedPropertyType.Float
                 || property.propertyType == SerializedPropertyType.Integer)
             {
                 double prevNumber = Convert.ToDouble(property.GetValue());

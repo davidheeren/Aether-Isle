@@ -1,6 +1,5 @@
 using StateTree;
 using UnityEngine;
-using Utilities;
 
 namespace Game
 {
@@ -14,6 +13,8 @@ namespace Game
         [Header("States")]
         [SerializeField] RootState playerRoot;
         [SerializeField] PlayerSwimState swimState;
+        [SerializeField] CharacterStunState stunState;
+        [SerializeField] CharacterDieState dieState;
         [SerializeField] PlayerRunState runState;
         [SerializeField] PlayerDashState dashState;
         [SerializeField] PlayerAttackState attackState;
@@ -50,22 +51,25 @@ namespace Game
             Node swimBranch = new PlayerSwimState(swimState.CopyJson(), movement, animator);
             Node runBranch = new PlayerRunState(runState.CopyJson(), movement, animator);
             Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, new PlayerDashState(dashState.CopyJson(), movement, collider, health));
-            Node attackBranch = new LockNullModifier(attackDuration, null, attackCooldown, new PlayerAttackState(attackState.CopyJson(), transform, aim, animator, movement));
+            Node attackBranch = new LockNullModifier(attackDuration, 2, attackCooldown, new PlayerAttackState(attackState.CopyJson(), transform, aim, animator, movement));
             Node idleBranch = new PlayerIdleState(animator);
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(new Node[] {
-                            new If(new VirtualCondition(RollCondition), dashBranch),
+                            new If(new VirtualCondition(DashCondition), dashBranch),
                             new If(new VirtualCondition(AttackCondition), attackBranch),
                             new If(new VirtualCondition(IdleCondition), idleBranch),
                             runBranch }));
 
+            State notHitState = new HolderState(new Selector(new Node[] {
+                                new If(swimCondition, swimBranch),
+                                groundedBranch}));
+
             // State Tree
             playerRoot = new RootState(playerRoot.CopyJson(), new Selector(new Node[] {
-                            new CharacterStunState(health, rb, null, animator), // Automatically locks and returns null if
-                            new CharacterDieState(health, collider, rb, animator, spriteRenderer),
-                            new If(swimCondition, swimBranch),
-                            groundedBranch}));
+                            new CharacterStunState(stunState.CopyJson(), false, health, rb, null, animator), // Automatically locks and returns null if
+                            new CharacterDieState(dieState.CopyJson(), health, collider, rb, animator, spriteRenderer),
+                            notHitState }));
         }
 
         private void Update()
@@ -73,9 +77,9 @@ namespace Game
             playerRoot.UpdateStateTree();
         }
 
-        bool RollCondition()
+        bool DashCondition()
         {
-            return InputManager.Instance.input.Game.Roll.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
+            return InputManager.Instance.input.Game.Dash.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
             //return InputManager.Instance.input.Game.Roll.IsPressed() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
         }
 

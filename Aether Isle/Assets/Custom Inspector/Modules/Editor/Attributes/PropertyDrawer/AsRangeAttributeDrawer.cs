@@ -14,7 +14,7 @@ namespace CustomInspector.Editor
             position.height = EditorGUIUtility.singleLineHeight;
             AsRangeAttribute r = (AsRangeAttribute)attribute;
 
-            if(property.propertyType != SerializedPropertyType.Vector2)
+            if (property.propertyType != SerializedPropertyType.Vector2)
             {
                 EditorGUI.LabelField(position, label, " ");
                 Rect errorRect = new Rect(position.x + EditorGUIUtility.labelWidth, position.y, position.width - EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
@@ -22,7 +22,7 @@ namespace CustomInspector.Editor
                 return;
             }
 
-            
+
             if (r.minLimit != r.maxLimit)
             {
                 //Label

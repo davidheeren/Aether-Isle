@@ -87,7 +87,7 @@ namespace CustomInspector.Editor
 
             Debug.Assert(fieldName != null, "Field name not found");
             GUIContent content = ap.label == null ? new(PropertyConversions.NameFormat(fieldName)) : new(ap.label);
-            if(ap.tooltip != null)
+            if (ap.tooltip != null)
                 content.tooltip = ap.tooltip;
 
             return content;

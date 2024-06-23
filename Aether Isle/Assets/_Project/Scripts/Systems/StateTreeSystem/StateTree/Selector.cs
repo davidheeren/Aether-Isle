@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StateTree
+﻿namespace StateTree
 {
     public class Selector : Node
     {
@@ -28,7 +26,7 @@ namespace StateTree
         {
             foreach (Node child in _children)
             {
-                SetupChild(child);
+                AddChild(child);
             }
         }
     }

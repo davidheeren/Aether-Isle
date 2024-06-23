@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace StateTree
@@ -23,10 +22,14 @@ namespace StateTree
             subState = GetFirstSubState(this);
 
             // I don't think we have to unsubscribe
+            subState.OnPreExitState += PreExitSubState;
+
             subState.OnEnterState += EnterSubState;
             subState.OnUpdateState += UpdateSubState;
             subState.OnExitState += ExitSubState;
         }
+
+        protected virtual void PreExitSubState() { }
 
         protected virtual void EnterSubState() { }
         protected virtual void UpdateSubState() { }
@@ -37,7 +40,7 @@ namespace StateTree
 
         protected override void SetChildrenParentRelationships()
         {
-            SetupChild(child);
+            AddChild(child);
         }
 
         State GetFirstSubState(Node startNode) // Excludes the start node

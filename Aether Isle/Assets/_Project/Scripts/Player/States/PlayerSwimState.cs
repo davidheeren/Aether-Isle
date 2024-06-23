@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using StateTree;
+﻿using StateTree;
 using System;
+using UnityEngine;
 
 namespace Game
 {
@@ -9,7 +9,8 @@ namespace Game
     {
         [SerializeField] float swimSpeed = 2;
         [SerializeField] GameObject aimGraphic;
-        [SerializeField] AudioClip spashSFX;
+        [SerializeField] AudioClip splashEnterSFX;
+        [SerializeField] AudioClip splashExitSFX;
 
         Movement movement;
         Animator animator;
@@ -27,7 +28,7 @@ namespace Game
 
             aimGraphic.SetActive(false);
 
-            SFXManager.Instance.PlaySFXClip(spashSFX, movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(splashEnterSFX, movement.transform.position);
 
             animator.Play("Swim");
         }
@@ -42,6 +43,8 @@ namespace Game
         protected override void ExitState()
         {
             base.ExitState();
+
+            SFXManager.Instance.PlaySFXClip(splashExitSFX, movement.transform.position);
 
             aimGraphic?.SetActive(true);
         }

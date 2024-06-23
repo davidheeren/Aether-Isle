@@ -36,7 +36,7 @@ namespace StateTree
         /// Adds a child to the children list and sets its parent to this
         /// </summary>
         /// <param name="child"></param>
-        protected void SetupChild(Node child)
+        protected void AddChild(Node child)
         {
             if (child == null)
                 return;

@@ -38,7 +38,7 @@ namespace CustomInspector.Editor
                         }
                         else
                         {
-                            if(property.intValue > prevNumber) // was incremented
+                            if (property.intValue > prevNumber) // was incremented
                                 property.intValue = MultipleOf.NearestMultiple(prevNumber + step, step);
                             else
                                 property.intValue = MultipleOf.NearestMultiple(prevNumber - step, step);
@@ -52,7 +52,7 @@ namespace CustomInspector.Editor
                     DrawProperties.DrawPropertyWithMessage(position, label, property, "MultipleOfAttribute: for int fields step must not have decimals", MessageType.Error);
                 }
             }
-            else if(property.propertyType == SerializedPropertyType.Float)
+            else if (property.propertyType == SerializedPropertyType.Float)
             {
                 float prevNumber = property.floatValue;
                 EditorGUI.BeginChangeCheck();
@@ -105,7 +105,7 @@ namespace CustomInspector.Editor
         double GetStep(SerializedProperty property)
         {
             MultipleOfAttribute m = (MultipleOfAttribute)attribute;
-            if(m.stepPath is null)
+            if (m.stepPath is null)
             {
                 return m.step;
             }

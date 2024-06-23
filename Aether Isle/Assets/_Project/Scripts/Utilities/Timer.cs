@@ -15,7 +15,7 @@ namespace Utilities
         float timeAtResume;
 
         float totalPauseTime = 0; // added up pause time of previous pauses but not the current one
-    
+
         public Timer(float delay)
         {
             timeAtStart = Time.time;
@@ -62,7 +62,7 @@ namespace Utilities
                 return currentDeltaTime == 0;
             }
         }
-        
+
         public void Reset()
         {
             timeAtStart = Time.time;

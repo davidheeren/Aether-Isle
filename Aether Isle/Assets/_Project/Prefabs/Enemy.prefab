@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 25
+  m_SortingOrder: 50
   m_Sprite: {fileID: -410351549, guid: 02f98c9e9da1e2e42bd712184b1d7c0f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -252,8 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45326cdbab0f7954a96e5e9f3bc80dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAcceleration: 8
-  defaultDeceleration: 4
+  defaultAcceleration: 10
+  defaultDeceleration: 8
 --- !u!114 &9154475787413530665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +268,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3387930091562756477}
   spriteRenderer: {fileID: 7029902482295278058}
+  aiMovement:
+    randomOffsetRange: 2
+    evaluateDirTime: 0.5
+    rayCount: 15
+    rayDist: 1.5
+    avoidanceMultiplier: 5
+    avoidanceMask:
+      serializedVersion: 2
+      m_Bits: 136
+    drayRays: 1
+    useFast: 1
+  enemyRoot:
+    debugSetup: 0
+    debugState: 0
+    debugGeneral: 0
   findTarget:
     updateTime: 0.1
     detectionRadius: 8
@@ -276,15 +291,16 @@ MonoBehaviour:
       m_Bits: 64
     losMask:
       serializedVersion: 2
-      m_Bits: 72
+      m_Bits: 8
+    drawRadius: 1
     drawLOS: 1
   chaseState:
-    chaseSpeed: 2
-    evaluateDirTime: 0.5
-  enemyRoot:
-    debugSetup: 0
-    debugState: 0
-    debugGeneral: 0
+    chaseSpeed: 3
+  stunState:
+    stunSFX: {fileID: 8300000, guid: 976abb4f93e3e554e80bfcdf66836d32, type: 3}
+  dieState:
+    dieSFX: {fileID: 8300000, guid: 58c5ba4b30c781f409d64c75c294f389, type: 3}
+  rememberTargetTime: 2
 --- !u!114 &6009982237577127576
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -67,7 +67,7 @@ namespace Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Roll"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""578893f7-de49-4c43-b289-0cee70737201"",
                     ""expectedControlType"": """",
@@ -260,7 +260,7 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Roll"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -271,7 +271,7 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Roll"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -361,6 +361,15 @@ namespace Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""93710dfd-d404-49a8-9d45-dfd14e74f9cd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -383,6 +392,28 @@ namespace Input
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Toggle Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21d4d75b-d69f-424e-8973-d50133f7df1b"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08a26d76-8f13-4d0f-b35f-3ca22620c591"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -408,13 +439,14 @@ namespace Input
             m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
             m_Game_AimDir = m_Game.FindAction("AimDir", throwIfNotFound: true);
             m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
-            m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
+            m_Game_Dash = m_Game.FindAction("Dash", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
             // Scene
             m_Scene = asset.FindActionMap("Scene", throwIfNotFound: true);
             m_Scene_ToggleInventory = m_Scene.FindAction("Toggle Inventory", throwIfNotFound: true);
+            m_Scene_Restart = m_Scene.FindAction("Restart", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -487,7 +519,7 @@ namespace Input
         private readonly InputAction m_Game_MousePosition;
         private readonly InputAction m_Game_AimDir;
         private readonly InputAction m_Game_Attack;
-        private readonly InputAction m_Game_Roll;
+        private readonly InputAction m_Game_Dash;
         public struct GameActions
         {
             private @GameInput m_Wrapper;
@@ -496,7 +528,7 @@ namespace Input
             public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
             public InputAction @AimDir => m_Wrapper.m_Game_AimDir;
             public InputAction @Attack => m_Wrapper.m_Game_Attack;
-            public InputAction @Roll => m_Wrapper.m_Game_Roll;
+            public InputAction @Dash => m_Wrapper.m_Game_Dash;
             public InputActionMap Get() { return m_Wrapper.m_Game; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -518,9 +550,9 @@ namespace Input
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @Roll.started += instance.OnRoll;
-                @Roll.performed += instance.OnRoll;
-                @Roll.canceled += instance.OnRoll;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
 
             private void UnregisterCallbacks(IGameActions instance)
@@ -537,9 +569,9 @@ namespace Input
                 @Attack.started -= instance.OnAttack;
                 @Attack.performed -= instance.OnAttack;
                 @Attack.canceled -= instance.OnAttack;
-                @Roll.started -= instance.OnRoll;
-                @Roll.performed -= instance.OnRoll;
-                @Roll.canceled -= instance.OnRoll;
+                @Dash.started -= instance.OnDash;
+                @Dash.performed -= instance.OnDash;
+                @Dash.canceled -= instance.OnDash;
             }
 
             public void RemoveCallbacks(IGameActions instance)
@@ -608,11 +640,13 @@ namespace Input
         private readonly InputActionMap m_Scene;
         private List<ISceneActions> m_SceneActionsCallbackInterfaces = new List<ISceneActions>();
         private readonly InputAction m_Scene_ToggleInventory;
+        private readonly InputAction m_Scene_Restart;
         public struct SceneActions
         {
             private @GameInput m_Wrapper;
             public SceneActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @ToggleInventory => m_Wrapper.m_Scene_ToggleInventory;
+            public InputAction @Restart => m_Wrapper.m_Scene_Restart;
             public InputActionMap Get() { return m_Wrapper.m_Scene; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -625,6 +659,9 @@ namespace Input
                 @ToggleInventory.started += instance.OnToggleInventory;
                 @ToggleInventory.performed += instance.OnToggleInventory;
                 @ToggleInventory.canceled += instance.OnToggleInventory;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
             }
 
             private void UnregisterCallbacks(ISceneActions instance)
@@ -632,6 +669,9 @@ namespace Input
                 @ToggleInventory.started -= instance.OnToggleInventory;
                 @ToggleInventory.performed -= instance.OnToggleInventory;
                 @ToggleInventory.canceled -= instance.OnToggleInventory;
+                @Restart.started -= instance.OnRestart;
+                @Restart.performed -= instance.OnRestart;
+                @Restart.canceled -= instance.OnRestart;
             }
 
             public void RemoveCallbacks(ISceneActions instance)
@@ -673,7 +713,7 @@ namespace Input
             void OnMousePosition(InputAction.CallbackContext context);
             void OnAimDir(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
-            void OnRoll(InputAction.CallbackContext context);
+            void OnDash(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
@@ -682,6 +722,7 @@ namespace Input
         public interface ISceneActions
         {
             void OnToggleInventory(InputAction.CallbackContext context);
+            void OnRestart(InputAction.CallbackContext context);
         }
     }
 }

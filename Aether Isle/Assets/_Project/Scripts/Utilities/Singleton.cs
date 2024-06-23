@@ -5,7 +5,7 @@ namespace Utilities
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T _instance;
-    
+
         public static T Instance
         {
             get
@@ -18,11 +18,11 @@ namespace Utilities
                     GameObject obj = new GameObject(typeof(T) + " Singleton");
                     _instance = obj.AddComponent<T>();
                 }
-    
+
                 return _instance;
             }
         }
-    
+
         /*
         public static T RawInstance
         {

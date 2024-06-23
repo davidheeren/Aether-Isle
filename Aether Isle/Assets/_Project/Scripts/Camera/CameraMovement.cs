@@ -15,7 +15,7 @@ namespace Game
                 return;
 
             Vector2 pos = target.position;
-            
+
             if (!hardLock)
             {
                 pos = Smoothing.ExpDecay(transform.position, pos, decay, Time.deltaTime);

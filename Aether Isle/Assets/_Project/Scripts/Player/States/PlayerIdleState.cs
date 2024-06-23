@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using StateTree;
+﻿using StateTree;
+using UnityEngine;
 
 namespace Game
 {

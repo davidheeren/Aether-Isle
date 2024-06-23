@@ -1,6 +1,6 @@
-using UnityEngine;
-using UnityEditor;
 using CustomInspector.Extensions;
+using UnityEditor;
+using UnityEngine;
 
 namespace CustomInspector.Editor
 {
