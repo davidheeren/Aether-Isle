@@ -11,20 +11,16 @@ namespace Game
         [SerializeField] GameObject attackPrefab;
         [SerializeField] AudioClip attackSFX;
 
-        Transform playerT;
+        CharacterComponents components;
         PlayerAimDirection aim;
-        Animator animator;
-        Movement movement;
 
         Vector2 initialAimDir;
 
         private PlayerAttackState() : base(null, null) { }
-        public PlayerAttackState(string copyJson, Transform playerT, PlayerAimDirection aim, Animator animator, Movement movement, Node child = null) : base(copyJson, child)
+        public PlayerAttackState(string copyJson, CharacterComponents components, PlayerAimDirection aim, Node child = null) : base(copyJson, child)
         {
-            this.playerT = playerT;
+            this.components = components;
             this.aim = aim;
-            this.animator = animator;
-            this.movement = movement;
         }
 
         protected override void EnterState()
@@ -33,16 +29,16 @@ namespace Game
 
             initialAimDir = aim.aimDir;
 
-            GameObject.Instantiate(attackPrefab, playerT.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90));
-            SFXManager.Instance.PlaySFXClip(attackSFX, playerT.position);
-            animator.Play("Attack", -1, 0); // Resets anim even if already playing
+            GameObject.Instantiate(attackPrefab, components.transform.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90));
+            SFXManager.Instance.PlaySFXClip(attackSFX, components.transform.position);
+            components.animator.Play("Attack", -1, 0); // Resets anim even if already playing
         }
 
         protected override void UpdateState()
         {
             base.UpdateState();
 
-            movement.Move(initialAimDir * moveAttackDirSpeed);
+            components.movement.Move(initialAimDir * moveAttackDirSpeed);
         }
     }
 }

@@ -12,44 +12,42 @@ namespace Game
         [SerializeField] AudioClip dashSFX;
         [SerializeField] LayerMask dashMask;
 
-        Movement movement;
-        Collider2D collider;
-        Health health;
+        CharacterComponents components;
 
         Vector2 dashDir;
 
         private PlayerDashState() : base(null, null) { }
-        public PlayerDashState(string copyJson, Movement movement, Collider2D collider, Health health, Node child = null) : base(copyJson, child)
+        public PlayerDashState(string copyJson, CharacterComponents components, Node child = null) : base(copyJson, child)
         {
-            this.movement = movement;
-            this.collider = collider;
-            this.health = health;
+            this.components = components;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            collider.excludeLayers = dashMask;
-            health.canTakeDamage = false;
+            components.collider.excludeLayers = dashMask;
+            components.health.canTakeDamage = false;
+
+            components.animator.Play("Dash");
 
             dashDir = InputManager.Instance.input.Game.Move.ReadValue<Vector2>();
-            SFXManager.Instance.PlaySFXClip(dashSFX, movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(dashSFX, components.movement.transform.position);
         }
 
         protected override void UpdateState()
         {
             base.UpdateState();
 
-            movement.Move(dashDir * dashSpeed);
+            components.movement.Move(dashDir * dashSpeed);
         }
 
         protected override void ExitState()
         {
             base.ExitState();
 
-            health.canTakeDamage = true;
-            collider.excludeLayers = new LayerMask();
+            components.health.canTakeDamage = true;
+            components.collider.excludeLayers = new LayerMask();
         }
     }
 }

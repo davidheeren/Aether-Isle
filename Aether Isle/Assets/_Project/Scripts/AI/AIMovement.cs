@@ -25,17 +25,16 @@ namespace Game
         Vector2 targetPos;
 
         Ref<Transform> targetRef = new Ref<Transform>();
-        Transform transform;
-        Movement movement;
+
+        CharacterComponents components;
 
         Timer timer;
         Transform target;
 
-        public void Setup(Ref<Transform> targetRef, Transform transform, Movement movement)
+        public void Setup(Ref<Transform> targetRef, CharacterComponents componenets)
         {
             this.targetRef = targetRef;
-            this.transform = transform;
-            this.movement = movement;
+            this.components = componenets;
 
             timer = new Timer(evaluateDirTime);
         }
@@ -54,14 +53,14 @@ namespace Game
                 timer.Reset();
             }
 
-            Vector2 dir = targetPos - (Vector2)transform.position;
+            Vector2 dir = targetPos - (Vector2)components.transform.position;
 
             if (dir.sqrMagnitude < 0.01f) // less that 0.1 units
                 return;
 
             dir = dir.normalized + Avoidance() * avoidanceMultiplier;
             dir.Normalize();
-            movement.Move(dir * speed);
+            components.movement.Move(dir * speed);
         }
 
         void UpdateTargetPos()
@@ -87,7 +86,7 @@ namespace Game
 
         Vector2 Avoidance()
         {
-            Vector2 pos = transform.position;
+            Vector2 pos = components.transform.position;
 
             Vector2 avoidance = Vector2.zero;
 

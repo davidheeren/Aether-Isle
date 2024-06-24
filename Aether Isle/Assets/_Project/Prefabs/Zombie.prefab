@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 2253225280846299221}
   - component: {fileID: -1814526223723732841}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,8 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32368b236d01181459356439402320dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3387930091562756477}
-  spriteRenderer: {fileID: 7029902482295278058}
+  components:
+    animator: {fileID: 3387930091562756477}
+    spriteRenderer: {fileID: 7029902482295278058}
   aiMovement:
     randomOffsetRange: 2
     evaluateDirTime: 0.5

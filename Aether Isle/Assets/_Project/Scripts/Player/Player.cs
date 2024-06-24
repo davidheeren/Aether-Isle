@@ -7,8 +7,8 @@ namespace Game
     public class Player : MonoBehaviour
     {
         [Header("General Vars")]
-        [SerializeField] Animator animator;
-        [SerializeField] SpriteRenderer spriteRenderer;
+        [SerializeField] CharacterComponents components;
+        [SerializeField] SFXLoop runSFX;
 
         [Header("States")]
         [SerializeField] RootState playerRoot;
@@ -37,22 +37,18 @@ namespace Game
 
         private void Awake()
         {
-            // Components
-            Movement movement = GetComponent<Movement>();
+            components.Setup(this);
             PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
-            Collider2D collider = GetComponent<Collider2D>();
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            Health health = GetComponent<Health>();
 
             // Conditions
             swimCondition = new CheckGroundCondition(swimCondition.CopyJson(), transform);
 
             // State Branches
-            Node swimBranch = new PlayerSwimState(swimState.CopyJson(), movement, animator);
-            Node runBranch = new PlayerRunState(runState.CopyJson(), movement, animator);
-            Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, new PlayerDashState(dashState.CopyJson(), movement, collider, health));
-            Node attackBranch = new LockNullModifier(attackDuration, 2, attackCooldown, new PlayerAttackState(attackState.CopyJson(), transform, aim, animator, movement));
-            Node idleBranch = new PlayerIdleState(animator);
+            Node swimBranch = new PlayerSwimState(swimState.CopyJson(), components);
+            Node runBranch = new PlayerRunState(runState.CopyJson(), components, runSFX);
+            Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, new PlayerDashState(dashState.CopyJson(), components));
+            Node attackBranch = new LockNullModifier(attackDuration, 2, attackCooldown, new PlayerAttackState(attackState.CopyJson(), components, aim));
+            Node idleBranch = new PlayerIdleState(components);
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(new Node[] {
@@ -67,8 +63,8 @@ namespace Game
 
             // State Tree
             playerRoot = new RootState(playerRoot.CopyJson(), new Selector(new Node[] {
-                            new CharacterStunState(stunState.CopyJson(), false, health, rb, null, animator), // Automatically locks and returns null if
-                            new CharacterDieState(dieState.CopyJson(), health, collider, rb, animator, spriteRenderer),
+                            new CharacterStunState(stunState.CopyJson(), false, null, components), // Automatically locks and returns null if
+                            new CharacterDieState(dieState.CopyJson(), components),
                             notHitState }));
         }
 

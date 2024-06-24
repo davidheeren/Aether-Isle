@@ -10,10 +10,7 @@ namespace Game
     {
         [SerializeField] AudioClip dieSFX;
 
-        Collider2D collider;
-        Rigidbody2D rb;
-        Animator animator;
-        SpriteRenderer spriteRenderer;
+        CharacterComponents components;
 
         Timer delayTimer;
         Timer fadeTimer;
@@ -22,14 +19,11 @@ namespace Game
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        public CharacterDieState(string copyJson, Health health, Collider2D collider, Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, Node child = null) : base(copyJson, child)
+        public CharacterDieState(string copyJson, CharacterComponents components, Node child = null) : base(copyJson, child)
         {
-            this.collider = collider;
-            this.rb = rb;
-            this.animator = animator;
-            this.spriteRenderer = spriteRenderer;
+            this.components = components;
 
-            health.OnDie += OnDie;
+            components.health.OnDie += OnDie;
             delayTimer = new Timer(despawnTime);
         }
 
@@ -50,10 +44,10 @@ namespace Game
             LockSuperStates(null, true);
 
             delayTimer.Reset();
-            collider.enabled = false;
-            rb.velocity = Vector2.zero;
-            animator.Play("Die");
-            SFXManager.Instance.PlaySFXClip(dieSFX, rb.transform.position);
+            components.collider.enabled = false;
+            components.rb.velocity = Vector2.zero;
+            components.animator.Play("Die");
+            SFXManager.Instance.PlaySFXClip(dieSFX, components.rb.transform.position);
         }
 
         protected override void UpdateState()
@@ -68,14 +62,14 @@ namespace Game
 
             if (fadeTimer.isDone)
             {
-                collider.gameObject.SetActive(false);
+                components.collider.gameObject.SetActive(false);
                 fadeTimer = null;
                 return;
             }
 
-            Color col = spriteRenderer.color;
+            Color col = components.spriteRenderer.color;
             col.a = fadeTimer.currentPercent;
-            spriteRenderer.color = col;
+            components.spriteRenderer.color = col;
         }
     }
 }

@@ -5,9 +5,10 @@ namespace Game
 {
     public class Zombie : MonoBehaviour
     {
-        [SerializeField] Animator animator;
-        [SerializeField] SpriteRenderer spriteRenderer;
+        [Header("General Vars")]
+        [SerializeField] CharacterComponents components;
 
+        [Header("States")]
         [SerializeField] AIMovement aiMovement;
         [SerializeField] RootState enemyRoot;
         [SerializeField] FindTargetTask findTarget;
@@ -18,7 +19,6 @@ namespace Game
         [Header("Modifiers")]
         [SerializeField] float rememberTargetTime = 2;
 
-        Movement movement;
         Ref<Transform> targetRef = new Ref<Transform>();
 
         private void OnDrawGizmosSelected()
@@ -28,19 +28,15 @@ namespace Game
 
         void Awake()
         {
-            movement = GetComponent<Movement>();
-            Health health = GetComponent<Health>();
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            Collider2D collider = GetComponent<Collider2D>();
+            components.Setup(this);
+            aiMovement.Setup(targetRef, components);
 
-            aiMovement.Setup(targetRef, transform, movement);
-
-            Node chaseBranch = new FindTargetTask(findTarget.CopyJson(), transform, targetRef, new If(new Not(new NullCondition<Transform>(targetRef)), new LockCooldownModifier(rememberTargetTime, 1, true, new ZombieChaseState(chaseState.CopyJson(), aiMovement, animator))));
-            Node moveBranch = new HolderState(new TwoSelector(chaseBranch, new CharacterIdleState(animator)));
+            Node chaseBranch = new FindTargetTask(findTarget.CopyJson(), transform, targetRef, new If(new Not(new NullCondition<Transform>(targetRef)), new LockCooldownModifier(rememberTargetTime, 1, true, new ZombieChaseState(chaseState.CopyJson(), aiMovement, components.animator))));
+            Node moveBranch = new HolderState(new TwoSelector(chaseBranch, new CharacterIdleState(components.animator)));
 
             enemyRoot = new RootState(enemyRoot.CopyJson(), new Selector(new Node[] {
-                new CharacterStunState(stunState.CopyJson(), true, health, rb, null, animator), // Automatically locks and returns null if
-                new CharacterDieState(dieState.CopyJson(), health, collider, rb, animator, spriteRenderer),
+                new CharacterStunState(stunState.CopyJson(), true, null, components), // Automatically locks and returns null if
+                new CharacterDieState(dieState.CopyJson(), components),
                 moveBranch }));
         }
 

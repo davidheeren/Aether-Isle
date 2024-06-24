@@ -9,6 +9,12 @@ namespace Game
         [SerializeField] bool hardLock = false;
         [SerializeField] float decay = 10;
 
+        private void Update()
+        {
+            if (target == null)
+                target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
         void LateUpdate()
         {
             if (target == null)

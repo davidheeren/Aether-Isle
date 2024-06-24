@@ -11,10 +11,9 @@ namespace Game
         [SerializeField] AudioClip stunSFX;
 
         bool canDamage;
-        Health health;
-        Rigidbody2D rb;
         int? lockDepth;
-        Animator animator;
+
+        CharacterComponents components;
 
         Timer timer;
 
@@ -24,18 +23,17 @@ namespace Game
         bool wasDamaged;
 
         private CharacterStunState() : base(null, null) { }
-        public CharacterStunState(string copyJson, bool canDamage, Health health, Rigidbody2D rb, int? lockDepth, Animator animator, Node child = null) : base(copyJson, child)
+        public CharacterStunState(string copyJson, bool canDamage, int? lockDepth, CharacterComponents components, Node child = null) : base(copyJson, child)
         {
             this.canDamage = canDamage;
-            this.health = health;
-            this.rb = rb;
             this.lockDepth = lockDepth;
-            this.animator = animator;
+
+            this.components = components;
 
             canReenter = true;
 
-            health.OnDamage += OnDamage;
-            health.OnDie += OnDie;
+            components.health.OnDamage += OnDamage;
+            components.health.OnDie += OnDie;
         }
 
         protected override bool CanEnterState()
@@ -66,18 +64,18 @@ namespace Game
         {
             base.EnterState();
 
-            health.canTakeDamage = canDamage;
+            components.health.canTakeDamage = canDamage;
 
             LockSuperStates(lockDepth, true);
 
             timer = new Timer(damage.stunTime);
 
             if (dir != null)
-                rb.velocity = dir.Value * damage.knockbackSpeed;
+                components.rb.velocity = dir.Value * damage.knockbackSpeed;
 
-            animator.enabled = false;
+            components.animator.enabled = false;
 
-            SFXManager.Instance.PlaySFXClip(stunSFX, rb.transform.position);
+            SFXManager.Instance.PlaySFXClip(stunSFX, components.rb.transform.position);
         }
 
         protected override void UpdateState()
@@ -90,9 +88,9 @@ namespace Game
         {
             base.ExitState();
 
-            health.canTakeDamage = true;
+            components.health.canTakeDamage = true;
 
-            animator.enabled = true;
+            components.animator.enabled = true;
         }
     }
 }
