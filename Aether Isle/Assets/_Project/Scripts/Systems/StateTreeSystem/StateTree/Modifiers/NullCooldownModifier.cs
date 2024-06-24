@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace StateTree
+﻿namespace StateTree
 {
     public class NullCooldownModifier : Modifier
     {

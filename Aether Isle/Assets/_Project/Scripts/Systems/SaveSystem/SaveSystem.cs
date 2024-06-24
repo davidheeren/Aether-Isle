@@ -28,8 +28,8 @@ namespace Save
 
                 return _saveObject;
             }
-            set 
-            { 
+            set
+            {
 
                 _saveObject = value;
                 CheckSaveFile();

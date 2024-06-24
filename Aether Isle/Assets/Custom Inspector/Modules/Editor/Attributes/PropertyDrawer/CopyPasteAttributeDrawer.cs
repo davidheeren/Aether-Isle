@@ -1,7 +1,7 @@
-using UnityEditor;
-using UnityEngine;
 using CustomInspector.Extensions;
 using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace CustomInspector.Editor
 {
@@ -67,12 +67,12 @@ namespace CustomInspector.Editor
                                     && GUI.skin.label.CalcSize(pasteLabel).x + additionalLength + buttonWidth < availableSpace;
                                  i++)
                             {
-                                if(preview[i] == '\n')
+                                if (preview[i] == '\n')
                                     pasteLabel.text += "\\n";
                                 else
                                     pasteLabel.text += preview[i];
                             }
-                            if(i < preview.Length)
+                            if (i < preview.Length)
                                 pasteLabel.text += "...";
                             pasteLabel.text += ")";
                             rect.width = GUI.skin.label.CalcSize(pasteLabel).x + buttonWidth;
@@ -82,7 +82,7 @@ namespace CustomInspector.Editor
                             rect.width = position.width / 2;
                         }
                     }
-                    
+
                     rect.x = position.x + position.width - rect.width;
 
                     if (GUI.Button(rect, pasteLabel))

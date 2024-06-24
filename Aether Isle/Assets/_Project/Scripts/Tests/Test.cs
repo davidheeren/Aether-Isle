@@ -1,12 +1,24 @@
+using CustomInspector;
 using UnityEngine;
+using Utilities;
 
 namespace Game
 {
     public class Test : MonoBehaviour
     {
-        private void Awake()
+        [Button(nameof(Slow))]
+        [Button(nameof(Fast))]
+        [SerializeField] Vector2 v;
+
+
+        void Slow()
         {
-            Debug.Log("\nLine1\nLine2");
+            print(v.normalized / v.magnitude);
+        }
+
+        void Fast()
+        {
+            print(v.Reciprocal());
         }
     }
 }

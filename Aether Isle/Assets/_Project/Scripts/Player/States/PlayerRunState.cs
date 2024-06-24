@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using StateTree;
+﻿using StateTree;
 using System;
+using UnityEngine;
 
 namespace Game
 {
@@ -9,28 +9,37 @@ namespace Game
     {
         [SerializeField] float runSpeed = 5;
 
-        Movement movement;
-        Animator animator;
+        CharacterComponents components;
+        SFXLoop runSFX;
 
         private PlayerRunState() : base(null, null) { }
-        public PlayerRunState(string copyJson, Movement movement, Animator animator, Node child) : base(copyJson, child)
+        public PlayerRunState(string copyJson, CharacterComponents components, SFXLoop runSFX, Node child = null) : base(copyJson, child)
         {
-            this.movement = movement;
-            this.animator = animator;
+            this.components = components;
+            this.runSFX = runSFX;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            animator.Play("Run");
+            components.animator.Play("Run");
+
+            runSFX.Play();
         }
 
         protected override void UpdateState()
         {
             base.UpdateState();
 
-            movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * runSpeed);
+            components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * runSpeed);
+        }
+
+        protected override void ExitState()
+        {
+            base.ExitState();
+
+            runSFX.Stop();
         }
     }
 }

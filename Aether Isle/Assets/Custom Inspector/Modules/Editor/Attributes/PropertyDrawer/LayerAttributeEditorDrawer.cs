@@ -15,11 +15,11 @@ namespace CustomInspector.Editor
 
             Rect rect;
 
-            if(!string.IsNullOrEmpty(l.requiredName))
+            if (!string.IsNullOrEmpty(l.requiredName))
             {
                 int req = LayerMask.NameToLayer(l.requiredName);
 
-                if(req == -1)
+                if (req == -1)
                 {
                     //wrong layer name entered
                     DrawProperties.DrawPropertyWithMessage(position, label, property,
@@ -27,7 +27,7 @@ namespace CustomInspector.Editor
 
                     return;
                 }
-                else if(req == property.intValue)
+                else if (req == property.intValue)
                 {
                     rect = position;
                 }
@@ -46,7 +46,7 @@ namespace CustomInspector.Editor
                         x = errorRect.x + errorRect.width,
                         width = fixButtonWidth,
                     };
-                    if(GUI.Button(buttonRect, new GUIContent("Fix", $"set Layer to {l.requiredName}")))
+                    if (GUI.Button(buttonRect, new GUIContent("Fix", $"set Layer to {l.requiredName}")))
                     {
                         property.intValue = LayerMask.NameToLayer(l.requiredName);
                         property.serializedObject.ApplyModifiedProperties();

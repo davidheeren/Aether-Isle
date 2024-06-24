@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: aa36bf1c812ddd04ead908afcc7faf76
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 212478
+  packageName: Component Names
+  packageVersion: 1.0.9
+  assetPath: Packages/com.sisus.shared/Editor/CustomEditorInfoGroup.cs
+  uploadId: 656066

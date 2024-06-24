@@ -1,7 +1,4 @@
-﻿
-using UnityEngine;
-
-namespace StateTree
+﻿namespace StateTree
 {
     public class LockNullModifier : Modifier
     {
@@ -11,7 +8,7 @@ namespace StateTree
 
         float? duration;
         int? lockDepth;
-        bool canReenter;
+        bool? canReenter;
         float? cooldown;
 
         bool isLocked;
@@ -21,8 +18,8 @@ namespace StateTree
         SimpleTimer durationTimer;
         SimpleTimer cooldownTimer;
 
-        public LockNullModifier(float? duration, int? lockDepth, float? cooldown, Node child) : this(duration, lockDepth, false, cooldown, child) { }
-        public LockNullModifier(float? duration, int? lockDepth, bool canReenter, float? cooldown, Node child) : base(null, child)
+        public LockNullModifier(float? duration, int? lockDepth, float? cooldown, Node child) : this(duration, lockDepth, null, cooldown, child) { }
+        public LockNullModifier(float? duration, int? lockDepth, bool? canReenter, float? cooldown, Node child) : base(null, child)
         {
             this.duration = duration;
             this.lockDepth = lockDepth;
@@ -45,7 +42,9 @@ namespace StateTree
         protected override void Setup()
         {
             base.Setup();
-            subState.canReenter = canReenter;
+
+            if (canReenter != null)
+                subState.canReenter = canReenter.Value;
         }
 
         protected override void EnterSubState()
@@ -58,7 +57,7 @@ namespace StateTree
             isLocked = true;
 
             // Cooldown
-            if (cooldownTimer != null) 
+            if (cooldownTimer != null)
                 cooldownTimer.ForceDone();
         }
 

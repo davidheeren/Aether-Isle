@@ -1,7 +1,7 @@
 using CustomInspector.Extensions;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using System.Reflection;
 
 
 namespace CustomInspector.Editor
@@ -47,13 +47,13 @@ namespace CustomInspector.Editor
 
                             EditorGUI.BeginChangeCheck();
                             object res = DrawProperties.DrawField(position, content, value.GetValue(), field.FieldType);
-                            if(EditorGUI.EndChangeCheck())
+                            if (EditorGUI.EndChangeCheck())
                                 value.SetValue(res);
                         }
                     };
                 }
             }
-            
+
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

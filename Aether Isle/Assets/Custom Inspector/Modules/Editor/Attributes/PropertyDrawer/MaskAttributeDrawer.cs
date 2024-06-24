@@ -13,7 +13,7 @@ namespace CustomInspector.Editor
         {
             position.height = EditorGUIUtility.singleLineHeight;
 
-            if(property.propertyType == SerializedPropertyType.Integer)
+            if (property.propertyType == SerializedPropertyType.Integer)
             {
                 MaskAttribute m = (MaskAttribute)attribute;
 
@@ -69,7 +69,7 @@ namespace CustomInspector.Editor
                     }
                 }
             }
-            else if(property.propertyType == SerializedPropertyType.Enum)
+            else if (property.propertyType == SerializedPropertyType.Enum)
             {
                 EditorGUI.BeginChangeCheck();
                 Enum res = EditorGUI.EnumFlagsField(position, label, (Enum)Enum.ToObject(fieldInfo.FieldType, property.intValue));

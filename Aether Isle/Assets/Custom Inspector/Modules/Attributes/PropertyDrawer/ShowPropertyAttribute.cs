@@ -22,7 +22,7 @@ namespace CustomInspector
         /// </summary>
         public string tooltip = null;
 
-        
+
         /// <param name="getPropertyPath">The name of the property to display</param>
         public ShowPropertyAttribute(string getPropertyPath)
         {

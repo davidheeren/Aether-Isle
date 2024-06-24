@@ -1,29 +1,31 @@
+using Game;
+using System;
 using UnityEngine;
 
 namespace StateTree.Test
 {
     public class StateTreeTest : MonoBehaviour
     {
-        [SerializeField] RootState rootState;
+        RootState rootState;
 
         private void Start()
         {
-            /*
-            playerRoot = new RootState(playerRoot.CopyJson(), 
-                            new HolderState(
-                                new HolderState(
-                                    new FillerNodeTest(
-                                        new FillerNodeTest(
-                                            new LockDurationModifier(1, 
-                                                new HolderState(null)))))));
-            */
-
-            rootState = new RootState(rootState.CopyJson(), new HolderState(null));
+            rootState = new RootState(new If(new VirtualCondition(InputCondition), new LockCooldownModifier(1, null, true, new VirtualState(null, UpdateState, null, null))));
         }
 
         private void Update()
         {
             rootState.UpdateStateTree();
         }
+
+        bool InputCondition()
+        {
+            return InputManager.Instance.input.Game.Dash.IsPressed();
+        }
+        private void UpdateState()
+        {
+            transform.eulerAngles += Vector3.forward * 200 * Time.deltaTime;
+        }
+
     }
 }

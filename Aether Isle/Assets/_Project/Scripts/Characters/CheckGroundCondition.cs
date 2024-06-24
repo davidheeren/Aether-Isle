@@ -1,6 +1,6 @@
-using UnityEngine;
 using StateTree;
 using System;
+using UnityEngine;
 
 namespace Game
 {
@@ -24,10 +24,10 @@ namespace Game
             return Physics2D.OverlapBox((Vector2)transform.position + boxOffset, boxSize, 0, layerMask);
         }
 
-        public void DrawBox(Transform t)
+        public void DrawBox(Vector2 pos)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube((Vector2)t.position + boxOffset, boxSize);
+            Gizmos.DrawWireCube(pos + boxOffset, boxSize);
         }
     }
 }

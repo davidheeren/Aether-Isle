@@ -1,16 +1,19 @@
 using StateTree;
+using System;
 using UnityEngine;
 using Utilities;
 
 namespace Game
 {
+    [Serializable]
     public class CharacterStunState : State
     {
-        // Automatically locks and returns null if 
+        [SerializeField] AudioClip stunSFX;
 
-        Health health;
-        Rigidbody2D rb;
+        bool canDamage;
         int? lockDepth;
+
+        CharacterComponents components;
 
         Timer timer;
 
@@ -19,15 +22,18 @@ namespace Game
 
         bool wasDamaged;
 
-        public CharacterStunState(Health health, Rigidbody2D rb, int? lockDepth, Node child) : base(null, child)
+        private CharacterStunState() : base(null, null) { }
+        public CharacterStunState(string copyJson, bool canDamage, int? lockDepth, CharacterComponents components, Node child = null) : base(copyJson, child)
         {
-            this.health = health;
-            this.rb = rb;
+            this.canDamage = canDamage;
             this.lockDepth = lockDepth;
+
+            this.components = components;
 
             canReenter = true;
 
-            health.OnDamage += OnDamage;
+            components.health.OnDamage += OnDamage;
+            components.health.OnDie += OnDie;
         }
 
         protected override bool CanEnterState()
@@ -49,22 +55,42 @@ namespace Game
             wasDamaged = true;
         }
 
+        private void OnDie()
+        {
+            canReenter = false;
+        }
+
         protected override void EnterState()
         {
             base.EnterState();
+
+            components.health.canTakeDamage = canDamage;
 
             LockSuperStates(lockDepth, true);
 
             timer = new Timer(damage.stunTime);
 
             if (dir != null)
-                rb.velocity = dir.Value * damage.knockbackSpeed;
+                components.rb.velocity = dir.Value * damage.knockbackSpeed;
+
+            components.animator.enabled = false;
+
+            SFXManager.Instance.PlaySFXClip(stunSFX, components.rb.transform.position);
         }
 
         protected override void UpdateState()
         {
             if (timer.isDone)
                 LockSuperStates(lockDepth, false);
+        }
+
+        protected override void ExitState()
+        {
+            base.ExitState();
+
+            components.health.canTakeDamage = true;
+
+            components.animator.enabled = true;
         }
     }
 }

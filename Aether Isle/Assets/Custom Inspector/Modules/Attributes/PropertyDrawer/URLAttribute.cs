@@ -11,7 +11,7 @@ namespace CustomInspector
         public readonly string link;
         public string label = null;
         public string tooltip = "";
-        
+
         public URLAttribute(string link)
         {
             order = -10;

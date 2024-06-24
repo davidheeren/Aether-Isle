@@ -1,22 +1,22 @@
-﻿using UnityEngine;
-using StateTree;
+﻿using StateTree;
+using UnityEngine;
 
 namespace Game
 {
     public class PlayerIdleState : State
     {
-        Animator animator;
+        CharacterComponents components;
 
-        public PlayerIdleState(Animator animator, Node child) : base(null, child)
+        public PlayerIdleState(CharacterComponents components, Node child = null) : base(null, child)
         {
-            this.animator = animator;
+            this.components = components;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            animator.Play("Idle");
+            components.animator.Play("Idle");
         }
     }
 }

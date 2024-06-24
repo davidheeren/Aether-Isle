@@ -1,7 +1,7 @@
-using UnityEditor;
-using UnityEngine;
 using CustomInspector.Extensions;
 using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace CustomInspector.Editor
 {

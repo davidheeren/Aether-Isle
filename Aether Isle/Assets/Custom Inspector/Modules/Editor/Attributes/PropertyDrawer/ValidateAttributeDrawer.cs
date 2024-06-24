@@ -1,9 +1,9 @@
-using UnityEditor;
-using UnityEngine;
 using CustomInspector.Extensions;
+using CustomInspector.Helpers;
 using System;
 using System.Collections.Generic;
-using CustomInspector.Helpers;
+using UnityEditor;
+using UnityEngine;
 
 namespace CustomInspector.Editor
 {

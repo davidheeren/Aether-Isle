@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace StateTree
@@ -23,10 +22,14 @@ namespace StateTree
             subState = GetFirstSubState(this);
 
             // I don't think we have to unsubscribe
+            subState.OnPreExitState += PreExitSubState;
+
             subState.OnEnterState += EnterSubState;
             subState.OnUpdateState += UpdateSubState;
             subState.OnExitState += ExitSubState;
         }
+
+        protected virtual void PreExitSubState() { }
 
         protected virtual void EnterSubState() { }
         protected virtual void UpdateSubState() { }
@@ -37,19 +40,19 @@ namespace StateTree
 
         protected override void SetChildrenParentRelationships()
         {
-            SetupChild(child);
+            AddChild(child);
         }
 
         State GetFirstSubState(Node startNode) // Excludes the start node
         {
-            if (startNode.children == null)
+            if (startNode.children.Count == 0)
             {
-                Debug.LogError("Modifier does not have a child firstState");
+                Debug.LogError("Modifier does not have a subState");
                 return null;
             }
-            if (startNode.children.Count != 1)
+            else if (startNode.children.Count > 1)
             {
-                Debug.LogError("Found more than one child below this modifier");
+                Debug.LogError("Found more than one subState below this modifier");
                 return null;
             }
 

@@ -1,6 +1,6 @@
-using UnityEngine;
-using System.Diagnostics;
 using System;
+using System.Diagnostics;
+using UnityEngine;
 
 namespace CustomInspector
 {

@@ -1,14 +1,10 @@
-﻿using System;
-
-namespace StateTree
+﻿namespace StateTree
 {
-    [Serializable]
     public class Selector : Node
     {
-        Node[] _children; // _Because we already have a children var in Node
+        Node[] _children; // "_" Because we already have a children var in Node
 
-        public Selector(Node[] _children) : this(null, _children) { }
-        public Selector(string copyJson, Node[] _children) : base(copyJson)
+        public Selector(Node[] _children) : base(null)
         {
             this._children = _children;
         }
@@ -16,7 +12,7 @@ namespace StateTree
         public override State Evaluate() // Goes through each child and returns the first one that is not null
         {
             State state = null;
-            foreach (Node child in _children)
+            foreach (Node child in children)
             {
                 state = child.Evaluate();
 
@@ -30,7 +26,7 @@ namespace StateTree
         {
             foreach (Node child in _children)
             {
-                SetupChild(child);
+                AddChild(child);
             }
         }
     }
