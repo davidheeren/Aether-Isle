@@ -12,12 +12,15 @@ namespace Game
         [SerializeField] AudioClip splashEnterSFX;
         [SerializeField] AudioClip splashExitSFX;
 
-        CharacterComponents compoenents;
+        CharacterComponents components;
 
-        private PlayerSwimState() : base(null, null) { }
-        public PlayerSwimState(string copyJson, CharacterComponents components, Node child = null) : base(copyJson, child)
+        public PlayerSwimState Create(CharacterComponents components, Node child = null)
         {
-            this.compoenents = components;
+            CreateState(child);
+
+            this.components = components;
+
+            return this;
         }
 
         protected override void EnterState()
@@ -26,23 +29,23 @@ namespace Game
 
             aimGraphic.SetActive(false);
 
-            SFXManager.Instance.PlaySFXClip(splashEnterSFX, compoenents.movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(splashEnterSFX, components.movement.transform.position);
 
-            compoenents.animator.Play("Swim");
+            components.animator.Play("Swim");
         }
 
         protected override void UpdateState()
         {
             base.UpdateState();
 
-            compoenents.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * swimSpeed);
+            components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * swimSpeed);
         }
 
         protected override void ExitState()
         {
             base.ExitState();
 
-            SFXManager.Instance.PlaySFXClip(splashExitSFX, compoenents.movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(splashExitSFX, components.movement.transform.position);
 
             aimGraphic?.SetActive(true);
         }

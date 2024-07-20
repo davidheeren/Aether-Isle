@@ -4,9 +4,11 @@
     {
         Ref<T> obj;
 
-        public NullCondition(Ref<T> obj) : base(null)
+        public NullCondition<T> Create(Ref<T> obj)
         {
             this.obj = obj;
+
+            return this;
         }
 
         public override bool Calculate()

@@ -12,11 +12,14 @@ namespace Game
         AIMovement aiMovement;
         Animator animator;
 
-        private ZombieChaseState() : base(null, null) { }
-        public ZombieChaseState(string copyJson, AIMovement aiMovement, Animator animator, Node child = null) : base(copyJson, child)
+        public ZombieChaseState Create(AIMovement aiMovement, Animator animator, Node child = null)
         {
+            CreateState(child);
+
             this.aiMovement = aiMovement;
             this.animator = animator;
+
+            return this;
         }
 
         protected override void EnterState()

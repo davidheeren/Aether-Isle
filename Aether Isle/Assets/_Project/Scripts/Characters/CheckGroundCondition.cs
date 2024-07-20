@@ -13,10 +13,11 @@ namespace Game
 
         Transform transform;
 
-        private CheckGroundCondition() : base(null) { }
-        public CheckGroundCondition(string copyJson, Transform transform) : base(copyJson)
+        public CheckGroundCondition Create(Transform transform)
         {
             this.transform = transform;
+
+            return this;
         }
 
         public override bool Calculate()

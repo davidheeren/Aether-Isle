@@ -31,12 +31,12 @@ namespace Game
             components.Setup(this);
             aiMovement.Setup(targetRef, components);
 
-            Node chaseBranch = new FindTargetTask(findTarget.CopyJson(), transform, targetRef, new If(new Not(new NullCondition<Transform>(targetRef)), new LockCooldownModifier(rememberTargetTime, 1, true, new ZombieChaseState(chaseState.CopyJson(), aiMovement, components.animator))));
-            Node moveBranch = new HolderState(new TwoSelector(chaseBranch, new CharacterIdleState(components.animator)));
+            Node chaseBranch = findTarget.Create(components, targetRef, new If().Create(new Not().Create(new NullCondition<Transform>().Create(targetRef)), new LockCooldownModifier().Create(rememberTargetTime, 1, true,chaseState.Create(aiMovement, components.animator))));
+            Node moveBranch = new HolderState().Create(new Selector().Create(new Node[] { chaseBranch, new CharacterIdleState().Create(components.animator) }));
 
-            enemyRoot = new RootState(enemyRoot.CopyJson(), new Selector(new Node[] {
-                new CharacterStunState(stunState.CopyJson(), true, null, components), // Automatically locks and returns null if
-                new CharacterDieState(dieState.CopyJson(), components),
+            enemyRoot.Create(new Selector().Create(new Node[] {
+                stunState.Create(true, null, components), // Automatically locks and returns null if
+                dieState.Create(components),
                 moveBranch }));
         }
 

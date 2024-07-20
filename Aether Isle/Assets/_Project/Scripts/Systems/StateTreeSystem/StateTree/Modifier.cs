@@ -10,8 +10,9 @@ namespace StateTree
 
         protected State subState;
 
-        public Modifier(string copyJson, Node child) : base(copyJson)
+        protected void CreateModifier(Node child)
         {
+            CreateNode();
             this.child = child;
         }
 

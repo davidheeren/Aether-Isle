@@ -5,7 +5,7 @@ using UnityEngine;
 namespace StateTree
 {
     [Serializable]
-    public abstract class Node : Copyable
+    public abstract class Node
     {
         protected RootState rootState;
 
@@ -14,9 +14,8 @@ namespace StateTree
 
         [NonSerialized] public string name;
 
-        public Node(string copyJson) : base(copyJson) // I don't need an overflow constructor because this is an abstract class
+        protected void CreateNode()
         {
-            // Sets default name to the type
             if (String.IsNullOrEmpty(name))
                 name = this.GetType().Name;
         }

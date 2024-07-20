@@ -12,7 +12,7 @@ namespace Game
         public SpriteRenderer spriteRenderer;
 
         [NonSerialized] public Movement movement;
-        [NonSerialized] public Collider2D collider;
+        [NonSerialized] public Collider2D col;
         [NonSerialized] public Rigidbody2D rb;
         [NonSerialized] public Health health;
 
@@ -22,7 +22,7 @@ namespace Game
         public void Setup(MonoBehaviour mb)
         {
             movement = mb.GetComponent<Movement>();
-            collider = mb.GetComponent<Collider2D>();
+            col = mb.GetComponent<Collider2D>();
             rb = mb.GetComponent<Rigidbody2D>();
             health = mb.GetComponent<Health>();
 

@@ -2,6 +2,7 @@ using StateTree;
 using System;
 using UnityEngine;
 using Utilities;
+using static Unity.VisualScripting.Member;
 
 namespace Game
 {
@@ -16,43 +17,39 @@ namespace Game
         CharacterComponents components;
 
         Timer timer;
+        EventSwitch eventSwitch;
 
         DamageStats damage;
         Vector2? dir;
 
-        bool wasDamaged;
 
-        private CharacterStunState() : base(null, null) { }
-        public CharacterStunState(string copyJson, bool canDamage, int? lockDepth, CharacterComponents components, Node child = null) : base(copyJson, child)
+        public CharacterStunState Create(bool canDamage, int? lockDepth, CharacterComponents components, Node child = null)
         {
+            CreateState(child);
+
             this.canDamage = canDamage;
             this.lockDepth = lockDepth;
 
             this.components = components;
 
             canReenter = true;
+            eventSwitch = new EventSwitch(ref components.health.OnDamage);
 
-            components.health.OnDamage += OnDamage;
+            components.health.OnDamageParams += OnDamage;
             components.health.OnDie += OnDie;
+
+            return this;
         }
 
         protected override bool CanEnterState()
         {
-            if (wasDamaged)
-            {
-                wasDamaged = false;
-                return true;
-            }
-
-            return false;
+            return eventSwitch.happened;
         }
 
-        private void OnDamage(DamageStats damage, Vector2? dir)
+        private void OnDamage(DamageStats damage, Collider2D col, Vector2? dir)
         {
             this.damage = damage;
             this.dir = dir;
-
-            wasDamaged = true;
         }
 
         private void OnDie()

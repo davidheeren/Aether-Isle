@@ -28,7 +28,7 @@ namespace Game
             material.SetFloat("_Die", 1);
         }
 
-        void SetContrast(DamageStats damage, Vector2? dir)
+        void SetContrast()
         {
             material.SetFloat("_Contrast", 1);
             timer.Reset();

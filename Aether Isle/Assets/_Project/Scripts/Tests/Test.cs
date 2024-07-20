@@ -1,24 +1,17 @@
-using CustomInspector;
 using UnityEngine;
-using Utilities;
 
 namespace Game
 {
     public class Test : MonoBehaviour
     {
-        [Button(nameof(Slow))]
-        [Button(nameof(Fast))]
-        [SerializeField] Vector2 v;
+        [SerializeField] Collider2D col;
 
-
-        void Slow()
+        private void Update()
         {
-            print(v.normalized / v.magnitude);
-        }
+            Vector3 bottomLeft = col.bounds.center - col.bounds.extents;
+            Vector3 topRight = col.bounds.center + col.bounds.extents;
 
-        void Fast()
-        {
-            print(v.Reciprocal());
+            Debug.DrawLine(bottomLeft, topRight);
         }
     }
 }

@@ -10,13 +10,16 @@ namespace Game
         [SerializeField] float runSpeed = 5;
 
         CharacterComponents components;
-        SFXLoop runSFX;
+        SFXLoop runSFXLoop;
 
-        private PlayerRunState() : base(null, null) { }
-        public PlayerRunState(string copyJson, CharacterComponents components, SFXLoop runSFX, Node child = null) : base(copyJson, child)
+        public PlayerRunState Create(CharacterComponents components, SFXLoop runSFXLoop, Node child = null)
         {
+            CreateState(child);
+
             this.components = components;
-            this.runSFX = runSFX;
+            this.runSFXLoop = runSFXLoop;
+
+            return this;
         }
 
         protected override void EnterState()
@@ -25,7 +28,7 @@ namespace Game
 
             components.animator.Play("Run");
 
-            runSFX.Play();
+            runSFXLoop.Play();
         }
 
         protected override void UpdateState()
@@ -39,7 +42,7 @@ namespace Game
         {
             base.ExitState();
 
-            runSFX.Stop();
+            runSFXLoop.Stop();
         }
     }
 }

@@ -19,12 +19,16 @@ namespace Game
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        public CharacterDieState(string copyJson, CharacterComponents components, Node child = null) : base(copyJson, child)
+        public CharacterDieState Create(CharacterComponents components, Node child = null)
         {
+            CreateState(child);
+
             this.components = components;
 
             components.health.OnDie += OnDie;
             delayTimer = new Timer(despawnTime);
+
+            return this;
         }
 
         void OnDie()
@@ -44,7 +48,7 @@ namespace Game
             LockSuperStates(null, true);
 
             delayTimer.Reset();
-            components.collider.enabled = false;
+            components.col.enabled = false;
             components.rb.velocity = Vector2.zero;
             components.animator.Play("Die");
             SFXManager.Instance.PlaySFXClip(dieSFX, components.rb.transform.position);
@@ -62,7 +66,7 @@ namespace Game
 
             if (fadeTimer.isDone)
             {
-                components.collider.gameObject.SetActive(false);
+                components.col.gameObject.SetActive(false);
                 fadeTimer = null;
                 return;
             }

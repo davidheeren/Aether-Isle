@@ -3,12 +3,9 @@
 namespace StateTree
 {
     [Serializable]
-    public abstract class Condition : Copyable
+    public abstract class Condition
     {
-        protected Condition(string copyJson) : base(copyJson)
-        {
-
-        }
+        // There is not a CreateCondition Method
 
         public abstract bool Calculate();
     }

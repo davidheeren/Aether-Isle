@@ -9,30 +9,32 @@ namespace Game
         public int currentHealth { get; private set; }
 
         [NonSerialized] public bool canTakeDamage = true;
+        public bool isDead { get; private set; } = false;
 
-        public delegate void _OnDamage(DamageStats damage, Vector2? dir);
-        public event _OnDamage OnDamage;
+        public Action<DamageStats, Collider2D, Vector2?> OnDamageParams;
+        public Action OnDamage;
 
-        public event Action OnDie;
+        public Action OnDie;
 
         private void Awake()
         {
             currentHealth = maxHealth;
         }
 
-        public void Damage(DamageStats damage, Vector2? dir = null)
+        public void Damage(DamageStats damage, Collider2D col, Vector2? dir = null)
         {
-            if (!canTakeDamage)
+            if (!canTakeDamage || isDead)
                 return;
 
             currentHealth -= damage.damage;
 
-            OnDamage?.Invoke(damage, dir);
+            OnDamageParams?.Invoke(damage, col, dir);
+            OnDamage?.Invoke();
 
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                canTakeDamage = false;
+                isDead = true;
                 OnDie?.Invoke();
             }
         }
