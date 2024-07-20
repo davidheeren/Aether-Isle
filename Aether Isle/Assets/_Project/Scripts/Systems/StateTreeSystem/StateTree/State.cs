@@ -23,8 +23,9 @@ namespace StateTree
         public Action OnUpdateState;
         public Action OnExitState;
 
-        public State(string copyJson, Node child) : base(copyJson)
+        protected void CreateState(Node child)
         {
+            CreateNode();
             this.child = child;
         }
 

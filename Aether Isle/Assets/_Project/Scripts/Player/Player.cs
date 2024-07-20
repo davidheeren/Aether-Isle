@@ -8,7 +8,7 @@ namespace Game
     {
         [Header("General Vars")]
         [SerializeField] CharacterComponents components;
-        [SerializeField] SFXLoop runSFX;
+        [SerializeField] SFXLoop runSFXLoop;
 
         [Header("States")]
         [SerializeField] RootState playerRoot;
@@ -41,30 +41,30 @@ namespace Game
             PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
 
             // Conditions
-            swimCondition = new CheckGroundCondition(swimCondition.CopyJson(), transform);
+            swimCondition.Create(transform);
 
             // State Branches
-            Node swimBranch = new PlayerSwimState(swimState.CopyJson(), components);
-            Node runBranch = new PlayerRunState(runState.CopyJson(), components, runSFX);
-            Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, new PlayerDashState(dashState.CopyJson(), components));
-            Node attackBranch = new LockNullModifier(attackDuration, 2, attackCooldown, new PlayerAttackState(attackState.CopyJson(), components, aim));
-            Node idleBranch = new PlayerIdleState(components);
+            Node swimBranch = swimState.Create(components);
+            Node runBranch = runState.Create(components, runSFXLoop);
+            Node dashBranch = new LockNullModifier().Create(dashDuration, 1, dashCooldown, dashState.Create(components));
+            Node attackBranch = new LockNullModifier().Create(attackDuration, 2, attackCooldown, attackState.Create(components, aim));
+            Node idleBranch = new PlayerIdleState().Create(components);
 
             // Large Branches
-            Node groundedBranch = new HolderState(new Selector(new Node[] {
-                            new If(new VirtualCondition(DashCondition), dashBranch),
-                            new If(new VirtualCondition(AttackCondition), attackBranch),
-                            new If(new VirtualCondition(IdleCondition), idleBranch),
+            Node groundedBranch = new HolderState().Create(new Selector().Create(new Node[] {
+                            new If().Create(new VirtualCondition().Create(DashCondition), dashBranch),
+                            new If().Create(new VirtualCondition().Create(AttackCondition), attackBranch),
+                            new If().Create(new VirtualCondition().Create(IdleCondition), idleBranch),
                             runBranch }));
 
-            State notHitState = new HolderState(new Selector(new Node[] {
-                                new If(swimCondition, swimBranch),
+            State notHitState = new HolderState().Create(new Selector().Create(new Node[] {
+                                new If().Create(swimCondition, swimBranch),
                                 groundedBranch}));
 
             // State Tree
-            playerRoot = new RootState(playerRoot.CopyJson(), new Selector(new Node[] {
-                            new CharacterStunState(stunState.CopyJson(), false, null, components), // Automatically locks and returns null if
-                            new CharacterDieState(dieState.CopyJson(), components),
+            playerRoot = playerRoot.Create(new Selector().Create(new Node[] {
+                            stunState.Create(false, null, components), // Automatically locks and returns null if
+                            dieState.Create(components),
                             notHitState }));
         }
 

@@ -38,12 +38,6 @@ namespace Game
             playerHealth.OnDamage += UpdateSegments;
         }
 
-        private void UpdateSegments(DamageStats damage, Vector2? dir)
-        {
-            // Wrapper
-            UpdateSegments();
-        }
-
         void UpdateSegments()
         {
             for (int i = 0; i < segments.Length; i++)

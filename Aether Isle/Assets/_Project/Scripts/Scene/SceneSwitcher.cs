@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
-    public class SceneManager : Singleton<SceneManager>
+    public class SceneSwitcher : Singleton<SceneSwitcher>
     {
         private void Awake()
         {
@@ -14,7 +15,7 @@ namespace Game
         private void Restart(InputAction.CallbackContext context)
         {
             InputManager.Instance.input.Disable();
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

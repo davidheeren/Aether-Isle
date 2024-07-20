@@ -6,20 +6,18 @@ namespace StateTree
     [Serializable]
     public class Copyable
     {
-        public Copyable(string copyJson)
+        public Copyable() { }
+        public Copyable(Copyable copy)
         {
             // Copies all serialized fields if not null
-            if (!String.IsNullOrEmpty(copyJson))
-                JsonUtility.FromJsonOverwrite(copyJson, this);
+            if (copy != null)
+                CopyClass(copy);
         }
 
-        /// <summary>
-        /// Gets the json string of all serialized field values
-        /// </summary>
-        /// <returns></returns>
-        public string CopyJson()
+        void CopyClass(Copyable copy)
         {
-            return JsonUtility.ToJson(this);
+            string json = JsonUtility.ToJson(copy);
+            JsonUtility.FromJsonOverwrite(json, this);
         }
     }
 }

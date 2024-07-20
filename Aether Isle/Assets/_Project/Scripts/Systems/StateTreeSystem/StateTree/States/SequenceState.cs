@@ -10,7 +10,7 @@ namespace StateTree
         State[] currentSubStates;
         State[] possibleSubStates;
 
-        public SequenceState(Node[] _children) : base(null, null)
+        private SequenceState(Node[] _children)
         {
             this._children = _children;
 

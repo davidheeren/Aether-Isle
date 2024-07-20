@@ -7,9 +7,13 @@ namespace Game
     {
         Animator animator;
 
-        public CharacterIdleState(Animator animator, Node child = null) : base(null, child)
+        public CharacterIdleState Create(Animator animator, Node child = null)
         {
+            CreateState(child);
+
             this.animator = animator;
+
+            return this;
         }
 
         protected override void EnterState()

@@ -9,12 +9,20 @@ namespace StateTree
 
         bool isLocked = false;
 
-        public LockIfModifier(Condition condition, int? depth, Node child) : this(condition, depth, null, child) { }
-        public LockIfModifier(Condition condition, int? depth, bool? canReenter, Node child) : base(null, child)
+        public LockIfModifier Create(Condition condition, int? depth, Node child)
         {
+            return Create(condition, depth, null, child);
+        }
+
+        public LockIfModifier Create(Condition condition, int? depth, bool? canReenter, Node child)
+        {
+            CreateModifier(child);
+
             this.condition = condition;
             this.depth = depth;
             this.canReenter = canReenter;
+
+            return this;
         }
 
         protected override void Setup()

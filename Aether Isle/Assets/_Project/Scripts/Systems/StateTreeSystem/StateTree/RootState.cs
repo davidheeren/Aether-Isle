@@ -9,22 +9,29 @@ namespace StateTree
         public bool debugState = false;
         public bool debugGeneral = false;
 
-        private RootState() : base(null, null) { }
-        public RootState(Node child) : this(null, child) { }
-        public RootState(string copyJson, Node child) : base(copyJson, child)
+        public bool enabled = true;
+
+        public RootState Create(Node child = null)
         {
+            CreateState(child);
             SetupWrapper(this);
+
+            return this;
         }
 
         public void UpdateStateTree()
         {
+            if (!enabled) return;
+
             Evaluate();
-            //EnterStateWrapper();
+            EnterStateWrapper();
             UpdateStateWrapper();
         }
 
         public void FixedUpdateStateTree()
         {
+            if (!enabled) return;
+
             FixedUpdateStateWrapper();
         }
     }

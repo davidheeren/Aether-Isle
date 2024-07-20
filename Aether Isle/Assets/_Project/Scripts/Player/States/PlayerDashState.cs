@@ -16,17 +16,20 @@ namespace Game
 
         Vector2 dashDir;
 
-        private PlayerDashState() : base(null, null) { }
-        public PlayerDashState(string copyJson, CharacterComponents components, Node child = null) : base(copyJson, child)
+        public PlayerDashState Create(CharacterComponents components, Node child = null)
         {
+            CreateState(child);
+
             this.components = components;
+
+            return this;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            components.collider.excludeLayers = dashMask;
+            components.col.excludeLayers = dashMask;
             components.health.canTakeDamage = false;
 
             components.animator.Play("Dash");
@@ -47,7 +50,7 @@ namespace Game
             base.ExitState();
 
             components.health.canTakeDamage = true;
-            components.collider.excludeLayers = new LayerMask();
+            components.col.excludeLayers = new LayerMask();
         }
     }
 }

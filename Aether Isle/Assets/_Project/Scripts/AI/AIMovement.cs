@@ -1,4 +1,4 @@
-using CustomInspector;
+using Pathfinding;
 using StateTree;
 using System;
 using UnityEngine;
@@ -12,58 +12,72 @@ namespace Game
         [Header("Vars")]
         [SerializeField] float randomOffsetRange = 2;
         [SerializeField] float evaluateDirTime = 0.25f;
+        [SerializeField] float nextWaypointDist = 1;
 
-        [SerializeField] int rayCount = 25;
-        [SerializeField] float rayDist = 2;
-        [SerializeField] float avoidanceMultiplier = 10;
-        [SerializeField] LayerMask avoidanceMask;
-
-        [Header("Debug")]
-        [SerializeField] bool drayRays;
-        [SerializeField] bool useFast;
-
-        Vector2 targetPos;
+        [SerializeField] ObstacleAvoidance obstacleAvoidance;
+        Pathfinder pathfinder;
 
         Ref<Transform> targetRef = new Ref<Transform>();
-
         CharacterComponents components;
 
-        Timer timer;
+        Timer targetDirTimer;
         Transform target;
 
-        public void Setup(Ref<Transform> targetRef, CharacterComponents componenets)
+        Vector2[] path;
+        int pathIndex;
+        Vector2 offset;
+
+
+        public void Setup(Ref<Transform> targetRef, CharacterComponents components)
         {
             this.targetRef = targetRef;
-            this.components = componenets;
+            this.components = components;
 
-            timer = new Timer(evaluateDirTime);
+            if (evaluateDirTime > 0)
+                targetDirTimer = new Timer(evaluateDirTime);
+
+            obstacleAvoidance.Setup(components.transform);
+            pathfinder = new Pathfinder(PathGrid.Instance);
         }
 
         public void Enter()
         {
-            UpdateTargetPos();
-            timer.Reset();
+            targetDirTimer?.ForceDone();
         }
 
         public void Update(float speed)
         {
-            if (timer.isDone)
+            if (targetDirTimer != null)
             {
-                UpdateTargetPos();
-                timer.Reset();
+                if (targetDirTimer.isDone)
+                {
+                    UpdatePath();
+                    targetDirTimer.Reset();
+                }
+            }
+            else
+                UpdatePath();
+
+            if (path == null) return;
+            if (path.Length == 0) return;
+
+            if ((path[pathIndex] - (Vector2)components.transform.position).sqrMagnitude < nextWaypointDist * nextWaypointDist)
+            {
+                if (pathIndex < path.Length - 1)
+                    pathIndex++;
             }
 
-            Vector2 dir = targetPos - (Vector2)components.transform.position;
+            Vector2 targetPos = pathIndex == path.Length - 1 ? (Vector2)target.position + offset : path[pathIndex];
 
-            if (dir.sqrMagnitude < 0.01f) // less that 0.1 units
+            if ((targetPos - (Vector2)components.transform.position).sqrMagnitude < 0.01f) // less than 0.1 units
                 return;
 
-            dir = dir.normalized + Avoidance() * avoidanceMultiplier;
-            dir.Normalize();
-            components.movement.Move(dir * speed);
+            components.movement.Move(obstacleAvoidance.GetDir(targetPos) * speed);
+
+            pathfinder.DrawPath();
         }
 
-        void UpdateTargetPos()
+        void UpdatePath()
         {
             if (targetRef.value != null)
                 target = targetRef.value;
@@ -71,54 +85,10 @@ namespace Game
             if (target == null)
                 return;
 
-            /*
-            // If there target is less then the range of the random offset, then there is no offset
-            Vector2 offset = Vector2.zero;
-            if (((Vector2)transform.position - (Vector2)target.position).sqrMagnitude > randomOffsetRange * randomOffsetRange)
-                offset = UnityEngine.Random.insideUnitCircle * randomOffsetRange;
-            /*/
+            offset = UnityEngine.Random.insideUnitCircle * randomOffsetRange;
 
-            // I like that the enemies don't run straight toward you when they get close. It throws the player off
-
-            Vector2 offset = UnityEngine.Random.insideUnitCircle * randomOffsetRange;
-            targetPos = (Vector2)target.position + offset;
-        }
-
-        Vector2 Avoidance()
-        {
-            Vector2 pos = components.transform.position;
-
-            Vector2 avoidance = Vector2.zero;
-
-            for (int i = 0; i < rayCount; i++)
-            {
-                float angle = i * Mathf.PI * 2 / rayCount;
-
-                Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-
-                RaycastHit2D hit = Physics2D.Raycast(pos, dir, rayDist, avoidanceMask);
-
-                if (hit.collider == null)
-                {
-                    if (drayRays)
-                        Debug.DrawRay(pos, dir * rayDist, Color.red);
-
-                    continue;
-                }
-
-                if (drayRays)
-                    Debug.DrawLine(pos, hit.point, Color.green);
-
-                Vector2 hitVector = hit.point - pos;
-                hitVector = !useFast ? hitVector.normalized / hitVector.magnitude / rayCount : hitVector.Reciprocal() / rayCount;
-
-                avoidance -= hitVector;
-            }
-
-            if (drayRays)
-                Debug.DrawRay(pos, avoidance * avoidanceMultiplier, Color.blue);
-
-            return avoidance;
+            path = pathfinder.FindPath(components.transform.position, target.position);
+            pathIndex = 0;
         }
     }
 }

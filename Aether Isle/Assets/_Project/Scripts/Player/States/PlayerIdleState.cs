@@ -7,9 +7,13 @@ namespace Game
     {
         CharacterComponents components;
 
-        public PlayerIdleState(CharacterComponents components, Node child = null) : base(null, child)
+        public PlayerIdleState Create(CharacterComponents components, Node child = null)
         {
+            CreateState(child);
+
             this.components = components;
+
+            return this;
         }
 
         protected override void EnterState()

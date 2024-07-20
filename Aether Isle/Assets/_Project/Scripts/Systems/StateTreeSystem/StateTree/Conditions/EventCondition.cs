@@ -8,9 +8,10 @@ namespace StateTree
 
         bool wasTriggered;
 
-        public EventCondition(Action action) : base(null)
+        public EventCondition Create(Action action)
         {
             action += Trigger;
+            return this;
         }
 
         public override bool Calculate()

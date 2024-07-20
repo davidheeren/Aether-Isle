@@ -75,6 +75,12 @@ namespace Utilities
         {
             timeAtStart = Mathf.Infinity;
         }
+
+        public void ForceDone()
+        {
+            timeAtStart = Mathf.NegativeInfinity;
+        }
+
         public void Pause()
         {
             if (isPaused)

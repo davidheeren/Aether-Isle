@@ -121,11 +121,12 @@ MonoBehaviour:
   components:
     animator: {fileID: 4242369315653538834}
     spriteRenderer: {fileID: 3988776961111551003}
-  runSFX: {fileID: 5529298315891190047}
+  runSFXLoop: {fileID: 5529298315891190047}
   playerRoot:
     debugSetup: 0
     debugState: 0
     debugGeneral: 0
+    enabled: 1
   swimState:
     swimSpeed: 2
     aimGraphic: {fileID: 4704538075620284057}
@@ -145,14 +146,14 @@ MonoBehaviour:
       m_Bits: 128
   attackState:
     moveAttackDirSpeed: 2
-    attackPrefab: {fileID: 8749031412601284731, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
+    attackPrefab: {fileID: 6517814105394293651, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
     attackSFX: {fileID: 8300000, guid: bd553016455b53143a890100e4e4c6c6, type: 3}
   swimCondition:
     layerMask:
       serializedVersion: 2
       m_Bits: 16
-    boxOffset: {x: 0, y: -0.35}
-    boxSize: {x: 0.4, y: 0.2}
+    boxOffset: {x: 0, y: -0.4}
+    boxSize: {x: 0.5, y: 0.2}
   dashDuration: 0.25
   dashCooldown: 0.5
   attackDuration: 0.25

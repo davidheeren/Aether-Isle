@@ -18,23 +18,34 @@ namespace Game
         [SerializeField] bool drawRadius;
         [SerializeField] bool drawLOS;
 
-        Transform transform;
-        Ref<Transform> targetRef;
+        CharacterComponents components;
 
+        Ref<Transform> targetRef;
         Collider2D targetCollider;
-        Timer timer;
+
+        Timer lookForTargetTimer;
 
         // For Debuging
         Vector2 losStart;
         Vector2 losEnd;
         Color losColor;
 
-        private FindTargetTask() : base(null, null) { }
-        public FindTargetTask(string copyJson, Transform transform, Ref<Transform> target, Node child = null) : base(copyJson, child)
+        public FindTargetTask Create(CharacterComponents components, Ref<Transform> targetRef, Node child = null)
         {
-            this.targetRef = target;
-            this.transform = transform;
-            timer = new Timer(updateTime);
+            CreateTask(child);
+
+            this.targetRef = targetRef;
+            this.components = components;
+            lookForTargetTimer = new Timer(updateTime);
+
+            components.health.OnDamageParams += OnDamage;
+
+            return this;
+        }
+
+        private void OnDamage(DamageStats damage, Collider2D col, Vector2? dir)
+        {
+            SetTarget(col);
         }
 
         public void DrawRadius(Vector2 pos)
@@ -45,16 +56,17 @@ namespace Game
             Gizmos.DrawWireSphere(pos, detectionRadius);
         }
 
+
         protected override void DoTask()
         {
-            if (timer.isDone)
+            if (lookForTargetTimer.isDone)
             {
                 if (targetRef.value == null)
                     GetNewTarget();
                 else
                     CheckCurrentTarget();
 
-                timer.Reset();
+                lookForTargetTimer.Reset();
             }
 
             DrawLOS();
@@ -62,14 +74,13 @@ namespace Game
 
         void GetNewTarget()
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, detectionRadius, targetMask);
+            Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, detectionRadius, targetMask);
 
             foreach (Collider2D col in cols)
             {
                 if (CheckLOS(col))
                 {
-                    targetRef.value = col.transform;
-                    targetCollider = col;
+                    SetTarget(col);
                     break;
                 }
             }
@@ -82,14 +93,13 @@ namespace Game
         {
             if (!CheckLOS(targetCollider))
             {
-                targetRef.value = null;
-                targetCollider = null;
+                SetTarget(null);
             }
         }
 
         bool CheckLOS(Collider2D col)
         {
-            RaycastHit2D losHit = Physics2D.Raycast(transform.position, (col.transform.position - transform.position).normalized, detectionRadius + 0.5f, losMask | targetMask);
+            RaycastHit2D losHit = Physics2D.Raycast(components.transform.position, (col.transform.position - components.transform.position).normalized, detectionRadius + 0.5f, losMask | targetMask);
 
             if (losHit.collider == null)
             {
@@ -97,7 +107,7 @@ namespace Game
                 return false;
             }
 
-            losStart = transform.position;
+            losStart = components.transform.position;
             losEnd = losHit.point;
 
             if (losHit.collider != col)
@@ -109,6 +119,12 @@ namespace Game
 
             losColor = Color.green;
             return true;
+        }
+
+        void SetTarget(Collider2D col)
+        {
+            targetRef.value = col == null ? null : col.transform;
+            targetCollider = col;
         }
 
         void DrawLOS()

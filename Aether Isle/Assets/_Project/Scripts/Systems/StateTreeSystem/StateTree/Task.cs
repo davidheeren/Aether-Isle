@@ -7,8 +7,9 @@ namespace StateTree
     {
         Node child;
 
-        public Task(string copyJson, Node child) : base(copyJson)
+        protected void CreateTask(Node child)
         {
+            CreateNode();
             this.child = child;
         }
 

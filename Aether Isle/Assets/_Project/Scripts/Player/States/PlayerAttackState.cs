@@ -8,7 +8,7 @@ namespace Game
     public class PlayerAttackState : State
     {
         [SerializeField] float moveAttackDirSpeed = 1f;
-        [SerializeField] GameObject attackPrefab;
+        [SerializeField] CollisionDamage attackPrefab;
         [SerializeField] AudioClip attackSFX;
 
         CharacterComponents components;
@@ -16,11 +16,14 @@ namespace Game
 
         Vector2 initialAimDir;
 
-        private PlayerAttackState() : base(null, null) { }
-        public PlayerAttackState(string copyJson, CharacterComponents components, PlayerAimDirection aim, Node child = null) : base(copyJson, child)
+        public PlayerAttackState Create(CharacterComponents components, PlayerAimDirection aim, Node child = null)
         {
+            CreateState(child);
+
             this.components = components;
             this.aim = aim;
+
+            return this;
         }
 
         protected override void EnterState()
@@ -29,7 +32,8 @@ namespace Game
 
             initialAimDir = aim.aimDir;
 
-            GameObject.Instantiate(attackPrefab, components.transform.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90));
+            CollisionDamage obj = GameObject.Instantiate(attackPrefab, components.transform.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90));
+            obj.SetCollider(components.col);
             SFXManager.Instance.PlaySFXClip(attackSFX, components.transform.position);
             components.animator.Play("Attack", -1, 0); // Resets anim even if already playing
         }

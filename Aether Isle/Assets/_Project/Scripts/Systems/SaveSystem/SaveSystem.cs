@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using UnityEngine;
@@ -7,9 +8,13 @@ namespace Save
     public static class SaveSystem
     {
         //static readonly string saveFolderPath = Application.persistentDataPath + "/Saves"; // More secure but won't show in assets
+        // JsonUtility.ToJson and JsonUtility.FromJson won't work for Dictionaries
+        // Instead we now use JsonConvert.SerializeObject and JsonConvert.DeserializeObject
 
         static readonly string saveFolderPath = Application.dataPath + "/Saves";
-        static readonly string saveFilePath = saveFolderPath + "/Save.txt";
+        static readonly string saveFilePath = saveFolderPath + "/Save.json";
+
+        static readonly bool canDebug = false;
 
         public static event Action OnSave;
 
@@ -18,49 +23,55 @@ namespace Save
         {
             get
             {
-                CheckSaveFile();
-
                 if (_saveObject == null)
                 {
-                    _saveObject = new SaveObject();
-                    LoadData();
+                    Load();
                 }
+
+                #if UNITY_EDITOR
+                if (!File.Exists(saveFilePath)) // Change the check path eventually bc it won't be needed 
+                {
+                    Load();
+                }
+                #endif
 
                 return _saveObject;
             }
+
             set
             {
-
                 _saveObject = value;
-                CheckSaveFile();
-                SaveData();
             }
         }
 
-        static void SaveData()
+        public static void Save()
         {
+            CheckSaveFile();
+
             if (_saveObject == null)
             {
                 Debug.LogError("Cannot save a null object");
                 return;
             }
 
-            string jsonData = JsonUtility.ToJson(_saveObject);
+            string jsonData = JsonConvert.SerializeObject(_saveObject); // Changed to Json.Net
 
             File.WriteAllText(saveFilePath, jsonData);
 
             OnSave?.Invoke();
-            Debug.Log("Saved Data");
+            Log("Saved Data");
         }
 
 
-        static void LoadData()
+        public static void Load()
         {
+            CheckSaveFile();
+
             string jsonData = File.ReadAllText(saveFilePath);
 
-            _saveObject = JsonUtility.FromJson<SaveObject>(jsonData);
+            _saveObject = JsonConvert.DeserializeObject<SaveObject>(jsonData); // Changed to Json.Net
 
-            Debug.Log("Loaded Data");
+            Log("Loaded Data");
         }
 
         static void CheckSaveFile() // ensures that there will always be a save file
@@ -72,15 +83,25 @@ namespace Save
 
             if (!File.Exists(saveFilePath))
             {
-                // Makes a blank file
-                _saveObject = new SaveObject();
-                string jsonData = JsonUtility.ToJson(_saveObject);
+                Clear();
 
-                // Creates new text file and writes to it
-                File.WriteAllText(saveFilePath, jsonData); // also replaces a file already there but this won't happed because we check
-
-                Debug.Log("Created new Save File");
+                Log("Created new Save File");
             }
+        }
+
+        public static void Clear()
+        {
+            _saveObject = new SaveObject();
+
+            string jsonData = JsonConvert.SerializeObject(_saveObject); // Changed to Json.Net
+
+            File.WriteAllText(saveFilePath, jsonData);
+        }
+
+        static void Log(string msg)
+        {
+            if (canDebug)
+                Debug.Log(msg);
         }
     }
 }

@@ -6,11 +6,11 @@ namespace StateTree.Test
 {
     public class StateTreeTest : MonoBehaviour
     {
-        RootState rootState;
+        [SerializeField] RootState rootState;
 
         private void Start()
         {
-            rootState = new RootState(new If(new VirtualCondition(InputCondition), new LockCooldownModifier(1, null, true, new VirtualState(null, UpdateState, null, null))));
+            rootState = new RootState().Create(new If().Create(new VirtualCondition().Create(InputCondition), new LockCooldownModifier().Create(1, null, true, new VirtualState().Create(UpdateMethod: UpdateState))));
         }
 
         private void Update()
