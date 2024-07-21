@@ -1,17 +1,28 @@
+using CustomInspector;
+using Pathfinding;
+using System;
 using UnityEngine;
 
 namespace Game
 {
     public class Test : MonoBehaviour
     {
+        [Button(nameof(UpdateGrid))]
         [SerializeField] Collider2D col;
 
-        private void Update()
-        {
-            Vector3 bottomLeft = col.bounds.center - col.bounds.extents;
-            Vector3 topRight = col.bounds.center + col.bounds.extents;
+        Bounds bounds;
 
-            Debug.DrawLine(bottomLeft, topRight);
+        private void Awake()
+        {
+            bounds = col.bounds;
+        }
+
+        private void UpdateGrid()
+        {
+            PathGrid.Instance.UpdateGrid(bounds);
+
+            if (gameObject.activeInHierarchy)
+                bounds = col.bounds;
         }
     }
 }

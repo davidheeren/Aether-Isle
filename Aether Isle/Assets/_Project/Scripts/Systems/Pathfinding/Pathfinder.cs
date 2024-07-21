@@ -23,9 +23,26 @@ namespace Pathfinding
             System.Diagnostics.Stopwatch sw = new();
             sw.Start();
 
-            Node startNode = pathGrid.GetNodeFromWorldPosition(startPos);
+            Node startNode = pathGrid.GetClosestWalkableNodeFromWorldPosition(startPos);
             startNode.gCost = 0; // ?
-            Node targetNode = pathGrid.GetNodeFromWorldPosition(endPos);
+            Node targetNode = pathGrid.GetClosestWalkableNodeFromWorldPosition(endPos);
+
+            //#region Check start and end nodes
+            //if (!targetNode.walkable)
+            //    Debug.LogWarning("Target Node not walkable");
+
+            //int neighborUnwalkbableCount = 0;
+            //for (int i = 0; i < startNode.neighbors.Count; i++)
+            //{
+            //    if (!startNode.neighbors[i].walkable)
+            //        neighborUnwalkbableCount++;
+            //}
+
+            //if (neighborUnwalkbableCount == startNode.neighbors.Count && !startNode.walkable)
+            //{
+            //    Debug.LogWarning("Start node and neighbors are unwalkable");
+            //}
+            //#endregion
 
             openSet.Clear();
             openSet.Add(startNode);
@@ -66,6 +83,8 @@ namespace Pathfinding
                     }
                 }
             }
+
+            Debug.LogWarning("No Path Found");
             return null;
         }
 

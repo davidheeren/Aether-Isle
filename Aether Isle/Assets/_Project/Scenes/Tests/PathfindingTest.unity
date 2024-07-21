@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 534480659}
-  speed: 2
+  speed: 0
   repeat: 0.5
   drawPath: 1
 --- !u!1 &217967399
@@ -843,7 +843,7 @@ Transform:
   m_GameObject: {fileID: 534480657}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.66, y: 6.46, z: 0}
+  m_LocalPosition: {x: -4, y: -10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1015,7 +1015,7 @@ MonoBehaviour:
   unWalkableMask:
     serializedVersion: 2
     m_Bits: 8
-  initialGridWorldSize: {x: 25, y: 25}
+  initialGridWorldSize: {x: 35, y: 35}
   nodeDiameter: 1
   overlapCircleOffset: -0.02
   pathLayers:
@@ -1023,7 +1023,6 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 16
     penalty: 50
-  drawGrid: 1
 --- !u!4 &1420158742
 Transform:
   m_ObjectHideFlags: 0
@@ -1370,13 +1369,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943597019}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.52130675, w: 0.8533694}
-  m_LocalPosition: {x: -4.31, y: -3.89, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -5, y: -10, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1593648936}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -62.84}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!61 &1943597021
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -58,8 +58,16 @@ namespace Game
             else
                 UpdatePath();
 
-            if (path == null) return;
-            if (path.Length == 0) return;
+            if (path == null)
+            {
+                Debug.Log("Path is null");
+                return;
+            }
+            if (path.Length == 0)
+            {
+                Debug.Log("Path length is 0");
+                return;
+            }
 
             if ((path[pathIndex] - (Vector2)components.transform.position).sqrMagnitude < nextWaypointDist * nextWaypointDist)
             {

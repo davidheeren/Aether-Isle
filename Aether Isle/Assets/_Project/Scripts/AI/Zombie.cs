@@ -31,7 +31,7 @@ namespace Game
             components.Setup(this);
             aiMovement.Setup(targetRef, components);
 
-            Node chaseBranch = findTarget.Create(components, targetRef, new If().Create(new Not().Create(new NullCondition<Transform>().Create(targetRef)), new LockCooldownModifier().Create(rememberTargetTime, 1, true,chaseState.Create(aiMovement, components.animator))));
+            Node chaseBranch = findTarget.Create(components, targetRef, new If().Create(new Not().Create(new NullCondition<Transform>().Create(targetRef)), new LockCooldownModifier().Create(rememberTargetTime, 1, true, chaseState.Create(aiMovement, components.animator))));
             Node moveBranch = new HolderState().Create(new Selector().Create(new Node[] { chaseBranch, new CharacterIdleState().Create(components.animator) }));
 
             enemyRoot.Create(new Selector().Create(new Node[] {

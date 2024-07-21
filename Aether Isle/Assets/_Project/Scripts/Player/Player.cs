@@ -8,7 +8,6 @@ namespace Game
     {
         [Header("General Vars")]
         [SerializeField] CharacterComponents components;
-        [SerializeField] SFXLoop runSFXLoop;
 
         [Header("States")]
         [SerializeField] RootState playerRoot;
@@ -45,7 +44,7 @@ namespace Game
 
             // State Branches
             Node swimBranch = swimState.Create(components);
-            Node runBranch = runState.Create(components, runSFXLoop);
+            Node runBranch = runState.Create(components);
             Node dashBranch = new LockNullModifier().Create(dashDuration, 1, dashCooldown, dashState.Create(components));
             Node attackBranch = new LockNullModifier().Create(attackDuration, 2, attackCooldown, attackState.Create(components, aim));
             Node idleBranch = new PlayerIdleState().Create(components);
