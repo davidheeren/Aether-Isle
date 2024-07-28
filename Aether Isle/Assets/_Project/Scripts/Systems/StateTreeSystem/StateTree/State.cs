@@ -17,6 +17,15 @@ namespace StateTree
         [NonSerialized] public bool isLocked = false; // Locks current sub state from changing
         [NonSerialized] public bool canReenter = false; // Exits then enters itself if locked and evaluated
 
+        [NonSerialized] public int defaultPriority = 0;
+        public delegate int _Priority();
+        public _Priority Priority;
+        public State SetDefaultPriority(int defaultPriority)
+        {
+            this.defaultPriority = defaultPriority;
+            return this;
+        }
+
         public Action OnPreExitState;
 
         public Action OnEnterState;
@@ -26,6 +35,8 @@ namespace StateTree
         public State(string copyJson, Node child) : base(copyJson)
         {
             this.child = child;
+
+            Priority = () => defaultPriority;
         }
 
         protected override void SetChildrenParentRelationships() => AddChild(child);
@@ -86,7 +97,7 @@ namespace StateTree
         protected virtual void EnterState() { if (rootState.debugState) Debug.Log("Enter: " + name); }
         protected virtual void UpdateState() { }
         protected virtual void FixedUpdateState() { }
-        protected virtual void ExitState() { if (rootState.debugState) Debug.Log("Exit: " + name); }
+        protected virtual void ExitState() { }
         #endregion
 
         protected void SetCurrentSubState(State _possibleSubState, ref State _currentSubState)
@@ -111,19 +122,6 @@ namespace StateTree
         }
 
         #region SuperStates
-        State GetFirstSuperState(Node startNode) 
-        {
-            // Excludes the start node
-
-            if (startNode.parent == null)
-                return null;
-
-            if (startNode.parent is State)
-                return (State)startNode.parent;
-
-            return GetFirstSuperState(startNode.parent);
-        }
-
         void SetAllSuperStates(Node startNode)
         {
             State firstState = GetFirstSuperState(startNode);
@@ -138,7 +136,7 @@ namespace StateTree
         /// <summary>
         /// Locks or unlocks all states "above" it
         /// </summary>
-        /// <param name="depth"></param>
+        /// <param name="depth">If null all states to the root are locked</param>
         /// <param name="isLock"></param>
         public void LockSuperStates(int? depth, bool isLock)
         {

@@ -1,22 +1,25 @@
 
 ----Inheritance Overview----
 
-Copyable
-	Node
-		*State
-			RootState
-			HolderState
-			VirtualState
-		*Modifier
-			LockDurationModifier
-			LockIfModifier
-			NullDurationModifier
-			NullCooldownModifier
-			LockNullModifier
-		Selector
-		TwoSelector
-		If
-	*Comparison
+Node
+	*State
+		RootState
+		HolderState
+		VirtualState
+	*Modifier
+		LockDurationModifier
+		LockIfModifier
+		NullDurationModifier
+		NullCooldownModifier
+		LockNullModifier
+		LockCooldownModifier--
+		PriorityModifier--
+	Selector
+	Sequence--
+	PrioritySelector--
+	If
+	Task--
+	*Condition
 		VirtualCondition
 		EventCondition
 		Not
@@ -28,15 +31,11 @@ Copyable
 
 ----Class Overview----
 
--Copyable
-	-has a CopyJson() fucntion
-	-because we set up the tree with constructors and create new instances, it is useful to be able to copy all the serializable data from a serialized class in the inspector
-
 -Node 
 	-the class that the state tree is made up of
 	-has a Evaluate() funciton that returns the best State class "below" it
 	-has one parent Node and a list of all child Nodes
-	-has a Setup() function that is called once the RootNode has been instantiated
+	-has a Setup() function that is called once the RootNode has been created
 
 -State
 	-class where actual behavior code is written
@@ -88,7 +87,7 @@ Copyable
 	-if the condition is true, it returns the child Nodes Evaluate()
 	-else, it returns null
 
--Comparison
+-Condition
 	-has a Calculate() funciton that returns a bool
 
 -VirtualCondition

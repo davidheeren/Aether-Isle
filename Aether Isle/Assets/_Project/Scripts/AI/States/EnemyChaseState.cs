@@ -5,15 +5,19 @@ using UnityEngine;
 namespace Game
 {
     [Serializable]
-    public class ZombieChaseState : State
+    public class EnemyChaseState : State
     {
         [SerializeField] float chaseSpeed = 3;
 
         AIMovement aiMovement;
         Animator animator;
 
+<<<<<<< Updated upstream:Aether Isle/Assets/_Project/Scripts/AI/States/ZombieChaseState.cs
         private ZombieChaseState() : base(null, null) { }
         public ZombieChaseState(string copyJson, AIMovement aiMovement, Animator animator, Node child = null) : base(copyJson, child)
+=======
+        public EnemyChaseState Create(AIMovement aiMovement, Animator animator, Node child = null)
+>>>>>>> Stashed changes:Aether Isle/Assets/_Project/Scripts/AI/States/EnemyChaseState.cs
         {
             this.aiMovement = aiMovement;
             this.animator = animator;

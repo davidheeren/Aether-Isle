@@ -60,7 +60,14 @@ namespace Save
 
             _saveObject = JsonUtility.FromJson<SaveObject>(jsonData);
 
+<<<<<<< Updated upstream
             Debug.Log("Loaded Data");
+=======
+            if (_saveObject.version != Application.version)
+                UpdateSaveVersion();
+
+            Log("Loaded Data");
+>>>>>>> Stashed changes
         }
 
         static void CheckSaveFile() // ensures that there will always be a save file
@@ -82,5 +89,33 @@ namespace Save
                 Debug.Log("Created new Save File");
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        public static void Clear()
+        {
+            _saveObject = new SaveObject();
+            _saveObject.version = Application.version;
+
+            string jsonData = JsonConvert.SerializeObject(_saveObject); // Changed to Json.Net
+
+            File.WriteAllText(saveFilePath, jsonData);
+        }
+
+        static void UpdateSaveVersion()
+        {
+            // Update old save version logic
+            _saveObject.version = Application.version;
+            Save();
+
+            Log("Updated Old save Version");
+        }
+
+        static void Log(string msg)
+        {
+            if (canDebug)
+                Debug.Log(msg);
+        }
+>>>>>>> Stashed changes
     }
 }

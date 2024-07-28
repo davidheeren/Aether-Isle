@@ -164,9 +164,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveCopy:
+<<<<<<< Updated upstream
     coins: 364
   loadCopy:
     coins: 364
+=======
+    version: 
+    coins: 110
+    timeAtLastUnload: 3.14
+  loadCopy:
+    version: 1.0
+    coins: 0
+    timeAtLastUnload: 2762.136
+  button: 
+>>>>>>> Stashed changes
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

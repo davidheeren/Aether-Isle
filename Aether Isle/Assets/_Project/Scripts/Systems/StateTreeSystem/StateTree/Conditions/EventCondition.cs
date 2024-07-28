@@ -6,24 +6,21 @@ namespace StateTree
     {
         // This could return true a frame after the event if triggered
 
-        bool wasTriggered;
+        EventSwitch eventSwitch;
 
         public EventCondition(Action action) : base(null)
         {
+<<<<<<< Updated upstream
             action += Trigger;
+=======
+            eventSwitch = new EventSwitch(ref action);
+            return this;
+>>>>>>> Stashed changes
         }
 
         public override bool Calculate()
         {
-            bool trigger = wasTriggered;
-            wasTriggered = false;
-
-            return trigger;
-        }
-
-        void Trigger()
-        {
-            wasTriggered = true;
+            return eventSwitch.happened;
         }
     }
 }

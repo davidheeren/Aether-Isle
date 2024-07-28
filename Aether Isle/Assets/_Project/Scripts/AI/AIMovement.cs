@@ -13,6 +13,7 @@ namespace Game
         [SerializeField] float randomOffsetRange = 2;
         [SerializeField] float evaluateDirTime = 0.25f;
 
+<<<<<<< Updated upstream
         [SerializeField] int rayCount = 25;
         [SerializeField] float rayDist = 2;
         [SerializeField] float avoidanceMultiplier = 10;
@@ -26,8 +27,15 @@ namespace Game
 
         Ref<Transform> targetRef = new Ref<Transform>();
 
-        CharacterComponents components;
+=======
+        ObstacleAvoidance obstacleAvoidance;
+        Pathfinder pathfinder;
 
+>>>>>>> Stashed changes
+        CharacterComponents components;
+        TargetInfo targetInfo;
+
+<<<<<<< Updated upstream
         Timer timer;
         Transform target;
 
@@ -37,16 +45,43 @@ namespace Game
             this.components = componenets;
 
             timer = new Timer(evaluateDirTime);
+=======
+        Timer evaluatePathTimer;
+
+        Vector2[] path;
+        int pathIndex;
+        Vector2 offset;
+
+
+        public void Setup(TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, CharacterComponents components)
+        {
+            this.targetInfo = targetInfo;
+            this.obstacleAvoidance = obstacleAvoidance;
+            this.components = components;
+
+            evaluatePathTimer = new Timer(evaluateDirTime);
+
+            pathfinder = new Pathfinder(PathGrid.Instance);
+>>>>>>> Stashed changes
         }
 
         public void Enter()
         {
+<<<<<<< Updated upstream
             UpdateTargetPos();
             timer.Reset();
+=======
+            evaluatePathTimer?.ForceDone();
+>>>>>>> Stashed changes
         }
 
+        /// <summary>
+        /// Updates the AI movement by checking if the target direction timer is done, updating the path, and moving towards the target position.
+        /// </summary>
+        /// <param name="speed">The speed at which the AI should move</param>
         public void Update(float speed)
         {
+<<<<<<< Updated upstream
             if (timer.isDone)
             {
                 UpdateTargetPos();
@@ -61,13 +96,55 @@ namespace Game
             dir = dir.normalized + Avoidance() * avoidanceMultiplier;
             dir.Normalize();
             components.movement.Move(dir * speed);
+=======
+            if (!targetInfo.isActive)
+                Debug.LogError("Target is not active");
+
+            // If the target direction timer is done, update the path and reset the timer
+            if (evaluatePathTimer.isDone)
+            {
+                UpdatePath();
+                evaluatePathTimer.Reset();
+            }
+
+            // Return if the path is null
+            if (path == null)
+                return;
+
+            // Check if the path is not empty
+            if (path.Length != 0)
+            {
+                // Check if the AI is close to the next waypoint in the path
+                if ((path[pathIndex] - (Vector2)components.transform.position).sqrMagnitude < nextWaypointDist * nextWaypointDist)
+                {
+                    // Move to the next waypoint if available
+                    if (pathIndex < path.Length - 1)
+                        pathIndex++;
+                }
+            }
+
+            // Determine the target position for the AI to move towards
+            Vector2 targetPos = pathIndex == path.Length - 1 || path.Length == 0 ? targetInfo.SmartPosition.Value + offset : path[pathIndex];
+
+            // Return if the AI is already close to the target position
+            if ((targetPos - (Vector2)components.transform.position).sqrMagnitude < 0.2f * 0.2f) // less than 0.2 units
+                return;
+
+            // Move the AI towards the target position using obstacle avoidance and the specified speed
+            components.movement.Move(obstacleAvoidance.GetDir(targetPos) * speed);
+
+            // Draw the current path for debugging purposes
+            pathfinder.DrawPath();
+>>>>>>> Stashed changes
         }
 
         void UpdateTargetPos()
         {
-            if (targetRef.value != null)
-                target = targetRef.value;
+            offset = Vector2.zero;
+            if (targetInfo.hasLOS)
+                offset = UnityEngine.Random.insideUnitCircle * randomOffsetRange;
 
+<<<<<<< Updated upstream
             if (target == null)
                 return;
 
@@ -119,6 +196,10 @@ namespace Game
                 Debug.DrawRay(pos, avoidance * avoidanceMultiplier, Color.blue);
 
             return avoidance;
+=======
+            path = pathfinder.FindPath(components.transform.position, targetInfo.SmartPosition.Value);
+            pathIndex = 0;
+>>>>>>> Stashed changes
         }
     }
 }

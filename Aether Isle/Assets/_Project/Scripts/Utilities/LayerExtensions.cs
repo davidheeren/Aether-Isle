@@ -20,5 +20,9 @@ namespace Utilities
             return 1 << layerIndex;
         }
 
+        public static LayerMask GetLayerMask(this int layer)
+        {
+            return (LayerMask)(1 << layer);
+        }
     }
 }

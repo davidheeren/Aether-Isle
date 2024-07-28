@@ -19,7 +19,10 @@ namespace StateTree
         public void UpdateStateTree()
         {
             Evaluate();
+<<<<<<< Updated upstream:Aether Isle/Assets/_Project/Scripts/Systems/StateTreeSystem/StateTree/RootState.cs
             //EnterStateWrapper();
+=======
+>>>>>>> Stashed changes:Aether Isle/Assets/_Project/Scripts/Systems/StateTreeSystem/StateTree/States/RootState.cs
             UpdateStateWrapper();
         }
 

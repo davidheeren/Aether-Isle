@@ -44,11 +44,25 @@ namespace Game
             swimCondition = new CheckGroundCondition(swimCondition.CopyJson(), transform);
 
             // State Branches
+<<<<<<< Updated upstream
             Node swimBranch = new PlayerSwimState(swimState.CopyJson(), components);
             Node runBranch = new PlayerRunState(runState.CopyJson(), components, runSFX);
             Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, new PlayerDashState(dashState.CopyJson(), components));
             Node attackBranch = new LockNullModifier(attackDuration, 2, attackCooldown, new PlayerAttackState(attackState.CopyJson(), components, aim));
             Node idleBranch = new PlayerIdleState(components);
+=======
+            Node idleBranch = new PlayerIdleState().Create(components);
+            Node swimBranch = swimState.Create(components);
+            Node runBranch = runState.Create(components);
+            Node dashBranch = new LockNullModifier().Create(dashDuration, 1, dashCooldown, dashState.Create(components));
+            Node attackBranch = new LockNullModifier().Create(attackDuration, 2, attackCooldown, attackState.Create(components, aim));
+
+            //Node dashSequence = new Sequence().Create(new Node[]
+            //{
+            //    new If().Create(new VirtualCondition().Create(DashCondition), dashBranch),
+            //    new LockDurationModifier().Create(1, 1, new PlayerIdleState().Create(components))
+            //});
+>>>>>>> Stashed changes
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(new Node[] {

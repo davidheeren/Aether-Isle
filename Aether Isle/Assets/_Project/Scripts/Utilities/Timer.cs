@@ -18,11 +18,18 @@ namespace Utilities
 
         public Timer(float delay)
         {
+            SetDelay(delay);
+        }
+
+        public Timer SetDelay(float delay)
+        {
             timeAtStart = Time.time;
             this.delay = delay;
 
-            if (delay <= 0)
-                Debug.LogError("Delay cannot be less than or equal to 0");
+            if (delay < 0)
+                Debug.LogError("Delay cannot be less than 0");
+
+            return this;
         }
 
         float currentPauseDeltaTime
@@ -63,24 +70,40 @@ namespace Utilities
             }
         }
 
-        public void Reset()
+        public Timer Reset()
         {
             timeAtStart = Time.time;
             isPaused = false;
             wasPaused = false;
             totalPauseTime = 0;
+
+            return this;
         }
 
-        public void Stop()
+        public Timer Stop()
         {
             timeAtStart = Mathf.Infinity;
+
+            return this;
         }
+<<<<<<< Updated upstream
         public void Pause()
+=======
+
+        public Timer ForceDone()
+        {
+            timeAtStart = Mathf.NegativeInfinity;
+
+            return this;
+        }
+
+        public Timer Pause()
+>>>>>>> Stashed changes
         {
             if (isPaused)
             {
                 Debug.LogWarning("Paused SimpleTimer while already paused");
-                return;
+                return this;
             }
 
             if (wasPaused) // incudes previous pause times
@@ -89,17 +112,21 @@ namespace Utilities
             isPaused = true;
             wasPaused = true;
             timeAtPause = Time.time;
+
+            return this;
         }
-        public void Resume()
+        public Timer Resume()
         {
             if (!isPaused)
             {
                 Debug.LogWarning("Resumed SimpleTimer while already resumed");
-                return;
+                return this;
             }
 
             isPaused = false;
             timeAtResume = Time.time;
+
+            return this;
         }
     }
 }

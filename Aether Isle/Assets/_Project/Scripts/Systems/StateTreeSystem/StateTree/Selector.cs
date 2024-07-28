@@ -2,11 +2,25 @@
 {
     public class Selector : Node
     {
+        // TODODODODDODODODODOD
         Node[] _children; // "_" Because we already have a children var in Node
 
         public Selector(Node[] _children) : base(null)
         {
+<<<<<<< Updated upstream
+=======
+            CreateNode();
+
+>>>>>>> Stashed changes
             this._children = _children;
+        }
+
+        protected override void SetChildrenParentRelationships()
+        {
+            foreach (Node child in _children)
+            {
+                AddChild(child);
+            }
         }
 
         public override State Evaluate() // Goes through each child and returns the first one that is not null
@@ -20,14 +34,6 @@
                     break;
             }
             return state;
-        }
-
-        protected override void SetChildrenParentRelationships()
-        {
-            foreach (Node child in _children)
-            {
-                AddChild(child);
-            }
         }
     }
 }

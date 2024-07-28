@@ -7,8 +7,13 @@ namespace Game
     [Serializable]
     public class PlayerAttackState : State
     {
+<<<<<<< Updated upstream
         [SerializeField] float moveAttackDirSpeed = 1f;
         [SerializeField] GameObject attackPrefab;
+=======
+        [SerializeField] float moveAttackSpeed = 1f;
+        [SerializeField] CollisionDamage attackPrefab;
+>>>>>>> Stashed changes
         [SerializeField] AudioClip attackSFX;
 
         CharacterComponents components;
@@ -38,7 +43,7 @@ namespace Game
         {
             base.UpdateState();
 
-            components.movement.Move(initialAimDir * moveAttackDirSpeed);
+            components.movement.Move(initialAimDir * moveAttackSpeed);
         }
     }
 }

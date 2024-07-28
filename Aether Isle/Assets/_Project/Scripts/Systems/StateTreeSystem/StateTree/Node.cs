@@ -9,16 +9,30 @@ namespace StateTree
     {
         protected RootState rootState;
 
-        public Node parent;
+        [NonSerialized] public Node parent;
         public List<Node> children = new List<Node>();
 
         [NonSerialized] public string name;
 
+<<<<<<< Updated upstream
         public Node(string copyJson) : base(copyJson) // I don't need an overflow constructor because this is an abstract class
+=======
+        bool isCreated;
+
+        protected void CreateNode()
+>>>>>>> Stashed changes
         {
             // Sets default name to the type
             if (String.IsNullOrEmpty(name))
                 name = this.GetType().Name;
+
+            isCreated = true;
+        }
+
+        public Node SetName(string name)
+        {
+            this.name = name;
+            return this;
         }
 
         /// <summary>
@@ -69,6 +83,9 @@ namespace StateTree
         /// </summary>
         protected virtual void Setup()
         {
+            if (!isCreated)
+                Debug.LogError("Node of type " + name + " has not been created yet");
+
             if (!rootState.debugSetup)
                 return;
 
@@ -88,6 +105,23 @@ namespace StateTree
                 log += "\nNo children";
 
             Debug.Log(log);
+        }
+
+        /// <summary>
+        /// Gets the first super state of the given node, excluding the start node.
+        /// </summary>
+        /// <param name="startNode">The node to start searching for the super state.</param>
+        protected State GetFirstSuperState(Node startNode)
+        {
+            // Excludes the start node
+
+            if (startNode.parent == null)
+                return null;
+
+            if (startNode.parent is State)
+                return (State)startNode.parent;
+
+            return GetFirstSuperState(startNode.parent);
         }
     }
 }
