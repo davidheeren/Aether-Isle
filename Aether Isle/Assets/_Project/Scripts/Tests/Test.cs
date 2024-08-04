@@ -1,17 +1,27 @@
+using EventSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game
 {
     public class Test : MonoBehaviour
     {
-        [SerializeField] Collider2D col;
+        [SerializeField] GameEvent gameEvent;
+
+        int index;
 
         private void Update()
         {
-            Vector3 bottomLeft = col.bounds.center - col.bounds.extents;
-            Vector3 topRight = col.bounds.center + col.bounds.extents;
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                index++;
+                gameEvent.Raise();
+            }
+        }
 
-            Debug.DrawLine(bottomLeft, topRight);
+        public void ReceiveEvent(GameEventData data)
+        {
+            Debug.Log(data.GetData<float>());
         }
     }
 }

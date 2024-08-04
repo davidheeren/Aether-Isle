@@ -1,3 +1,4 @@
+using EventSystem;
 using UnityEngine;
 using Utilities;
 
@@ -9,10 +10,10 @@ namespace Game
         [SerializeField] bool hardLock = false;
         [SerializeField] float decay = 10;
 
-        private void Awake()
+        public void OnPlayerSpawn(GameEventData data)
         {
             if (target == null)
-                target = GameObject.FindGameObjectWithTag("Player").transform;
+                target = data.GetData<GameObject>().transform;
 
             if (target != null)
                 SetPos(target.position);
