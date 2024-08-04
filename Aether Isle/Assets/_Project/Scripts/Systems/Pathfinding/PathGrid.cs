@@ -24,7 +24,13 @@ namespace Pathfinding
         {
             get
             {
-                return new Vector2Int(Mathf.CeilToInt(initialGridWorldSize.x / nodeDiameter), Mathf.CeilToInt(initialGridWorldSize.y / nodeDiameter));
+                Vector2Int size = new Vector2Int(Mathf.CeilToInt(initialGridWorldSize.x / nodeDiameter), Mathf.CeilToInt(initialGridWorldSize.y / nodeDiameter));
+                // This makes it centered on the grid
+                if (size.x % 2 == 1)
+                    size.x++;
+                if (size.y % 2 == 1)
+                    size.y++;
+                return size;
             }
         }
         Vector2 gridWorldSize { get { return (Vector2)gridSize * nodeDiameter; } }
@@ -71,19 +77,12 @@ namespace Pathfinding
             grid = new Node[gridSize.x, gridSize.y];
             positionAtGridCreation = transform.position;
 
-            Vector2 bottomLeft = positionAtGridCreation - new Vector2(gridWorldSize.x / 2, gridWorldSize.y / 2);
-
-            LayerMask allPenaltiesMask = new LayerMask();
-            foreach (PathLayer p in pathLayers)
-            {
-                allPenaltiesMask |= p.mask;
-            }
 
             for (int i = 0; i < gridSize.x; i++)
             {
                 for (int j = 0; j < gridSize.y; j++)
                 {
-                    CreateNode(bottomLeft, new Vector2Int(i, j), allPenaltiesMask);
+                    CreateNode(new Vector2Int(i, j));
                 }
             }
 
@@ -93,16 +92,37 @@ namespace Pathfinding
             }
 
             sw.Stop();
-            print("Grid created in " + sw.ElapsedMilliseconds + " ms");
+            print("Pathfinding grid created in " + sw.ElapsedMilliseconds + " ms");
         }
 
         public void UpdateGrid(Bounds bounds)
         {
+            Node bottomLeft = GetNodeFromWorldPosition(bounds.center - bounds.extents);
+            Node topRight = GetNodeFromWorldPosition(bounds.center + bounds.extents);
 
+            for (int i = bottomLeft.gridPosition.x - 1; i <= topRight.gridPosition.x + 1; i++)
+            {
+                for (int j = bottomLeft.gridPosition.y - 1; j <= topRight.gridPosition.y + 1; j++)
+                {
+                    if (OutsideOfGrid(i, j))
+                        continue;
+
+                    CreateNode(new Vector2Int(i, j));
+                }
+            }
+
+            SceneView.RepaintAll();
         }
 
-        void CreateNode(Vector2 bottomLeft, Vector2Int gridPos, LayerMask allPenaltiesMask)
+        void CreateNode(Vector2Int gridPos)
         {
+            LayerMask allPenaltiesMask = new LayerMask();
+            foreach (PathLayer p in pathLayers)
+            {
+                allPenaltiesMask |= p.mask;
+            }
+
+            Vector2 bottomLeft = positionAtGridCreation - new Vector2(gridWorldSize.x / 2, gridWorldSize.y / 2);
             Vector2 worldPos = bottomLeft + new Vector2(gridPos.x * nodeDiameter + nodeDiameter / 2, gridPos.y * nodeDiameter + nodeDiameter / 2);
 
             bool walkable = !Physics2D.OverlapCircle(worldPos, nodeDiameter / 2 + overlapCircleOffset, unWalkableMask);
@@ -143,6 +163,74 @@ namespace Pathfinding
             return grid[x, y];
         }
 
+        public Node GetClosestWalkableNodeFromWorldPosition(Vector2 position)
+        {
+            // Works but might be a more intuitive use the grid position and an offset to get the radius
+            Node startNode = GetNodeFromWorldPosition(position);
+
+            if (startNode.walkable)
+                return startNode;
+
+            for (int depth = 1; depth <= 10; depth++)
+            {
+                List<Node> walkableNodes = new List<Node>();
+
+                // Diagonals
+                AddPerimeter(depth, depth);
+                AddPerimeter(depth, -depth);
+                AddPerimeter(-depth, depth);
+                AddPerimeter(-depth, -depth);
+
+                for (int i = -(depth - 1); i <= depth - 1; i++)
+                {
+                    // Horizontal Lines
+                    AddPerimeter(i, depth);
+                    AddPerimeter(i, -depth);
+
+                    // Vertical Lines
+                    AddPerimeter(depth, i);
+                    AddPerimeter(-depth, i);
+                }
+
+                void AddPerimeter(int offsetX, int offsetY)
+                {
+                    int x = startNode.gridPosition.x + offsetX;
+                    int y = startNode.gridPosition.y + offsetY;
+
+                    if (OutsideOfGrid(x, y))
+                        return;
+
+                    if (grid[x, y].walkable)
+                        walkableNodes.Add(grid[x, y]);
+                }
+
+                if (walkableNodes.Count == 0)
+                    continue;
+
+                int closestIndex = 0;
+                float closestSqrDist = (walkableNodes[closestIndex].worldPosition - position).sqrMagnitude;
+
+                for (int i = 1; i < walkableNodes.Count; i++)
+                {
+                    float currentSqrDist = (walkableNodes[i].worldPosition - position).sqrMagnitude;
+
+                    if (currentSqrDist < closestSqrDist)
+                    {
+                        closestIndex = i;
+                        closestSqrDist = currentSqrDist;
+                    }
+                }
+
+                if (depth > 1) // It's ok if the depth is one but probably a problem after
+                    Debug.LogWarning("Walkable node found at depth of: " + depth);
+
+                return walkableNodes[closestIndex];
+            }
+
+            Debug.LogWarning("Walkable node not found");
+            return null;
+        }
+
         List<Node> GetNeighbors(Vector2Int gridPos)
         {
             List<Node> neighbors = new List<Node>();
@@ -165,6 +253,11 @@ namespace Pathfinding
             }
 
             return neighbors;
+        }
+
+        bool OutsideOfGrid(int x, int y)
+        {
+            return x < 0 || x >= grid.GetLength(0) || y < 0 || y >= grid.GetLength(1);
         }
 
         [Serializable]

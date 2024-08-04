@@ -123,7 +123,6 @@ MonoBehaviour:
   components:
     animator: {fileID: 4242369315653538834}
     spriteRenderer: {fileID: 3988776961111551003}
-  runSFXLoop: {fileID: 5529298315891190047}
   playerRoot:
     debugSetup: 0
     debugState: 0
@@ -140,6 +139,7 @@ MonoBehaviour:
     dieSFX: {fileID: 8300000, guid: 8a9eb1719bbf26d42bc1b0f9734f0f2f, type: 3}
   runState:
     runSpeed: 5
+    runSFXLoop: {fileID: 5529298315891190047}
   dashState:
     dashSpeed: 12
     dashSFX: {fileID: 8300000, guid: 23a0d389d6ce55c44975f38be39a1b51, type: 3}
