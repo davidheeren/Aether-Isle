@@ -1,0 +1,193 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace SpriteAnimator
+{
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class SpriteAnimatorController : MonoBehaviour
+    {
+        [SerializeField] float fps = 12;
+        [SerializeField] bool playFirsAnimationOnAwake;
+        [SerializeField] SpriteAnimation[] animations;
+
+        SpriteRenderer sr;
+        Sprite initialSprite;
+        Dictionary<string, SpriteAnimation> animationsDictionary = new Dictionary<string, SpriteAnimation>();
+
+        public SpriteAnimation currentAnimation { get; private set; }
+        public float currentAnimationTime { get; private set; }
+        public float animationDelay { get; private set; }
+        public bool isPaused { get; private set; }
+        public bool isStopped { get; private set; }
+
+        int currentSpriteIndex;
+
+        public event Action OnAnimationStart;
+        public event Action OnAnimationDone;
+        public event Action OnSpriteChanged;
+        public event Action OnAnimationChanged;
+
+        void Awake()
+        {
+            sr = GetComponent<SpriteRenderer>();
+            initialSprite = sr.sprite;
+            animationDelay = 1 / fps;
+
+            SetupDictionary();
+            SetupFirstAnimation();
+        }
+
+        void SetupFirstAnimation()
+        {
+            if (animations.Length > 0)
+            {
+                currentAnimation = animations[0];
+                isStopped = true;
+
+                if (playFirsAnimationOnAwake)
+                    Play(currentAnimation);
+            }
+        }
+
+        void SetupDictionary()
+        {
+            foreach (SpriteAnimation anim in animations)
+            {
+                if (string.IsNullOrEmpty(anim.animationName))
+                    continue;
+
+                if (animationsDictionary.ContainsKey(anim.animationName))
+                    Debug.LogError("Animator Controller contains multiple animations with the same name: " + anim.animationName);
+                else
+                    animationsDictionary[anim.animationName] = anim;
+            }
+        }
+
+        void Update()
+        {
+            UpdateAnimation();
+        }
+
+        void UpdateAnimation()
+        {
+            if (currentAnimation == null) return;
+            if (isPaused || isStopped) return;
+
+            // Go to the next sprite
+            if (currentAnimationTime >= animationDelay * (currentSpriteIndex + 1))
+            {
+                currentSpriteIndex++;
+
+                // Animation done
+                if (currentSpriteIndex >= currentAnimation.Sprites.Length - 1)
+                {
+                    OnAnimationDone?.Invoke();
+
+                    if (currentAnimation.loop)
+                        Restart();
+                    else
+                    {
+                        Stop();
+                        return;
+                    }
+                }
+
+                sr.sprite = currentAnimation.Sprites[currentSpriteIndex];
+                OnSpriteChanged?.Invoke();
+            }
+
+            // Tick animation if not paused
+            currentAnimationTime += Time.deltaTime;
+        }
+
+        public void Play(SpriteAnimation animation)
+        {
+            if (currentAnimation != animation) OnAnimationChanged?.Invoke();
+            currentAnimation = animation;
+            Restart();
+        }
+
+        public void Play(string animationName)
+        {
+            Play(GetAnimation(animationName));
+        }
+
+        public void Play(int index)
+        {
+            Play(GetAnimation(index));
+        }
+
+        public void Restart()
+        {
+            currentAnimationTime = 0;
+            currentSpriteIndex = 0;
+            isPaused = false;
+            isStopped = false;
+
+
+            if (currentAnimation != null)
+            {
+                OnAnimationStart?.Invoke();
+
+                sr.sprite = currentAnimation.Sprites[currentSpriteIndex];
+                OnSpriteChanged?.Invoke();
+            }
+        }
+
+        public void Stop()
+        {
+            isStopped = true;
+
+            if (currentAnimation == null) return;
+
+            // Handles the end of the animation
+            // If lastSprite, we do nothing because it already is that sprite
+            switch (currentAnimation.animationEnd)
+            {
+                case SpriteAnimation.AnimationEnd.initialSprite:
+                    sr.sprite = initialSprite;
+                    break;
+                case SpriteAnimation.AnimationEnd.firstSprite:
+                    sr.sprite = currentAnimation.Sprites[0];
+                    break;
+                case SpriteAnimation.AnimationEnd.empty:
+                    sr.sprite = null;
+                    break;
+            }
+        }
+
+        public void Pause()
+        {
+            isPaused = true;
+        }
+
+        public void Continue()
+        {
+            isPaused = false;
+        }
+
+        public SpriteAnimation GetAnimation(string animationName)
+        {
+            if (animationsDictionary.TryGetValue(animationName, out SpriteAnimation anim))
+                return anim;
+
+            Debug.LogWarning("Animation name not found: " + animationName);
+            return null;
+        }
+
+        public SpriteAnimation GetAnimation(int index)
+        {
+            if (index >= 0 && index < animations.Length)
+                return animations[index];
+
+            Debug.LogWarning("Animation index out of range: " + index);
+            return null;
+        }
+
+        public float GetAnimationLength(SpriteAnimation anim)
+        {
+            return anim.Sprites.Length * animationDelay;
+        }
+    }
+}

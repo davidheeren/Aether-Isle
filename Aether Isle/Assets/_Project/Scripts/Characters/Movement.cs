@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Game
@@ -15,10 +16,10 @@ namespace Game
         float currentDeceleration;
 
         public Vector2 targetVelocity { get; private set; }
+        public Rigidbody2D rb { get; private set; }
 
         bool wasSetLastFrame;
 
-        Rigidbody2D rb;
 
         private void Awake()
         {
@@ -44,20 +45,20 @@ namespace Game
 
             Vector2 deltaVelocity = targetVelocity - rb.velocity;
 
-            float acceleration = targetVelocity != Vector2.zero ? currentAcceleration : currentDeceleration;
-            //float acceleration = wasSetLastFrame ? currentAcceleration : currentDeceleration;
+            //float acceleration = targetVelocity != Vector2.zero ? currentAcceleration : currentDeceleration;
+            float acceleration = wasSetLastFrame ? currentAcceleration : currentDeceleration;
 
 
             rb.AddForce(deltaVelocity * acceleration);
 
             ResetValues();
-            wasSetLastFrame = false;
         }
 
         void ResetValues()
         {
             currentAcceleration = defaultAcceleration;
             currentDeceleration = defaultDeceleration;
+            wasSetLastFrame = false;
         }
     }
 }

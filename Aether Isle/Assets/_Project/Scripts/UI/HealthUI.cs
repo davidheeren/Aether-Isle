@@ -1,3 +1,4 @@
+using EventSystem;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +14,8 @@ namespace Game
 
         GameObject[] segments;
 
-        Health playerHealth;
-
-        void Start()
+        void Awake()
         {
-            playerHealth = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Health>();
-
             segments = new GameObject[segmentCount];
 
             for (int i = 0; i < segmentCount; i++)
@@ -34,19 +31,23 @@ namespace Game
                 img.SetNativeSize();
             }
 
-            UpdateSegments();
-            playerHealth.OnDamage += UpdateSegments;
+            UpdateSegments(segmentCount);
         }
 
-        void UpdateSegments()
+        void UpdateSegments(int health)
         {
             for (int i = 0; i < segments.Length; i++)
             {
-                if (i < playerHealth.currentHealth)
+                if (i < health)
                     segments[i].SetActive(true);
                 else
                     segments[i].SetActive(false);
             }
+        }
+
+        public void OnPlayerHealthChange(GameEventData data)
+        {
+            UpdateSegments(data.GetData<int>());
         }
     }
 }
