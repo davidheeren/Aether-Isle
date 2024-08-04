@@ -2563,7 +2563,7 @@ MonoBehaviour:
   unWalkableMask:
     serializedVersion: 2
     m_Bits: 8
-  initialGridWorldSize: {x: 50, y: 50}
+  initialGridWorldSize: {x: 65, y: 35}
   nodeDiameter: 1
   overlapCircleOffset: -0.02
   pathLayers:
@@ -23694,7 +23694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1952334201044176932, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: enemyCount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1952334201044176932, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: spawnOnAwake
@@ -24013,11 +24013,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9016644599149174358, guid: 3fa17b55c3e2af54fae80a047b0f7b49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9016644599149174358, guid: 3fa17b55c3e2af54fae80a047b0f7b49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9016644599149174358, guid: 3fa17b55c3e2af54fae80a047b0f7b49, type: 3}
       propertyPath: m_LocalPosition.z

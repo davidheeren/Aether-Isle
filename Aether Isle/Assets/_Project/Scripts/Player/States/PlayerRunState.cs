@@ -8,16 +8,15 @@ namespace Game
     public class PlayerRunState : State
     {
         [SerializeField] float runSpeed = 5;
+        [SerializeField] SFXLoop runSFXLoop;
 
         CharacterComponents components;
-        SFXLoop runSFXLoop;
 
-        public PlayerRunState Create(CharacterComponents components, SFXLoop runSFXLoop, Node child = null)
+        public PlayerRunState Create(CharacterComponents components, Node child = null)
         {
             CreateState(child);
 
             this.components = components;
-            this.runSFXLoop = runSFXLoop;
 
             return this;
         }
