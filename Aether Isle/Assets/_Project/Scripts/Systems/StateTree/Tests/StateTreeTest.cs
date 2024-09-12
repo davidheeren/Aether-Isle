@@ -1,5 +1,4 @@
 using Game;
-using System;
 using UnityEngine;
 
 namespace StateTree.Test
@@ -8,9 +7,23 @@ namespace StateTree.Test
     {
         [SerializeField] RootState rootState;
 
+
         private void Start()
         {
-            rootState = new RootState().Create(new If().Create(new VirtualCondition().Create(InputCondition), new LockCooldownModifier().Create(1, null, true, new VirtualState().Create(UpdateMethod: UpdateState))));
+            Node mainBranch = new If(new VirtualCondition(InputCondition), new LockCooldownModifier(1, null, new VirtualState(UpdateMethod: UpdateState)));
+            rootState.Init(new Selector(mainBranch, new HolderState().SetName("TEST HOLDER")));
+
+
+            //print(test.GetFirstSuperNode<State>().name);
+            //List<Node> states = test.GetSuperNodes<Node>();
+            //print(states.Count);
+            //print(test.stateDepth);
+
+            //foreach (var state in states)
+            //{
+            //    print(state.name);
+            //}
+
         }
 
         private void Update()

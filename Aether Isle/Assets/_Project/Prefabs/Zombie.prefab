@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7029902482295278058}
   - component: {fileID: 6720805855721575630}
   - component: {fileID: 6514818423602437608}
-  - component: {fileID: 3387930091562756477}
+  - component: {fileID: 7375884800252258686}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -116,28 +116,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 6009982237577127576}
---- !u!95 &3387930091562756477
-Animator:
-  serializedVersion: 7
+--- !u!114 &7375884800252258686
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87588273911942730}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: fc4001b578f3910479d2dca5a10b409d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c7678f0030dd449b681f42ebfdf03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fps: 12
+  playFirsAnimationOnAwake: 0
+  animations:
+  - {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
 --- !u!1 &697161190766838628
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,8 +246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45326cdbab0f7954a96e5e9f3bc80dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAcceleration: 8
-  defaultDeceleration: 6
+  defaultAccelerationForce: 12
+  defaultDecelerationForce: 7
 --- !u!114 &9154475787413530665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,28 +261,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   components:
-    animator: {fileID: 3387930091562756477}
     spriteRenderer: {fileID: 7029902482295278058}
+    animator: {fileID: 7375884800252258686}
   aiMovement:
-    randomOffsetRange: 2
-    evaluateDirTime: 0.5
-    nextWaypointDist: 1
-    obstacleAvoidance:
-      rayCount: 20
-      rayDist: 2
-      avoidanceMultiplier: 5
-      avoidanceMask:
-        serializedVersion: 2
-        m_Bits: 136
-      drayRays: 0
+    evaluateDirTime: 0.25
+  obstacleAvoidance:
+    rayCount: 20
+    rayDist: 2
+    avoidanceMultiplier: 5
+    avoidanceMask:
+      serializedVersion: 2
+      m_Bits: 136
+    drayRays: 0
   enemyRoot:
     debugSetup: 0
     debugState: 0
     debugGeneral: 0
-    enabled: 1
+    createGameObjectTree: 0
   findTarget:
     updateTime: 0.1
-    detectionRadius: 8
+    unAlertDetectionRadius: 8
+    alertDetectionRadius: 12
+    rememberTargetTime: 2
+    rememberAggravateTargetTime: 5
     targetMask:
       serializedVersion: 2
       m_Bits: 64
@@ -297,13 +292,16 @@ MonoBehaviour:
       m_Bits: 8
     drawRadius: 1
     drawLOS: 1
+  idleState:
+    animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
   chaseState:
     chaseSpeed: 3
+    animation: {fileID: 11400000, guid: 3264e7ea89e6ae844b2674cbd4077c35, type: 2}
   stunState:
     stunSFX: {fileID: 8300000, guid: 976abb4f93e3e554e80bfcdf66836d32, type: 3}
   dieState:
+    animation: {fileID: 11400000, guid: b7224db2cd32121428b04c3e45c527c4, type: 2}
     dieSFX: {fileID: 8300000, guid: 58c5ba4b30c781f409d64c75c294f389, type: 3}
-  rememberTargetTime: 2
 --- !u!114 &6009982237577127576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,9 +339,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d170e744e41bf1d468a306a0fe39afae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
+  damageMask:
     serializedVersion: 2
     m_Bits: 64
   damage: {fileID: 11400000, guid: d7360cb86b7e63848a10df31d7b7b8b2, type: 2}
   useRotation: 0
-  instantiatedByParent: 0

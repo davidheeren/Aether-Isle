@@ -1,8 +1,8 @@
+using SpriteAnimator;
 using StateTree;
 using System;
 using UnityEngine;
 using Utilities;
-using static Unity.VisualScripting.Member;
 
 namespace Game
 {
@@ -10,6 +10,8 @@ namespace Game
     public class CharacterStunState : State
     {
         [SerializeField] AudioClip stunSFX;
+        [SerializeField] SpriteAnimation stunAnimation;
+
 
         bool canDamage;
         int? lockDepth;
@@ -22,10 +24,11 @@ namespace Game
         DamageStats damage;
         Vector2? dir;
 
+        private CharacterStunState() : base(null) { }
 
-        public CharacterStunState Create(bool canDamage, int? lockDepth, CharacterComponents components, Node child = null)
+        public CharacterStunState Init(bool canDamage, int? lockDepth, CharacterComponents components, Node child = null)
         {
-            CreateState(child);
+            InitializeState(child);
 
             this.canDamage = canDamage;
             this.lockDepth = lockDepth;
@@ -33,7 +36,7 @@ namespace Game
             this.components = components;
 
             canReenter = true;
-            eventSwitch = new EventSwitch(ref components.health.OnDamage);
+            eventSwitch = new EventSwitch((action) => components.health.OnDamage += action);
 
             components.health.OnDamageParams += OnDamage;
             components.health.OnDie += OnDie;
@@ -46,7 +49,7 @@ namespace Game
             return eventSwitch.happened;
         }
 
-        private void OnDamage(DamageStats damage, Collider2D col, Vector2? dir)
+        private void OnDamage(DamageStats damage, Collider2D col, Collider2D source, Vector2? dir)
         {
             this.damage = damage;
             this.dir = dir;
@@ -73,6 +76,9 @@ namespace Game
             components.animator.enabled = false;
 
             SFXManager.Instance.PlaySFXClip(stunSFX, components.rb.transform.position);
+
+            if (stunAnimation != null)
+                components.animator.Play(stunAnimation);
         }
 
         protected override void UpdateState()

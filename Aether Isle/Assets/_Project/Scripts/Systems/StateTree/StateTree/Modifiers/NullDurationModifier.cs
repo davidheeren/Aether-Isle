@@ -5,14 +5,10 @@ namespace StateTree
     {
         SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
 
-        public NullDurationModifier Create(float delay, Node child)
+        public NullDurationModifier(float delay, Node child) : base(child)
         {
-            CreateModifier(child);
-
             timer = new SimpleTimer(delay);
             timer.Stop();
-
-            return this;
         }
 
         protected override void EnterSubState()

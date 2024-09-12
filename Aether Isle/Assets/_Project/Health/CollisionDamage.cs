@@ -1,3 +1,5 @@
+using CustomInspector;
+using System;
 using UnityEngine;
 using Utilities;
 
@@ -6,16 +8,19 @@ namespace Game
     [RequireComponent(typeof(Collider2D))]
     public class CollisionDamage : MonoBehaviour
     {
-        [SerializeField] LayerMask layerMask;
+        [TooltipBox("This will be overwritten by a DamageProjectile")]
+        public LayerMask damageMask;
         [SerializeField] DamageStats damage;
+        [TooltipBox("This will use the rotation of this instead of the dir of the collision")]
         [SerializeField] bool useRotation;
-        [SerializeField] bool instantiatedByParent;
 
         Collider2D col;
+        [NonSerialized] public Collider2D source; // Will be its own collider if not a projectile
 
-        public void SetCollider(Collider2D col)
+        private void Awake()
         {
-            this.col = col;
+            col = GetComponent<Collider2D>();
+            source = col;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -30,10 +35,12 @@ namespace Game
 
         void Damage(Collider2D collision)
         {
-            if (layerMask.Compare(collision.gameObject.layer) && collision.TryGetComponent<Health>(out Health health))
+            if (collision == source) return; // Avoid projectiles damaging source
+
+            if (damageMask.Compare(collision.gameObject.layer) && collision.TryGetComponent<Health>(out Health health))
             {
                 Vector2 dir = useRotation ? transform.up : (collision.transform.position - transform.position).normalized;
-                health.Damage(damage, col, dir);
+                health.Damage(damage, col, source, dir);
             }
         }
     }

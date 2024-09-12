@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utilities;
 
 namespace Game
 {
@@ -9,11 +10,11 @@ namespace Game
         // Custom movement solution using forces
         // Runs after all other scripts
 
-        [SerializeField] float defaultAcceleration = 12;
-        [SerializeField] float defaultDeceleration = 7;
+        [SerializeField] float defaultAccelerationForce = 12;
+        [SerializeField] float defaultDecelerationForce = 7;
 
-        float currentAcceleration;
-        float currentDeceleration;
+        float currentAccelerationForce;
+        float currentDecelerationForce;
 
         public Vector2 targetVelocity { get; private set; }
         public Rigidbody2D rb { get; private set; }
@@ -27,12 +28,12 @@ namespace Game
             ResetValues();
         }
 
-        public void Move(Vector2 targetVelocity, float? acceleration = null, float? deceleration = null)
+        public void Move(Vector2 targetVelocity, float? accelerationForce = null, float? decelerationForce = null)
         {
-            if (acceleration != null)
-                currentAcceleration = acceleration.Value;
-            if (deceleration != null)
-                currentDeceleration = deceleration.Value;
+            if (accelerationForce != null)
+                currentAccelerationForce = accelerationForce.Value;
+            if (decelerationForce != null)
+                currentDecelerationForce = decelerationForce.Value;
 
             this.targetVelocity = targetVelocity;
             wasSetLastFrame = true;
@@ -43,21 +44,25 @@ namespace Game
             if (!wasSetLastFrame)
                 targetVelocity = Vector2.zero;
 
-            Vector2 deltaVelocity = targetVelocity - rb.velocity;
-
-            //float acceleration = targetVelocity != Vector2.zero ? currentAcceleration : currentDeceleration;
-            float acceleration = wasSetLastFrame ? currentAcceleration : currentDeceleration;
+            float acceleration = wasSetLastFrame ? currentAccelerationForce : currentDecelerationForce;
 
 
-            rb.AddForce(deltaVelocity * acceleration);
+            Vector2 velocity = Smoothing.ExpDecay(rb.velocity, targetVelocity, acceleration / rb.mass, Time.fixedDeltaTime);
+
+
+            rb.velocity = velocity;
 
             ResetValues();
+
+            // Old way of doing using force. It's framerate dependent but FixedUpdate is fixed. However, it is less elegent
+            //Vector2 deltaVelocity = targetVelocity - rb.velocity;
+            //rb.AddForce(deltaVelocity * acceleration);
         }
 
         void ResetValues()
         {
-            currentAcceleration = defaultAcceleration;
-            currentDeceleration = defaultDeceleration;
+            currentAccelerationForce = defaultAccelerationForce;
+            currentDecelerationForce = defaultDecelerationForce;
             wasSetLastFrame = false;
         }
     }

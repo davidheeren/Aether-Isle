@@ -7,11 +7,9 @@ namespace StateTree
     {
         Condition condition;
 
-        public Not Create(Condition condition)
+        public Not(Condition condition)
         {
             this.condition = condition;
-
-            return this;
         }
 
         public override bool Calculate()

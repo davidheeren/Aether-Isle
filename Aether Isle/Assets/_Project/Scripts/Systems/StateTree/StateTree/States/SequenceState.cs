@@ -5,12 +5,13 @@ namespace StateTree
     public class SequenceState : State
     {
         //TODODDODODODODODODODOOODODOODD
+        // Create a new State for each child?
 
         Node[] _children; // "_" Because we already have a children var in Node
         State[] currentSubStates;
         State[] possibleSubStates;
 
-        private SequenceState(Node[] _children)
+        private SequenceState(params Node[] _children) : base(null)
         {
             this._children = _children;
 
@@ -44,7 +45,7 @@ namespace StateTree
         public override void UpdateStateWrapper()
         {
             UpdateState();
-            OnUpdateState?.Invoke();
+            //OnUpdateState?.Invoke();
 
             for (int i = 0; i < currentSubStates.Length;i++)
             {
@@ -57,7 +58,7 @@ namespace StateTree
         public override void ExitStateWrapper()
         {
             ExitState();
-            OnExitState?.Invoke();
+            //OnExitState?.Invoke();
 
             for (int i = 0;i < currentSubStates.Length;i++)
             {

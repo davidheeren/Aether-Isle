@@ -9,8 +9,8 @@ namespace Game
     {
         [SerializeField] Sprite segmentSprite;
         [SerializeField] int segmentCount = 8;
-        [SerializeField] float initialOffset = 150;
-        [SerializeField] float segmentOffset = 100;
+        [SerializeField] float initialOffset = -4;
+        [SerializeField] float segmentOffset = 25;
 
         GameObject[] segments;
 

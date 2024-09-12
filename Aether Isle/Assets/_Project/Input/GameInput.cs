@@ -58,6 +58,15 @@ namespace Input
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""LockAim"",
+                    ""type"": ""Button"",
+                    ""id"": ""c53078f6-6063-47f9-98fc-644d453cff49"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""2cbef3d4-30bd-4691-9751-51b52239741e"",
@@ -296,6 +305,17 @@ namespace Input
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""091283d0-8592-4d09-ba6a-8469944d1363"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LockAim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -424,12 +444,29 @@ namespace Input
         {
             ""name"": ""Keyboard"",
             ""bindingGroup"": ""Keyboard"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                }
+            ]
         },
         {
             ""name"": ""Gamepad"",
             ""bindingGroup"": ""Gamepad"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -438,6 +475,7 @@ namespace Input
             m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
             m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
             m_Game_AimDir = m_Game.FindAction("AimDir", throwIfNotFound: true);
+            m_Game_LockAim = m_Game.FindAction("LockAim", throwIfNotFound: true);
             m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
             m_Game_Dash = m_Game.FindAction("Dash", throwIfNotFound: true);
             // UI
@@ -518,6 +556,7 @@ namespace Input
         private readonly InputAction m_Game_Move;
         private readonly InputAction m_Game_MousePosition;
         private readonly InputAction m_Game_AimDir;
+        private readonly InputAction m_Game_LockAim;
         private readonly InputAction m_Game_Attack;
         private readonly InputAction m_Game_Dash;
         public struct GameActions
@@ -527,6 +566,7 @@ namespace Input
             public InputAction @Move => m_Wrapper.m_Game_Move;
             public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
             public InputAction @AimDir => m_Wrapper.m_Game_AimDir;
+            public InputAction @LockAim => m_Wrapper.m_Game_LockAim;
             public InputAction @Attack => m_Wrapper.m_Game_Attack;
             public InputAction @Dash => m_Wrapper.m_Game_Dash;
             public InputActionMap Get() { return m_Wrapper.m_Game; }
@@ -547,6 +587,9 @@ namespace Input
                 @AimDir.started += instance.OnAimDir;
                 @AimDir.performed += instance.OnAimDir;
                 @AimDir.canceled += instance.OnAimDir;
+                @LockAim.started += instance.OnLockAim;
+                @LockAim.performed += instance.OnLockAim;
+                @LockAim.canceled += instance.OnLockAim;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
@@ -566,6 +609,9 @@ namespace Input
                 @AimDir.started -= instance.OnAimDir;
                 @AimDir.performed -= instance.OnAimDir;
                 @AimDir.canceled -= instance.OnAimDir;
+                @LockAim.started -= instance.OnLockAim;
+                @LockAim.performed -= instance.OnLockAim;
+                @LockAim.canceled -= instance.OnLockAim;
                 @Attack.started -= instance.OnAttack;
                 @Attack.performed -= instance.OnAttack;
                 @Attack.canceled -= instance.OnAttack;
@@ -712,6 +758,7 @@ namespace Input
             void OnMove(InputAction.CallbackContext context);
             void OnMousePosition(InputAction.CallbackContext context);
             void OnAimDir(InputAction.CallbackContext context);
+            void OnLockAim(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
         }

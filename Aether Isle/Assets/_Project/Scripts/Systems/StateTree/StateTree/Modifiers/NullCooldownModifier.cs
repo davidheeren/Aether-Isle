@@ -5,17 +5,13 @@
         SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
         bool hasEnteredSateOnce; // If the delay is infinite, we can still enter the state once
 
-        public NullCooldownModifier Create(float? delay, Node child)
+        public NullCooldownModifier(float? delay, Node child) : base(child)
         {
-            CreateModifier(child);
-
             if (delay != null)
             {
                 timer = new SimpleTimer(delay.Value);
                 timer.ForceDone();
             }
-
-            return this;
         }
 
         protected override void EnterSubState()

@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1381734045386544223}
   - component: {fileID: 791615622972003747}
-  - component: {fileID: 8179654490789571816}
+  - component: {fileID: 1280451412584975640}
   - component: {fileID: 2122538596896592859}
   - component: {fileID: 116924069840068445}
   - component: {fileID: 6517814105394293651}
+  - component: {fileID: 7040936197774290868}
   m_Layer: 0
   m_Name: Melee
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 1616343496, guid: e4ecf63ae7805ef4091c0c0d010d88eb, type: 3}
+  m_Sprite: {fileID: -3698551, guid: dc03c68484124df4c983746134c1727c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,28 +92,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8179654490789571816
-Animator:
-  serializedVersion: 7
+--- !u!114 &1280451412584975640
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8749031412601284731}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7cbb54b3b7620684c982a89935162ba8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c7678f0030dd449b681f42ebfdf03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fps: 12
+  playFirsAnimationOnAwake: 1
+  animations:
+  - {fileID: 11400000, guid: 53f6f6a194367e14da1d9878efce957b, type: 2}
 --- !u!61 &2122538596896592859
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -184,9 +179,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d170e744e41bf1d468a306a0fe39afae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
+  damageMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   damage: {fileID: 11400000, guid: 35fd99cdaa6324e40ba62b0be9ba6f1d, type: 2}
   useRotation: 1
-  instantiatedByParent: 1
+--- !u!114 &7040936197774290868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8749031412601284731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d9b8adc101ac34d912959939b2d4b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

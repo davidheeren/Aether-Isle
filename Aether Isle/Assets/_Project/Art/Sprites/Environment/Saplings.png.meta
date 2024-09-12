@@ -93,6 +93,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -100,12 +113,12 @@ TextureImporter:
       name: Saplings_14
       rect:
         serializedVersion: 2
-        x: 0
-        y: 48
-        width: 32
-        height: 32
+        x: 1
+        y: 50
+        width: 31
+        height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -122,12 +135,12 @@ TextureImporter:
       name: Saplings_16
       rect:
         serializedVersion: 2
-        x: 32
-        y: 48
-        width: 32
-        height: 32
+        x: 39
+        y: 49
+        width: 18
+        height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -144,12 +157,12 @@ TextureImporter:
       name: Saplings_30
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 32
-        width: 32
-        height: 16
+        width: 27
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -167,11 +180,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 32
+        y: 33
         width: 16
-        height: 16
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -188,12 +201,12 @@ TextureImporter:
       name: Saplings_33
       rect:
         serializedVersion: 2
-        x: 48
+        x: 50
         y: 32
-        width: 16
-        height: 16
+        width: 12
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -210,12 +223,12 @@ TextureImporter:
       name: Saplings_44
       rect:
         serializedVersion: 2
-        x: 224
+        x: 231
         y: 16
-        width: 32
-        height: 64
+        width: 21
+        height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -232,12 +245,12 @@ TextureImporter:
       name: Saplings_46
       rect:
         serializedVersion: 2
-        x: 0
+        x: 6
         y: 16
-        width: 32
-        height: 16
+        width: 18
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -254,12 +267,12 @@ TextureImporter:
       name: Saplings_48
       rect:
         serializedVersion: 2
-        x: 32
+        x: 37
         y: 16
-        width: 16
-        height: 16
+        width: 8
+        height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -281,7 +294,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -298,12 +311,12 @@ TextureImporter:
       name: Saplings_51
       rect:
         serializedVersion: 2
-        x: 64
-        y: 16
-        width: 64
-        height: 64
+        x: 77
+        y: 20
+        width: 43
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -320,12 +333,12 @@ TextureImporter:
       name: Saplings_52
       rect:
         serializedVersion: 2
-        x: 128
-        y: 16
-        width: 48
-        height: 64
+        x: 136
+        y: 19
+        width: 34
+        height: 61
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -342,12 +355,12 @@ TextureImporter:
       name: Saplings_53
       rect:
         serializedVersion: 2
-        x: 176
+        x: 184
         y: 16
-        width: 48
-        height: 64
+        width: 38
+        height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -364,12 +377,12 @@ TextureImporter:
       name: Saplings_56
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
-        width: 32
-        height: 16
+        width: 24
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -386,12 +399,12 @@ TextureImporter:
       name: Saplings_58
       rect:
         serializedVersion: 2
-        x: 32
+        x: 34
         y: 0
-        width: 16
-        height: 16
+        width: 5
+        height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -408,12 +421,12 @@ TextureImporter:
       name: Saplings_59
       rect:
         serializedVersion: 2
-        x: 48
+        x: 54
         y: 0
-        width: 16
-        height: 16
+        width: 5
+        height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

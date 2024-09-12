@@ -5,24 +5,32 @@ namespace StateTree
     [Serializable]
     public class RootState : State
     {
-        public bool debugSetup = false;
         public bool debugState = false;
         public bool debugGeneral = false;
+        public bool createGameObjectTree = false;
 
-        public bool enabled = true;
-
-        public RootState Create(Node child = null)
+        private RootState() : base(null) { }
+        public RootState(Node child = null) : base(child)
         {
-            CreateState(child);
-            SetupWrapper(this);
+            InitializeRootState();
+        }
 
-            return this;
+        public void Init(Node child = null)
+        {
+            InitializeState(child);
+            InitializeRootState();
+        }
+
+        private void InitializeRootState()
+        {
+            SetupWrapper(this, 0);
+
+            if (createGameObjectTree)
+                CreateGameObjectTree(null);
         }
 
         public void UpdateStateTree()
         {
-            if (!enabled) return;
-
             Evaluate();
             EnterStateWrapper();
             UpdateStateWrapper();
@@ -30,8 +38,6 @@ namespace StateTree
 
         public void FixedUpdateStateTree()
         {
-            if (!enabled) return;
-
             FixedUpdateStateWrapper();
         }
     }

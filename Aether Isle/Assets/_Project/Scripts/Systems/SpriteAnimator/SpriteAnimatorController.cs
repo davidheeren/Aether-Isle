@@ -11,9 +11,9 @@ namespace SpriteAnimator
         [SerializeField] bool playFirsAnimationOnAwake;
         [SerializeField] SpriteAnimation[] animations;
 
-        SpriteRenderer sr;
-        Sprite initialSprite;
-        Dictionary<string, SpriteAnimation> animationsDictionary = new Dictionary<string, SpriteAnimation>();
+        private SpriteRenderer sr;
+        private Sprite initialSprite;
+        private Dictionary<string, SpriteAnimation> animationsDictionary = new Dictionary<string, SpriteAnimation>();
 
         public SpriteAnimation currentAnimation { get; private set; }
         public float currentAnimationTime { get; private set; }
@@ -21,24 +21,41 @@ namespace SpriteAnimator
         public bool isPaused { get; private set; }
         public bool isStopped { get; private set; }
 
-        int currentSpriteIndex;
+        private int currentSpriteIndex;
 
         public event Action OnAnimationStart;
         public event Action OnAnimationDone;
         public event Action OnSpriteChanged;
         public event Action OnAnimationChanged;
 
-        void Awake()
+        private void Awake()
         {
             sr = GetComponent<SpriteRenderer>();
             initialSprite = sr.sprite;
             animationDelay = 1 / fps;
 
+            ProcessAnimations();
             SetupDictionary();
             SetupFirstAnimation();
         }
 
-        void SetupFirstAnimation()
+        private void ProcessAnimations()
+        {
+            List<SpriteAnimation> temp = new List<SpriteAnimation>();
+            foreach (SpriteAnimation anim in animations)
+            {
+                if (anim != null)
+                    temp.Add(anim);
+            }
+
+            if (temp.Count != animations.Length)
+            {
+                Debug.LogWarning("Some animations are null: " + name);
+                animations = temp.ToArray();
+            }
+        }
+
+        private void SetupFirstAnimation()
         {
             if (animations.Length > 0)
             {
@@ -108,15 +125,9 @@ namespace SpriteAnimator
             Restart();
         }
 
-        public void Play(string animationName)
-        {
-            Play(GetAnimation(animationName));
-        }
+        public void Play(string animationName) => Play(GetAnimation(animationName));
 
-        public void Play(int index)
-        {
-            Play(GetAnimation(index));
-        }
+        public void Play(int index) => Play(GetAnimation(index));
 
         public void Restart()
         {
@@ -135,7 +146,8 @@ namespace SpriteAnimator
             }
         }
 
-        public void Stop()
+        public void Stop() => Stop(currentAnimation.animationEnd);
+        public void Stop(SpriteAnimation.AnimationEnd animationEnd)
         {
             isStopped = true;
 
@@ -143,7 +155,7 @@ namespace SpriteAnimator
 
             // Handles the end of the animation
             // If lastSprite, we do nothing because it already is that sprite
-            switch (currentAnimation.animationEnd)
+            switch (animationEnd)
             {
                 case SpriteAnimation.AnimationEnd.initialSprite:
                     sr.sprite = initialSprite;
@@ -157,15 +169,9 @@ namespace SpriteAnimator
             }
         }
 
-        public void Pause()
-        {
-            isPaused = true;
-        }
+        public void Pause() => isPaused = true;
 
-        public void Continue()
-        {
-            isPaused = false;
-        }
+        public void Continue() => isPaused = false;
 
         public SpriteAnimation GetAnimation(string animationName)
         {
@@ -185,9 +191,37 @@ namespace SpriteAnimator
             return null;
         }
 
-        public float GetAnimationLength(SpriteAnimation anim)
+        public bool TryGetAnimation(string animationName, out SpriteAnimation anim)
         {
-            return anim.Sprites.Length * animationDelay;
+            return animationsDictionary.TryGetValue(animationName, out anim);
+        }
+
+        public bool TryGetAnimation(int index, out SpriteAnimation anim)
+        {
+            bool isValidIndex = index >= 0 && index < animations.Length;
+
+            if (isValidIndex)
+                anim = animations[index];
+            else
+                anim = null;
+
+            return isValidIndex;
+        }
+
+        public float GetAnimationLengthSeconds(SpriteAnimation anim)
+        {
+            return anim.Length * animationDelay;
+        }
+
+        [ContextMenu("Set First Sprite")]
+        private void SetFirstSprite()
+        {
+            if (TryGetAnimation(0, out SpriteAnimation anim))
+            {
+                if (anim.Length == 0) return;
+
+                GetComponent<SpriteRenderer>().sprite = anim.Sprites[0];
+            }
         }
     }
 }

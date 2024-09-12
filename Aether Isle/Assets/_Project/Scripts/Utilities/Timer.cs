@@ -63,30 +63,43 @@ namespace Utilities
             }
         }
 
-        public void Reset()
+        public Timer SetDelay(float delay)
+        {
+            this.delay = delay;
+
+            return this;
+        }
+
+        public Timer Reset()
         {
             timeAtStart = Time.time;
             isPaused = false;
             wasPaused = false;
             totalPauseTime = 0;
+
+            return this;
         }
 
-        public void Stop()
+        public Timer Stop()
         {
             timeAtStart = Mathf.Infinity;
+
+            return this;
         }
 
-        public void ForceDone()
+        public Timer ForceDone()
         {
             timeAtStart = Mathf.NegativeInfinity;
+
+            return this;
         }
 
-        public void Pause()
+        public Timer Pause()
         {
             if (isPaused)
             {
                 Debug.LogWarning("Paused SimpleTimer while already paused");
-                return;
+                return this;
             }
 
             if (wasPaused) // incudes previous pause times
@@ -95,17 +108,22 @@ namespace Utilities
             isPaused = true;
             wasPaused = true;
             timeAtPause = Time.time;
+
+            return this;
         }
-        public void Resume()
+
+        public Timer Resume()
         {
             if (!isPaused)
             {
                 Debug.LogWarning("Resumed SimpleTimer while already resumed");
-                return;
+                return this;
             }
 
             isPaused = false;
             timeAtResume = Time.time;
+
+            return this;
         }
     }
 }

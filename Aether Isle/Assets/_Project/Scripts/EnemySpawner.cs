@@ -9,6 +9,7 @@ namespace Game
 {
     public class EnemySpawner : MonoBehaviour
     {
+        // TODO: Refactor. Completely unreadable code
         [Header("Scan")]
         [Button(nameof(Scan))]
         [SerializeField] Vector2Int cellCount = new Vector2Int(20, 20);
@@ -86,9 +87,9 @@ namespace Game
             }
 
 
-            if (SaveSystem.SaveObject.enemySpawnTimes.TryGetValue(uniqueID.ID, out var time))
+            if (SaveSystem.SaveData.enemySpawnTimes.TryGetValue(uniqueID.ID, out var time))
             {
-                if (Time.time + SaveSystem.SaveObject.timeAtLastUnload - time >= spawnDelay)
+                if (Time.time + SaveSystem.SaveData.timeAtLastUnload - time >= spawnDelay)
                     SpawnEnemies();
             }
             else
@@ -109,16 +110,10 @@ namespace Game
                     break;
                 }
 
-                int rand = Random.Range(0, canSpawnPositions.Count); // Max is exclusive
-                Vector2 offset = new Vector2(Random.value, Random.value) * randomOffsetRange;
-
-                GameObject obj = Instantiate(enemyPrefab, canSpawnPositions[rand] + offset, Quaternion.identity, transform);
-                spawnedEnemies.Add(obj);
-
-                canSpawnPositions.RemoveAt(rand);
+                Invoke(nameof(SpawnEnemy), Random.value); // 0-1 second offset
             }
 
-            SaveSystem.SaveObject.enemySpawnTimes[uniqueID.ID] = Time.time + SaveSystem.SaveObject.timeAtLastUnload;
+            SaveSystem.SaveData.enemySpawnTimes[uniqueID.ID] = Time.time + SaveSystem.SaveData.timeAtLastUnload;
             SaveSystem.Save();
 
             spawnedOnce = true;
@@ -126,6 +121,16 @@ namespace Game
             enemyDieTimer.Stop();
 
             //print("SPAWNED");
+        }
+
+        void SpawnEnemy()
+        {
+            int rand = Random.Range(0, canSpawnPositions.Count); // Max is exclusive
+            Vector2 offset = new Vector2(Random.value, Random.value) * randomOffsetRange;
+
+            GameObject obj = Instantiate(enemyPrefab, canSpawnPositions[rand] + offset, Quaternion.identity, transform);
+            spawnedEnemies.Add(obj);
+            canSpawnPositions.RemoveAt(rand);
         }
 
         void Scan()

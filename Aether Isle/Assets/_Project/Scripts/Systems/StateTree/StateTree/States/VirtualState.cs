@@ -9,16 +9,12 @@ namespace StateTree
         Action FixedUpdateMethod;
         Action ExitMethod;
 
-        public VirtualState Create(Action EnterMethod = null, Action UpdateMethod = null, Action FixedUpdateMethod = null, Action ExitMethod = null, Node child = null)
+        public VirtualState(Action EnterMethod = null, Action UpdateMethod = null, Action FixedUpdateMethod = null, Action ExitMethod = null, Node child = null) : base(child)
         {
-            CreateState(child);
-
             this.EnterMethod = EnterMethod;
             this.UpdateMethod = UpdateMethod;
             this.FixedUpdateMethod = FixedUpdateMethod;
             this.ExitMethod = ExitMethod;
-
-            return this;
         }
 
         protected override void EnterState()

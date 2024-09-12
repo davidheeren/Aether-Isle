@@ -7,17 +7,13 @@ namespace StateTree
         Condition condition;
         Node child;
 
-        public If Create(Condition condition, Node child)
+        public If(Condition condition, Node child)
         {
-            CreateNode();
-
             this.condition = condition;
             this.child = child;
 
             if (child == null)
                 Debug.LogError("If's child cannot be null");
-
-            return this;
         }
 
         public override State Evaluate()

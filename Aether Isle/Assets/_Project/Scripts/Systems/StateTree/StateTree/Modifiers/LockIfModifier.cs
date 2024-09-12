@@ -5,32 +5,13 @@ namespace StateTree
     {
         Condition condition;
         int? depth;
-        bool? canReenter;
 
         bool isLocked = false;
 
-        public LockIfModifier Create(Condition condition, int? depth, Node child)
+        public LockIfModifier(Condition condition, int? depth, Node child) : base(child)
         {
-            return Create(condition, depth, null, child);
-        }
-
-        public LockIfModifier Create(Condition condition, int? depth, bool? canReenter, Node child)
-        {
-            CreateModifier(child);
-
             this.condition = condition;
             this.depth = depth;
-            this.canReenter = canReenter;
-
-            return this;
-        }
-
-        protected override void Setup()
-        {
-            base.Setup();
-
-            if (canReenter != null)
-                subState.canReenter = canReenter.Value;
         }
 
         public override State Evaluate()

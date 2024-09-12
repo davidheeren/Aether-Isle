@@ -1,16 +1,19 @@
-﻿using StateTree;
+﻿using SpriteAnimator;
+using StateTree;
 using UnityEngine;
 
 namespace Game
 {
+    [System.Serializable]
     public class PlayerIdleState : State
     {
+        [SerializeField] SpriteAnimation animation;
         CharacterComponents components;
 
-        public PlayerIdleState Create(CharacterComponents components, Node child = null)
+        private PlayerIdleState() : base(null) { }
+        public PlayerIdleState Init(CharacterComponents components, Node child = null)
         {
-            CreateState(child);
-
+            InitializeState(child);
             this.components = components;
 
             return this;
@@ -20,7 +23,7 @@ namespace Game
         {
             base.EnterState();
 
-            components.animator.Play("Idle");
+            components.animator.Play(animation);
         }
     }
 }

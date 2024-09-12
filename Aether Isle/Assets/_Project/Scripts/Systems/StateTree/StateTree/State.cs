@@ -7,34 +7,40 @@ namespace StateTree
     [Serializable]
     public abstract class State : Node
     {
-        State possibleSubState; // The new possible sub state
-        State currentSubState; // The current sub state that is updated
-
-        protected List<State> superStates = new List<State>(); // All the states "above" this modifier
-
-        Node child;
-
+        // Edit Vars
         [NonSerialized] public bool isLocked = false; // Locks current sub state from changing
         [NonSerialized] public bool canReenter = false; // Exits then enters itself if locked and evaluated
+        [NonSerialized] public bool enabled = true;
+        [NonSerialized] public int priority;
+        public State SetPriority(int priority) { this.priority = priority; return this; }
+        public State SetEnabled(bool enabled) { this.enabled = enabled; return this; }
+        public State SetCanReenter(bool canReenter) { this.canReenter = canReenter; return this; }
 
-        public Action OnPreExitState;
+        // Readonly vars
+        private State possibleSubState; // The new possible sub state that is set during Evaluate()
+        private State currentSubState; // The current sub state that is updated
+        private List<State> superStates; // All the states "above" this modifier
+        private Node child;
+        public int stateDepth { get; private set; }
 
-        public Action OnEnterState;
-        public Action OnUpdateState;
-        public Action OnExitState;
+        // Events
+        public event Action OnPreExitState;
+        public event Action OnEnterState;
+        public event Action OnUpdateState;
+        public event Action OnExitState;
 
-        protected void CreateState(Node child)
-        {
-            CreateNode();
-            this.child = child;
-        }
+        // Constructor
+        public State(Node child) => InitializeState(child);
+
+        protected void InitializeState(Node child) => this.child = child;
 
         protected override void SetChildrenParentRelationships() => AddChild(child);
 
         protected override void Setup()
         {
             base.Setup();
-            SetAllSuperStates(this);
+            superStates = GetSuperNodes<State>();
+            stateDepth = superStates.Count;
         }
 
         public override State Evaluate() // Evaluate is called first, then UpdateStateWrapper
@@ -42,7 +48,7 @@ namespace StateTree
             if (!CanEnterState())
                 return null;
 
-            if (child != null)
+            if (child != null && enabled)
                 possibleSubState = child.Evaluate();
 
             return this;
@@ -50,7 +56,7 @@ namespace StateTree
 
         protected virtual bool CanEnterState() => true; // Override this in your custom State to have your own If Node in the state itself
 
-        #region EnterUpdateExit
+        #region EnterUpdateExit Wrappers
         public void EnterStateWrapper()
         {
             EnterState();
@@ -60,6 +66,8 @@ namespace StateTree
 
         public virtual void UpdateStateWrapper()
         {
+            if (!enabled) return;
+
             UpdateState();
             OnUpdateState?.Invoke();
 
@@ -70,6 +78,8 @@ namespace StateTree
 
         public void FixedUpdateStateWrapper()
         {
+            if (!enabled) return;
+
             FixedUpdateState();
             currentSubState?.FixedUpdateStateWrapper();
         }
@@ -111,31 +121,6 @@ namespace StateTree
             }
         }
 
-        #region SuperStates
-        State GetFirstSuperState(Node startNode) 
-        {
-            // Excludes the start node
-
-            if (startNode.parent == null)
-                return null;
-
-            if (startNode.parent is State)
-                return (State)startNode.parent;
-
-            return GetFirstSuperState(startNode.parent);
-        }
-
-        void SetAllSuperStates(Node startNode)
-        {
-            State firstState = GetFirstSuperState(startNode);
-
-            if (firstState != null)
-            {
-                superStates.Add(firstState);
-                SetAllSuperStates(firstState);
-            }
-        }
-
         /// <summary>
         /// Locks or unlocks all states "above" it
         /// </summary>
@@ -157,6 +142,5 @@ namespace StateTree
                 superStates[i].isLocked = isLock;
             }
         }
-        #endregion
     }
 }

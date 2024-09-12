@@ -9,33 +9,15 @@ namespace StateTree
         SimpleTimer timer; // SimpleTimer is null if the delay is null (infinite)
         bool isLocked = false;
 
-        public LockDurationModifier Create(float? delay, int? depth, Node child)
+        public LockDurationModifier(float? delay, int? depth, Node child) : base(child)
         {
-            return Create(delay, depth, null, child);
-        }
-
-        public LockDurationModifier Create(float? delay, int? depth, bool? canReenter, Node child)
-        {
-            CreateModifier(child);
-
             this.depth = depth;
-            this.canReenter = canReenter;
 
             if (delay != null)
             {
                 timer = new SimpleTimer(delay.Value);
                 timer.Stop();
             }
-
-            return this;
-        }
-
-        protected override void Setup()
-        {
-            base.Setup();
-
-            if (canReenter != null)
-                subState.canReenter = canReenter.Value;
         }
 
         protected override void EnterSubState()

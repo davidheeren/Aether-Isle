@@ -242,10 +242,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c7678f0030dd449b681f42ebfdf03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fps: 6
-  playFirsAnimationOnAwake: 0
+  fps: 12
+  playFirsAnimationOnAwake: 1
   animations:
-  - {fileID: 11400000, guid: 9844ad133b84b274ea47ee09becc7412, type: 2}
+  - {fileID: 11400000, guid: 747c27fa31020a048bfa13c610f8cd70, type: 2}
+  - {fileID: 11400000, guid: 5141a13898675264689e2e5f624b1898, type: 2}
+  - {fileID: 11400000, guid: a5d03e34513fd214e888785e25d0b11a, type: 2}
 --- !u!212 &538725859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -290,7 +292,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -557859599, guid: 41e1f10d08de22847b36d6eea5210c60, type: 3}
+  m_Sprite: {fileID: 928075757, guid: edaa9ddfc3cae3c4e95f3a8709304d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

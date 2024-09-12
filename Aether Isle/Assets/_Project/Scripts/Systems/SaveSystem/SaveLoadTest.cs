@@ -7,10 +7,10 @@ namespace Test
     public class SaveLoadTest : MonoBehaviour
     {
         [Button(nameof(Save))]
-        [SerializeField] SaveObject saveCopy;
+        [SerializeField] SaveData saveCopy;
 
         [Button(nameof(Load))]
-        [SerializeField, ReadOnly] SaveObject loadCopy;
+        [SerializeField, ReadOnly] SaveData loadCopy;
 
         [Button(nameof(Clear))]
         [Button(nameof(TestDictionary))]
@@ -18,14 +18,14 @@ namespace Test
 
         void Save()
         {
-            SaveSystem.SaveObject = JsonUtility.FromJson<SaveObject>(JsonUtility.ToJson(saveCopy));
+            SaveSystem.SaveData = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(saveCopy));
             SaveSystem.Save();
         }
 
         void Load()
         {
             SaveSystem.Load();
-            loadCopy = JsonUtility.FromJson<SaveObject>(JsonUtility.ToJson(SaveSystem.SaveObject));
+            loadCopy = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(SaveSystem.SaveData));
         }
 
         void Clear()
@@ -35,7 +35,7 @@ namespace Test
 
         void TestDictionary()
         {
-            SaveSystem.SaveObject.enemySpawnTimes.Add(Random.value.ToString(), Random.value);
+            SaveSystem.SaveData.enemySpawnTimes.Add(Random.value.ToString(), Random.value);
             SaveSystem.Save();
         }
     }

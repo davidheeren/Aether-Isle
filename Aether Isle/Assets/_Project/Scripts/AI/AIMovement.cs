@@ -9,28 +9,24 @@ namespace Game
     [Serializable]
     public class AIMovement
     {
-        [Header("Vars")]
-        [SerializeField] float randomOffsetRange = 2;
         [SerializeField] float evaluateDirTime = 0.25f;
-        [SerializeField] float nextWaypointDist = 1;
+        const float nextWaypointDist = 0.5f;
 
-        [SerializeField] ObstacleAvoidance obstacleAvoidance;
+        ObstacleAvoidance obstacleAvoidance;
         Pathfinder pathfinder;
 
-        Ref<Transform> targetRef = new Ref<Transform>();
+        TargetInfo targetInfo;
         CharacterComponents components;
 
         Timer targetDirTimer;
-        Transform target;
 
         Vector2[] path;
         int pathIndex;
-        Vector2 offset;
 
-
-        public void Setup(Ref<Transform> targetRef, CharacterComponents components)
+        public void Init(TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, CharacterComponents components)
         {
-            this.targetRef = targetRef;
+            this.targetInfo = targetInfo;
+            this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
 
             if (evaluateDirTime > 0)
@@ -63,21 +59,25 @@ namespace Game
                 Debug.Log("Path is null");
                 return;
             }
+
+            bool isAtEndOfPath = false;
+
             if (path.Length == 0)
+                isAtEndOfPath = true;
+            else
             {
-                Debug.Log("Path length is 0");
-                return;
+                if ((path[pathIndex] - (Vector2)components.transform.position).sqrMagnitude <= nextWaypointDist * nextWaypointDist)
+                {
+                    if (pathIndex < path.Length - 2)
+                        pathIndex++;
+                }
             }
 
-            if ((path[pathIndex] - (Vector2)components.transform.position).sqrMagnitude < nextWaypointDist * nextWaypointDist)
-            {
-                if (pathIndex < path.Length - 1)
-                    pathIndex++;
-            }
+            if (pathIndex == path.Length - 1) isAtEndOfPath = true;
 
-            Vector2 targetPos = pathIndex == path.Length - 1 ? (Vector2)target.position + offset : path[pathIndex];
+            Vector2 targetPos = isAtEndOfPath ? (Vector2)targetInfo.GetSmartPosition(components.transform.position) : path[pathIndex];
 
-            if ((targetPos - (Vector2)components.transform.position).sqrMagnitude < 0.01f) // less than 0.1 units
+            if ((targetPos - (Vector2)components.transform.position).sqrMagnitude < 0.1f * 0.1f) // less than 0.1 units
                 return;
 
             components.movement.Move(obstacleAvoidance.GetDir(targetPos) * speed);
@@ -87,15 +87,7 @@ namespace Game
 
         void UpdatePath()
         {
-            if (targetRef.value != null)
-                target = targetRef.value;
-
-            if (target == null)
-                return;
-
-            offset = UnityEngine.Random.insideUnitCircle * randomOffsetRange;
-
-            path = pathfinder.FindPath(components.transform.position, target.position);
+            path = pathfinder.FindPath(components.transform.position, targetInfo.GetSmartPosition(components.transform.position));
             pathIndex = 0;
         }
     }

@@ -10,7 +10,10 @@ namespace Game
     {
         [Header("Vars")]
         [SerializeField] float updateTime = 0.1f;
-        [SerializeField] float detectionRadius = 8;
+        [SerializeField] float unAlertDetectionRadius = 8;
+        [SerializeField] float alertDetectionRadius = 12;
+        [SerializeField] float rememberTargetTime = 2;
+        [SerializeField] float rememberAggravateTargetTime = 5;
         [SerializeField] LayerMask targetMask;
         [SerializeField] LayerMask losMask;
 
@@ -20,48 +23,69 @@ namespace Game
 
         CharacterComponents components;
 
-        Ref<Transform> targetRef;
-        Collider2D targetCollider;
+        TargetInfo targetInfo;
 
         Timer lookForTargetTimer;
+        Timer rememberTargetTimer;
 
         // For Debuging
         Vector2 losStart;
         Vector2 losEnd;
         Color losColor;
 
-        public FindTargetTask Create(CharacterComponents components, Ref<Transform> targetRef, Node child = null)
+        private FindTargetTask() : base(null) { }
+        public FindTargetTask Init(CharacterComponents components, TargetInfo targetInfo, Node child = null)
         {
-            CreateTask(child);
+            InitializeTask(child);
 
-            this.targetRef = targetRef;
+            this.targetInfo = targetInfo;
             this.components = components;
             lookForTargetTimer = new Timer(updateTime);
+            rememberTargetTimer = new Timer(1).ForceDone();
 
             components.health.OnDamageParams += OnDamage;
 
             return this;
         }
 
-        private void OnDamage(DamageStats damage, Collider2D col, Vector2? dir)
+        private void OnDamage(DamageStats damage, Collider2D col, Collider2D source, Vector2? dir)
         {
-            SetTarget(col);
+            // Sets its own target to the new damage
+            targetInfo.SetTarget(source, CheckLOS(source, alertDetectionRadius));
+            rememberTargetTimer.SetDelay(rememberAggravateTargetTime).Reset();
+
+            //Debug.Log("Hit aggravated: " + components.gameObject.name);
+
+            // Loops over all aggravateable objects of its own layer
+            Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
+
+            foreach (Collider2D overlap in overlaps)
+            {
+                if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
+                {
+                    aggravate.Aggravate(source);
+                }
+            }
         }
 
-        public void DrawRadius(Vector2 pos)
+        public void Aggravate(Collider2D col)
         {
-            if (!drawRadius) return;
+            // Only aggravates if the current target is null
+            // If the chase state is locked while the LOS is broken it will aggravate to the new target
 
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(pos, detectionRadius);
+            if (targetInfo.isActive) return;
+
+            targetInfo.SetTarget(col, CheckLOS(col, alertDetectionRadius));
+            rememberTargetTimer.SetDelay(rememberTargetTime).Reset();
+
+            Debug.Log("Alert Aggravated: " + components.gameObject.name);
         }
-
 
         protected override void DoTask()
         {
             if (lookForTargetTimer.isDone)
             {
-                if (targetRef.value == null)
+                if (!targetInfo.isActive)
                     GetNewTarget();
                 else
                     CheckCurrentTarget();
@@ -69,18 +93,21 @@ namespace Game
                 lookForTargetTimer.Reset();
             }
 
+            //Debug.Log("Target: " + targetInfo.gameObject?.name + " Time left: " + rememberTargetTimer?.currentDeltaTime);
+
             DrawLOS();
         }
 
         void GetNewTarget()
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, detectionRadius, targetMask);
+            Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, unAlertDetectionRadius, targetMask);
 
             foreach (Collider2D col in cols)
             {
-                if (CheckLOS(col))
+                if (CheckLOS(col, unAlertDetectionRadius))
                 {
-                    SetTarget(col);
+                    targetInfo.SetTarget(col, true);
+                    rememberTargetTimer.SetDelay(rememberTargetTime).Reset();    
                     break;
                 }
             }
@@ -91,15 +118,21 @@ namespace Game
 
         void CheckCurrentTarget()
         {
-            if (!CheckLOS(targetCollider))
+            bool los = CheckLOS(targetInfo.collider, alertDetectionRadius);
+            targetInfo.UpdateLOS(los);
+
+            if (los)
+                rememberTargetTimer.Reset();
+
+            if (!los && rememberTargetTimer.isDone)
             {
-                SetTarget(null);
+                targetInfo.SetTarget(null, false);
             }
         }
 
-        bool CheckLOS(Collider2D col)
+        bool CheckLOS(Collider2D col, float radius)
         {
-            RaycastHit2D losHit = Physics2D.Raycast(components.transform.position, (col.transform.position - components.transform.position).normalized, detectionRadius + 0.5f, losMask | targetMask);
+            RaycastHit2D losHit = Physics2D.Raycast(components.transform.position, (col.transform.position - components.transform.position).normalized, radius + 0.1f, losMask | targetMask);
 
             if (losHit.collider == null)
             {
@@ -121,16 +154,20 @@ namespace Game
             return true;
         }
 
-        void SetTarget(Collider2D col)
-        {
-            targetRef.value = col == null ? null : col.transform;
-            targetCollider = col;
-        }
-
         void DrawLOS()
         {
             if (drawLOS)
                 Debug.DrawLine(losStart, losEnd, losColor);
+        }
+
+        public void DrawRadius(Vector2 pos)
+        {
+            if (!drawRadius) return;
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(pos, unAlertDetectionRadius);
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(pos, alertDetectionRadius);
         }
     }
 } 

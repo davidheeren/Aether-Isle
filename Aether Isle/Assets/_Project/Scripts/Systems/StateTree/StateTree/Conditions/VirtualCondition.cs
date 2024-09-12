@@ -4,11 +4,9 @@ namespace StateTree
     {
         ConditionMethod condition;
 
-        public VirtualCondition Create(ConditionMethod condition)
+        public VirtualCondition(ConditionMethod condition)
         {
             this.condition = condition;
-
-            return this;
         }
 
         public override bool Calculate()

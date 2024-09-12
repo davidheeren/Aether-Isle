@@ -4,13 +4,15 @@
     {
         Node[] _children; // "_" Because we already have a children var in Node
 
-        public Selector Create(Node[] _children)
+        public Selector(params Node[] _children)
         {
-            CreateNode();
             this._children = _children;
-
-            return this;
         }
+
+        //public Selector Create(params Node[] _children)
+        //{
+        //    return Create(_children);
+        //}
 
         public override State Evaluate() // Goes through each child and returns the first one that is not null
         {

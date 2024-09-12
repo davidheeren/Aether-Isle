@@ -1,4 +1,5 @@
-﻿using StateTree;
+﻿using SpriteAnimator;
+using StateTree;
 using System;
 using UnityEngine;
 using Utilities;
@@ -10,19 +11,25 @@ namespace Game
     {
         [SerializeField] float dashSpeed = 10;
         [SerializeField] AudioClip dashSFX;
+        [SerializeField] SpriteAnimation animation;
         [SerializeField] LayerMask dashMask;
 
         CharacterComponents components;
 
         Vector2 dashDir;
 
-        public PlayerDashState Create(CharacterComponents components, Node child = null)
+        private PlayerDashState() : base(null) { }
+        public PlayerDashState Init(CharacterComponents components, Node child = null)
         {
-            CreateState(child);
-
+            InitializeState(child);
             this.components = components;
 
             return this;
+        }
+
+        protected override bool CanEnterState()
+        {
+            return InputManager.Instance.input.Game.Dash.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
         }
 
         protected override void EnterState()
@@ -32,7 +39,7 @@ namespace Game
             components.col.excludeLayers = dashMask;
             components.health.canTakeDamage = false;
 
-            components.animator.Play("Dash");
+            components.animator.Play(animation);
 
             dashDir = InputManager.Instance.input.Game.Move.ReadValue<Vector2>();
             SFXManager.Instance.PlaySFXClip(dashSFX, components.movement.transform.position);

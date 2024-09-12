@@ -1,5 +1,6 @@
 using StateTree;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game
 {
@@ -11,12 +12,15 @@ namespace Game
 
         [Header("States")]
         [SerializeField] RootState playerRoot;
-        [SerializeField] PlayerSwimState swimState;
         [SerializeField] CharacterStunState stunState;
         [SerializeField] CharacterDieState dieState;
-        [SerializeField] PlayerRunState runState;
+        [SerializeField] PlayerIdleState idleState;
+        [SerializeField] PlayerMoveState runState;
         [SerializeField] PlayerDashState dashState;
         [SerializeField] PlayerAttackState attackState;
+        [SerializeField] PlayerSwimState swimState;
+        [SerializeField] PlayerIdleState swimIdleState;
+        [SerializeField] PlayerMoveState swimMoveState;
 
         [Header("Conditions")]
         [SerializeField] CheckGroundCondition swimCondition;
@@ -36,35 +40,38 @@ namespace Game
 
         private void Awake()
         {
-            components.Setup(this);
+            components.Init(this);
             PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
 
             // Conditions
-            swimCondition.Create(transform);
+            swimCondition.Init(transform);
 
             // State Branches
-            Node swimBranch = swimState.Create(components);
-            Node runBranch = runState.Create(components);
-            Node dashBranch = new LockNullModifier().Create(dashDuration, 1, dashCooldown, dashState.Create(components));
-            Node attackBranch = new LockNullModifier().Create(attackDuration, 2, attackCooldown, attackState.Create(components, aim));
-            Node idleBranch = new PlayerIdleState().Create(components);
+            Node swimBranch = swimState.Init(components, new Selector(
+                                new If(new VirtualCondition(MoveCondition), swimMoveState.Init(components)),
+                                swimIdleState.Init(components)));
+
+            Node runBranch = runState.Init(components);
+            Node dashBranch = new LockNullModifier(dashDuration, 1, dashCooldown, dashState.Init(components));
+            Node attackBranch = new LockNullModifier(attackDuration, 2, attackCooldown, attackState.Init(components, aim));
+            Node idleBranch = idleState.Init(components);
 
             // Large Branches
-            Node groundedBranch = new HolderState().Create(new Selector().Create(new Node[] {
-                            new If().Create(new VirtualCondition().Create(DashCondition), dashBranch),
-                            new If().Create(new VirtualCondition().Create(AttackCondition), attackBranch),
-                            new If().Create(new VirtualCondition().Create(IdleCondition), idleBranch),
-                            runBranch }));
+            Node groundedBranch = new HolderState(new Selector(
+                                    dashBranch,
+                                    attackBranch,
+                                    new If(new VirtualCondition(MoveCondition), runBranch),
+                                    idleBranch));
 
-            State notHitState = new HolderState().Create(new Selector().Create(new Node[] {
-                                new If().Create(swimCondition, swimBranch),
-                                groundedBranch}));
+            State notHitBranch = new HolderState(new Selector(
+                                new If(swimCondition, swimBranch),
+                                groundedBranch));
 
             // State Tree
-            playerRoot = playerRoot.Create(new Selector().Create(new Node[] {
-                            stunState.Create(false, null, components), // Automatically locks and returns null if
-                            dieState.Create(components),
-                            notHitState }));
+            playerRoot.Init(new Selector(
+                            stunState.Init(false, null, components),
+                            dieState.Init(components),
+                            notHitBranch));
         }
 
         private void Update()
@@ -72,21 +79,26 @@ namespace Game
             playerRoot.UpdateStateTree();
         }
 
-        bool DashCondition()
+        [ContextMenu("Test Performance")]
+        void TestPerformance()
         {
-            return InputManager.Instance.input.Game.Dash.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
-            //return InputManager.Instance.input.Game.Roll.IsPressed() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
+            System.Diagnostics.Stopwatch sw = new();
+            sw.Start();
+
+            int count = 10000;
+
+            for (int i = 0; i < count; i++)
+            {
+                playerRoot.UpdateStateTree();
+            }
+
+            print("Count: " + count + " ms: " + sw.ElapsedMilliseconds);
+            sw.Stop();
         }
 
-        bool AttackCondition()
+        bool MoveCondition()
         {
-            return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
-            //return InputManager.Instance.input.Game.Attack.IsPressed();
-        }
-
-        bool IdleCondition()
-        {
-            return InputManager.Instance.input.Game.Move.ReadValue<Vector2>() == Vector2.zero;
+            return InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
         }
     }
 }

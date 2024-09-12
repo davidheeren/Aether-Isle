@@ -13,7 +13,7 @@ namespace Game
 
         Transform transform;
 
-        public CheckGroundCondition Create(Transform transform)
+        public CheckGroundCondition Init(Transform transform)
         {
             this.transform = transform;
 

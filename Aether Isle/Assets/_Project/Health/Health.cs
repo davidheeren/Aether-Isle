@@ -11,24 +11,24 @@ namespace Game
         [NonSerialized] public bool canTakeDamage = true;
         public bool isDead { get; private set; } = false;
 
-        public Action<DamageStats, Collider2D, Vector2?> OnDamageParams;
-        public Action OnDamage;
+        public event Action<DamageStats, Collider2D, Collider2D, Vector2?> OnDamageParams;
+        public event Action OnDamage;
 
-        public Action OnDie;
+        public event Action OnDie;
 
         private void Awake()
         {
             currentHealth = maxHealth;
         }
 
-        public void Damage(DamageStats damage, Collider2D col, Vector2? dir = null)
+        public void Damage(DamageStats damage, Collider2D col, Collider2D source, Vector2? dir = null)
         {
             if (!canTakeDamage || isDead)
                 return;
 
             currentHealth -= damage.damage;
 
-            OnDamageParams?.Invoke(damage, col, dir);
+            OnDamageParams?.Invoke(damage, col, source, dir);
             OnDamage?.Invoke();
 
             if (currentHealth <= 0)

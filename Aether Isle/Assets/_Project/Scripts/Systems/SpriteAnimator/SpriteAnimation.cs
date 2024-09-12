@@ -15,11 +15,16 @@ namespace SpriteAnimator
             get
             {
                 if (_sprites == null)
-                    Debug.LogWarning("Sprite array is null or length is 0");
+                    Debug.LogWarning("Sprite array is null or length is 0: " + name);
                 if (_sprites.Length == 0)
-                    Debug.LogWarning("Sprite array is null or length is 0");
+                    Debug.LogWarning("Sprite array is null or length is 0: " + name);
                 return _sprites;
             }
+        }
+
+        public int Length
+        {
+            get { return _sprites.Length; }
         }
 
         public enum AnimationEnd

@@ -1,3 +1,4 @@
+using SpriteAnimator;
 using StateTree;
 using System;
 using UnityEngine;
@@ -8,13 +9,15 @@ namespace Game
     public class ZombieChaseState : State
     {
         [SerializeField] float chaseSpeed = 3;
+        [SerializeField] SpriteAnimation animation;
 
         AIMovement aiMovement;
-        Animator animator;
+        SpriteAnimatorController animator;
 
-        public ZombieChaseState Create(AIMovement aiMovement, Animator animator, Node child = null)
+        private ZombieChaseState() : base(null) { }
+        public ZombieChaseState Init(AIMovement aiMovement, SpriteAnimatorController animator, Node child = null)
         {
-            CreateState(child);
+            InitializeState(child);
 
             this.aiMovement = aiMovement;
             this.animator = animator;
@@ -26,7 +29,7 @@ namespace Game
         {
             base.EnterState();
 
-            animator.Play("Run");
+            animator.Play(animation);
 
             aiMovement.Enter();
         }

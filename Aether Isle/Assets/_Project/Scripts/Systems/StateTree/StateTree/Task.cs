@@ -7,11 +7,9 @@ namespace StateTree
     {
         Node child;
 
-        protected void CreateTask(Node child)
-        {
-            CreateNode();
-            this.child = child;
-        }
+        public Task(Node child) => InitializeTask(child);
+
+        protected void InitializeTask(Node child) => this.child = child;
 
         public override State Evaluate()
         {
@@ -19,10 +17,7 @@ namespace StateTree
             return child.Evaluate();
         }
 
-        protected override void SetChildrenParentRelationships()
-        {
-            AddChild(child);
-        }
+        protected override void SetChildrenParentRelationships() => AddChild(child);
 
         protected abstract void DoTask();
     }

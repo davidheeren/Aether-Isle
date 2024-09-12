@@ -1,3 +1,4 @@
+using SpriteAnimator;
 using System;
 using UnityEngine;
 
@@ -8,8 +9,8 @@ namespace Game
     {
         // Holds references to common components on a character
 
-        public Animator animator;
         public SpriteRenderer spriteRenderer;
+        public SpriteAnimatorController animator;
 
         [NonSerialized] public Movement movement;
         [NonSerialized] public Collider2D col;
@@ -19,7 +20,7 @@ namespace Game
         [NonSerialized] public GameObject gameObject;
         [NonSerialized] public Transform transform;
 
-        public void Setup(MonoBehaviour mb)
+        public void Init(MonoBehaviour mb)
         {
             movement = mb.GetComponent<Movement>();
             col = mb.GetComponent<Collider2D>();

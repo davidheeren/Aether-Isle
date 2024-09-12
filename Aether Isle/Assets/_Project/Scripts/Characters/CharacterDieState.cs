@@ -1,4 +1,5 @@
-﻿using StateTree;
+﻿using SpriteAnimator;
+using StateTree;
 using System;
 using UnityEngine;
 using Utilities;
@@ -8,6 +9,7 @@ namespace Game
     [Serializable]
     public class CharacterDieState : State
     {
+        [SerializeField] SpriteAnimation animation;
         [SerializeField] AudioClip dieSFX;
 
         CharacterComponents components;
@@ -19,9 +21,10 @@ namespace Game
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        public CharacterDieState Create(CharacterComponents components, Node child = null)
+        private CharacterDieState() : base(null) { }
+        public CharacterDieState Init(CharacterComponents components, Node child = null)
         {
-            CreateState(child);
+            InitializeState(child);
 
             this.components = components;
 
@@ -50,7 +53,7 @@ namespace Game
             delayTimer.Reset();
             components.col.enabled = false;
             components.rb.velocity = Vector2.zero;
-            components.animator.Play("Die");
+            components.animator.Play(animation);
             SFXManager.Instance.PlaySFXClip(dieSFX, components.rb.transform.position);
         }
 

@@ -1,3 +1,4 @@
+using SpriteAnimator;
 using StateTree;
 using System;
 using UnityEngine;
@@ -8,22 +9,29 @@ namespace Game
     public class PlayerAttackState : State
     {
         [SerializeField] float moveAttackDirSpeed = 1f;
-        [SerializeField] CollisionDamage attackPrefab;
+        [SerializeField] DamageProjectile projectile;
+        [SerializeField] LayerMask damageMask;
         [SerializeField] AudioClip attackSFX;
+        [SerializeField] SpriteAnimation animation;
 
         CharacterComponents components;
         PlayerAimDirection aim;
 
         Vector2 initialAimDir;
 
-        public PlayerAttackState Create(CharacterComponents components, PlayerAimDirection aim, Node child = null)
+        private PlayerAttackState() : base(null) { }
+        public PlayerAttackState Init(CharacterComponents components, PlayerAimDirection aim, Node child = null)
         {
-            CreateState(child);
-
+            InitializeState(child);
             this.components = components;
             this.aim = aim;
 
             return this;
+        }
+
+        protected override bool CanEnterState()
+        {
+            return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
         }
 
         protected override void EnterState()
@@ -32,10 +40,9 @@ namespace Game
 
             initialAimDir = aim.aimDir;
 
-            CollisionDamage obj = GameObject.Instantiate(attackPrefab, components.transform.position + (Vector3)aim.aimDir * 0.75f, Quaternion.Euler(0, 0, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90));
-            obj.SetCollider(components.col);
+            projectile.Spawn(components.col, damageMask, components.transform.position + (Vector3)aim.aimDir * 0.75f, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90);
             SFXManager.Instance.PlaySFXClip(attackSFX, components.transform.position);
-            components.animator.Play("Attack", -1, 0); // Resets anim even if already playing
+            components.animator.Play(animation);
         }
 
         protected override void UpdateState()

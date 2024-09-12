@@ -1,11 +1,10 @@
 ﻿using System;
-using UnityEngine;
 
 namespace StateTree
 {
     public class EventSwitch
     {
-        bool happenSwitch;
+        private bool happenSwitch;
 
         public bool happened
         {
@@ -17,12 +16,20 @@ namespace StateTree
             }
         }
 
+        /// <summary>
+        /// Syntax for a lambda expression: (action) => myEvent += action
+        /// </summary>
+        public EventSwitch(Action<Action> eventSubscribe)
+        {
+            eventSubscribe(OnEvent);
+        }
+
         public EventSwitch(ref Action action)
         {
             action += OnEvent;
         }
 
-        void OnEvent()
+        public void OnEvent()
         {
             happenSwitch = true;
         }

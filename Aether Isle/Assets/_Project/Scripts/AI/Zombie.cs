@@ -3,23 +3,24 @@ using UnityEngine;
 
 namespace Game
 {
-    public class Zombie : MonoBehaviour
+    public class Zombie : MonoBehaviour, IAggravate
     {
         [Header("General Vars")]
         [SerializeField] CharacterComponents components;
+        [SerializeField] AIMovement aiMovement;
+        [SerializeField] ObstacleAvoidance obstacleAvoidance;
 
         [Header("States")]
-        [SerializeField] AIMovement aiMovement;
         [SerializeField] RootState enemyRoot;
         [SerializeField] FindTargetTask findTarget;
+        [SerializeField] CharacterIdleState idleState;
         [SerializeField] ZombieChaseState chaseState;
         [SerializeField] CharacterStunState stunState;
         [SerializeField] CharacterDieState dieState;
 
         [Header("Modifiers")]
-        [SerializeField] float rememberTargetTime = 2;
 
-        Ref<Transform> targetRef = new Ref<Transform>();
+        TargetInfo targetInfo = new TargetInfo();
 
         private void OnDrawGizmosSelected()
         {
@@ -28,21 +29,34 @@ namespace Game
 
         void Awake()
         {
-            components.Setup(this);
-            aiMovement.Setup(targetRef, components);
+            components.Init(this);
+            aiMovement.Init(targetInfo, obstacleAvoidance, components);
 
-            Node chaseBranch = findTarget.Create(components, targetRef, new If().Create(new Not().Create(new NullCondition<Transform>().Create(targetRef)), new LockCooldownModifier().Create(rememberTargetTime, 1, true, chaseState.Create(aiMovement, components.animator))));
-            Node moveBranch = new HolderState().Create(new Selector().Create(new Node[] { chaseBranch, new CharacterIdleState().Create(components.animator) }));
+            Node chaseBranch = findTarget.Init(components, targetInfo, new If(new VirtualCondition(TargetActiveCondition), chaseState.Init(aiMovement, components.animator))); 
+            Node moveBranch = new HolderState(new Selector(chaseBranch, idleState.Init(components.animator)));
 
-            enemyRoot.Create(new Selector().Create(new Node[] {
-                stunState.Create(true, null, components), // Automatically locks and returns null if
-                dieState.Create(components),
-                moveBranch }));
+            enemyRoot.Init(new Selector(
+                new CharacterSpawnState(components),
+                stunState.Init(true, null, components), // Automatically locks and returns null if
+                dieState.Init(components),
+                moveBranch));
+
+            enemyRoot.UpdateStateTree();
         }
 
         private void Update()
         {
             enemyRoot.UpdateStateTree();
+        }
+
+        bool TargetActiveCondition()
+        {
+            return targetInfo.isActive;
+        }
+
+        public void Aggravate(Collider2D col)
+        {
+            findTarget.Aggravate(col);
         }
     }
 }

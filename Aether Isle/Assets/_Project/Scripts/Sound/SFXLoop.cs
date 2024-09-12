@@ -16,23 +16,16 @@ namespace Game
             source.playOnAwake = false;
         }
 
-        public void Play()
-        {
-            source.Play();
-            source.volume = SFXManager.GetVolumeFromPosition(transform.position);
-        }
+        public void Play() => source.Play();
 
-        public void Stop()
-        {
-            source.Stop();
-        }
+        public void Stop() => source.Stop();
+
+        public void Pause() => source.Pause();
 
         void Update()
         {
             if (source.isPlaying)
-            {
                 source.volume = SFXManager.GetVolumeFromPosition(transform.position);
-            }
         }
     }
 }

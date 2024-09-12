@@ -8,7 +8,7 @@ namespace Game
     {
         private void OnApplicationQuit()
         {
-            SaveSystem.SaveObject.timeAtLastUnload += Time.time;
+            SaveSystem.SaveData.timeAtLastUnload += Time.time;
             //SaveSystem.SaveObject.PlayerPos = new Vector2(10, -8);
             SaveSystem.Save();
             //print("Exit Application");

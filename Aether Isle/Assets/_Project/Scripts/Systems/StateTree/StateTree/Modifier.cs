@@ -10,11 +10,9 @@ namespace StateTree
 
         protected State subState;
 
-        protected void CreateModifier(Node child)
-        {
-            CreateNode();
-            this.child = child;
-        }
+        public Modifier(Node child) => InitializeModifier(child);
+
+        protected void InitializeModifier(Node child) => this.child = child;
 
         protected override void Setup()
         {

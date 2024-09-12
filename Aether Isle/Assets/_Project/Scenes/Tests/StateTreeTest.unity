@@ -150,10 +150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootState:
-    debugSetup: 0
+    name: RootState
     debugState: 0
     debugGeneral: 0
-    enabled: 1
+    createGameObjectTree: 1
 --- !u!4 &340640979
 Transform:
   m_ObjectHideFlags: 0

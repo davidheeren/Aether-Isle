@@ -8,7 +8,6 @@
 
         float? duration;
         int? lockDepth;
-        bool? canReenter;
         float? cooldown;
 
         bool isLocked;
@@ -18,18 +17,10 @@
         SimpleTimer durationTimer;
         SimpleTimer cooldownTimer;
 
-        public LockNullModifier Create(float? duration, int? lockDepth, float? cooldown, Node child)
+        public LockNullModifier(float? duration, int? lockDepth, float? cooldown, Node child) : base(child)
         {
-            return Create(duration, lockDepth, null, cooldown, child);
-        }
-
-        public LockNullModifier Create(float? duration, int? lockDepth, bool? canReenter, float? cooldown, Node child)
-        {
-            CreateModifier(child);
-
             this.duration = duration;
             this.lockDepth = lockDepth;
-            this.canReenter = canReenter;
             this.cooldown = cooldown;
 
             if (duration != null)
@@ -43,16 +34,6 @@
                 cooldownTimer = new SimpleTimer(cooldown.Value);
                 cooldownTimer.ForceDone();
             }
-
-            return this;
-        }
-
-        protected override void Setup()
-        {
-            base.Setup();
-
-            if (canReenter != null)
-                subState.canReenter = canReenter.Value;
         }
 
         protected override void EnterSubState()
