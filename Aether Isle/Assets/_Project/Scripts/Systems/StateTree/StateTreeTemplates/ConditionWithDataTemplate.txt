@@ -1,0 +1,25 @@
+using UnityEngine;
+using StateTree;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : Condition
+{
+    Data data;
+
+    public #SCRIPTNAME#(Data data)
+    {
+        this.data = data;
+    }
+
+    public override bool Calculate()
+    {
+        return false;
+    }
+
+    [System.Serializable]
+    public class Data
+    {
+        #NOTRIM#
+    }
+}
+#ROOTNAMESPACEEND#

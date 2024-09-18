@@ -20,6 +20,7 @@ Shader "Custom/Shadow"
 
 		Pass
 		{
+			// Discards pixels whose stencil values are not equal to 4, then sets stencil value to 4
 			Stencil
 			{
 				Ref 4
@@ -67,6 +68,7 @@ Shader "Custom/Shadow"
 				if (color.a <= _AlphaClip)
 					discard;
 
+				// Replaces texuture color
 				color = _Color;
 				return color;
 			}

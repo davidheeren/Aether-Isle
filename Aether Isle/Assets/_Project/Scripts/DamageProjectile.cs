@@ -12,11 +12,12 @@ namespace Game
             collisionDamage = GetComponent<CollisionDamage>();
         }
 
-        public void Spawn(Collider2D source, LayerMask damageMask, Vector2 pos, float rot)
+        public void Spawn(Collider2D source, LayerMask damageMask, Vector2 pos, float rot, Transform parent = null)
         {
             //DamageProjectile spawn = Instantiate(this, pos, Quaternion.Euler(0, 0, rot), source.transform);
             DamageProjectile spawn = Instantiate(this, pos, Quaternion.Euler(0, 0, rot));
 
+            if (parent != null) spawn.transform.parent = parent;
 
             spawn.collisionDamage.source = source;
             spawn.collisionDamage.damageMask = damageMask;

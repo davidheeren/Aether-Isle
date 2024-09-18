@@ -1,49 +1,54 @@
 ﻿using SpriteAnimator;
 using StateTree;
-using System;
 using UnityEngine;
 
 namespace Game
 {
-    [Serializable]
     public class PlayerMoveState : State
     {
-        [SerializeField] float speed = 5;
-        [SerializeField] SpriteAnimation animation;
-        [SerializeField] SFXLoop SFXLoop;
-
+        Data data;
         CharacterComponents components;
 
-        private PlayerMoveState() : base(null) { }
-        public PlayerMoveState Init(CharacterComponents components, Node child = null)
+        public PlayerMoveState(Data data, CharacterComponents components, Node child = null) : base(child)
         {
-            InitializeState(child);
+            this.data = data;
             this.components = components;
+        }
 
-            return this;
+        [System.Serializable]
+        public class Data
+        {
+            public float speed = 5;
+            public SpriteAnimation animation;
+            public SFXLoop SFXLoop;
+        }
+
+        protected override bool CanEnterState()
+        {
+            return InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            components.animator.Play(animation);
+            components.animator.Play(data.animation);
 
-            SFXLoop?.Play();
+            data.SFXLoop?.Play();
         }
 
         protected override void UpdateState()
         {
             base.UpdateState();
 
-            components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * speed);
+            components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * data.speed);
         }
 
         protected override void ExitState()
         {
             base.ExitState();
 
-            SFXLoop?.Stop();
+            data.SFXLoop?.Stop();
         }
     }
 }

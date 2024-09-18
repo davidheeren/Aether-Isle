@@ -1,17 +1,16 @@
 using Pathfinding;
-using StateTree;
-using System;
 using UnityEngine;
 using Utilities;
 
 namespace Game
 {
-    [Serializable]
-    public class AIMovement
+    /// <summary>
+    /// Helps move an agent to a destination using pathfinding and obstacle avoidance
+    /// </summary>
+    public class CharacterMovement
     {
-        [SerializeField] float evaluateDirTime = 0.25f;
-        const float nextWaypointDist = 0.5f;
-
+        // TODO: CLEAN THIS MESS UP
+        Data data;
         ObstacleAvoidance obstacleAvoidance;
         Pathfinder pathfinder;
 
@@ -23,17 +22,25 @@ namespace Game
         Vector2[] path;
         int pathIndex;
 
-        public void Init(TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, CharacterComponents components)
+        const float nextWaypointDist = 0.5f;
+
+        public CharacterMovement(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, CharacterComponents components)
         {
+            this.data = data;
             this.targetInfo = targetInfo;
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
 
-            if (evaluateDirTime > 0)
-                targetDirTimer = new Timer(evaluateDirTime);
+            if (data.evaluateDirTime > 0)
+                targetDirTimer = new Timer(data.evaluateDirTime);
 
-            obstacleAvoidance.Setup(components.transform);
             pathfinder = new Pathfinder(PathGrid.Instance);
+        }
+
+        [System.Serializable]
+        public class Data
+        {
+            public float evaluateDirTime = 0.5f;
         }
 
         public void Enter()
@@ -75,7 +82,7 @@ namespace Game
 
             if (pathIndex == path.Length - 1) isAtEndOfPath = true;
 
-            Vector2 targetPos = isAtEndOfPath ? (Vector2)targetInfo.GetSmartPosition(components.transform.position) : path[pathIndex];
+            Vector2 targetPos = isAtEndOfPath ? (Vector2)targetInfo.GetKnownPosition(components.transform.position) : path[pathIndex];
 
             if ((targetPos - (Vector2)components.transform.position).sqrMagnitude < 0.1f * 0.1f) // less than 0.1 units
                 return;
@@ -87,7 +94,7 @@ namespace Game
 
         void UpdatePath()
         {
-            path = pathfinder.FindPath(components.transform.position, targetInfo.GetSmartPosition(components.transform.position));
+            path = pathfinder.FindPath(components.transform.position, targetInfo.GetKnownPosition(components.transform.position));
             pathIndex = 0;
         }
     }

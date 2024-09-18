@@ -1,0 +1,21 @@
+using UnityEngine;
+using StateTree;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : State
+{
+    #SCRIPTNAME#Data data;
+
+    public #SCRIPTNAME#(#SCRIPTNAME#Data data, Node child = null) : base(child)
+    {
+        this.data = data;
+    }
+}
+
+// Move to own file bc Scriptable object names must match it's file name
+[CreateAssetMenu(menuName = "Data/#SCRIPTNAME#Data")]
+public class #SCRIPTNAME#Data : ScriptableObject
+{
+    #NOTRIM#
+}
+#ROOTNAMESPACEEND#

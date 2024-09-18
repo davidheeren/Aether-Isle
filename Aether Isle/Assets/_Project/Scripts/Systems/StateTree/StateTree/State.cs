@@ -4,16 +4,11 @@ using UnityEngine;
 
 namespace StateTree
 {
-    [Serializable]
     public abstract class State : Node
     {
         // Edit Vars
-        [NonSerialized] public bool isLocked = false; // Locks current sub state from changing
-        [NonSerialized] public bool canReenter = false; // Exits then enters itself if locked and evaluated
-        [NonSerialized] public bool enabled = true;
-        [NonSerialized] public int priority;
-        public State SetPriority(int priority) { this.priority = priority; return this; }
-        public State SetEnabled(bool enabled) { this.enabled = enabled; return this; }
+        public bool isLocked { get; private set; } = false; // Locks current sub state from changing
+        public bool canReenter = false; // Exits then enters itself if locked and evaluated
         public State SetCanReenter(bool canReenter) { this.canReenter = canReenter; return this; }
 
         // Readonly vars
@@ -30,9 +25,10 @@ namespace StateTree
         public event Action OnExitState;
 
         // Constructor
-        public State(Node child) => InitializeState(child);
-
-        protected void InitializeState(Node child) => this.child = child;
+        public State(Node child)
+        {
+            this.child = child;
+        }
 
         protected override void SetChildrenParentRelationships() => AddChild(child);
 
@@ -48,7 +44,7 @@ namespace StateTree
             if (!CanEnterState())
                 return null;
 
-            if (child != null && enabled)
+            if (child != null)
                 possibleSubState = child.Evaluate();
 
             return this;
@@ -57,17 +53,16 @@ namespace StateTree
         protected virtual bool CanEnterState() => true; // Override this in your custom State to have your own If Node in the state itself
 
         #region EnterUpdateExit Wrappers
-        public void EnterStateWrapper()
+        protected void EnterStateWrapper()
         {
             EnterState();
             OnEnterState?.Invoke();
+            if (rootState.data.debugState) Debug.Log("Enter: " + name);
             // We do not need to call the current sub states enter method because we set it to null on the exit so it will be called on the evaluate method
         }
 
-        public virtual void UpdateStateWrapper()
+        protected virtual void UpdateStateWrapper()
         {
-            if (!enabled) return;
-
             UpdateState();
             OnUpdateState?.Invoke();
 
@@ -76,34 +71,35 @@ namespace StateTree
             currentSubState?.UpdateStateWrapper();
         }
 
-        public void FixedUpdateStateWrapper()
+        protected void FixedUpdateStateWrapper()
         {
-            if (!enabled) return;
-
             FixedUpdateState();
             currentSubState?.FixedUpdateStateWrapper();
         }
 
-        public virtual void ExitStateWrapper()
+        protected virtual void ExitStateWrapper()
         {
             ExitState();
             OnExitState?.Invoke();
+            if (rootState.data.debugState) Debug.Log("Exit: " + name);
 
             currentSubState?.ExitStateWrapper();
             currentSubState = null;
             possibleSubState = null;
         }
 
-        protected virtual void EnterState() { if (rootState.debugState) Debug.Log("Enter: " + name); }
+        protected virtual void EnterState() { }
         protected virtual void UpdateState() { }
         protected virtual void FixedUpdateState() { }
-        protected virtual void ExitState() { if (rootState.debugState) Debug.Log("Exit: " + name); }
+        protected virtual void ExitState() { }
         #endregion
 
         protected void SetCurrentSubState(State _possibleSubState, ref State _currentSubState)
         {
+
             if (!isLocked && _possibleSubState != _currentSubState)
                 _currentSubState?.OnPreExitState?.Invoke();
+
 
             if (!isLocked)
             {
@@ -119,6 +115,7 @@ namespace StateTree
                 _currentSubState?.ExitStateWrapper();
                 _currentSubState?.EnterStateWrapper();
             }
+
         }
 
         /// <summary>

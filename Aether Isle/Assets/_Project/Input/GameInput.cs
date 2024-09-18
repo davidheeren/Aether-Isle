@@ -83,6 +83,15 @@ namespace Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""5af609ed-fc35-42f4-bf7a-1959958a12a2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,7 +221,7 @@ namespace Input
                     ""id"": ""963b0e5d-b666-4fe7-83fe-bd98c86c24bd"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": ""StickDeadzone(min=0.5)"",
+                    ""processors"": ""StickDeadzone(min=0.6)"",
                     ""groups"": """",
                     ""action"": ""AimDir"",
                     ""isComposite"": true,
@@ -314,6 +323,28 @@ namespace Input
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""LockAim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""afa471ff-4a0d-4f1e-83c1-c79e77191a99"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29c088da-2ad7-4c8d-84d6-21f380a6dd66"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -478,6 +509,7 @@ namespace Input
             m_Game_LockAim = m_Game.FindAction("LockAim", throwIfNotFound: true);
             m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
             m_Game_Dash = m_Game.FindAction("Dash", throwIfNotFound: true);
+            m_Game_Interact = m_Game.FindAction("Interact", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -559,6 +591,7 @@ namespace Input
         private readonly InputAction m_Game_LockAim;
         private readonly InputAction m_Game_Attack;
         private readonly InputAction m_Game_Dash;
+        private readonly InputAction m_Game_Interact;
         public struct GameActions
         {
             private @GameInput m_Wrapper;
@@ -569,6 +602,7 @@ namespace Input
             public InputAction @LockAim => m_Wrapper.m_Game_LockAim;
             public InputAction @Attack => m_Wrapper.m_Game_Attack;
             public InputAction @Dash => m_Wrapper.m_Game_Dash;
+            public InputAction @Interact => m_Wrapper.m_Game_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Game; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -596,6 +630,9 @@ namespace Input
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
 
             private void UnregisterCallbacks(IGameActions instance)
@@ -618,6 +655,9 @@ namespace Input
                 @Dash.started -= instance.OnDash;
                 @Dash.performed -= instance.OnDash;
                 @Dash.canceled -= instance.OnDash;
+                @Interact.started -= instance.OnInteract;
+                @Interact.performed -= instance.OnInteract;
+                @Interact.canceled -= instance.OnInteract;
             }
 
             public void RemoveCallbacks(IGameActions instance)
@@ -761,6 +801,7 @@ namespace Input
             void OnLockAim(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

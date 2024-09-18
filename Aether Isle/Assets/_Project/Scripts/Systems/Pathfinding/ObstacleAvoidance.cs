@@ -2,21 +2,14 @@
 
 namespace Game
 {
-    [System.Serializable]
     public class ObstacleAvoidance
     {
-        [SerializeField] int rayCount = 20;
-        [SerializeField] float rayDist = 2;
-        [SerializeField] float avoidanceMultiplier = 5;
-        [SerializeField] LayerMask avoidanceMask;
-
-        [Header("Debug")]
-        [SerializeField] bool drayRays;
-
+        ObstacleAvoidanceData data;
         Transform transform;
 
-        public void Setup(Transform transform)
+        public ObstacleAvoidance(ObstacleAvoidanceData data, Transform transform)
         {
+            this.data = data;
             this.transform = transform;
         }
 
@@ -25,14 +18,12 @@ namespace Game
             Vector2 dir = targetPos - (Vector2)transform.position;
             dir.Normalize();
 
-            dir += Avoidance() * avoidanceMultiplier;
+            dir += Avoidance() * data.avoidanceMultiplier;
 
             dir.Normalize();
 
-            if (drayRays)
-            {
+            if (data.drayRays)
                 Debug.DrawRay(transform.position, dir * 1, Color.white);
-            }
 
             return dir;
         }
@@ -43,25 +34,25 @@ namespace Game
 
             Vector2 avoidance = Vector2.zero;
 
-            float rayCountRecip = 1f / rayCount;
+            float rayCountRecip = 1f / data.rayCount;
 
-            for (int i = 0; i < rayCount; i++)
+            for (int i = 0; i < data.rayCount; i++)
             {
-                float angle = i * Mathf.PI * 2 / rayCount;
+                float angle = i * Mathf.PI * 2 / data.rayCount;
 
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 
-                RaycastHit2D hit = Physics2D.Raycast(pos, dir, rayDist, avoidanceMask);
+                RaycastHit2D hit = Physics2D.Raycast(pos, dir, data.rayDist, data.avoidanceMask);
 
                 if (hit.collider == null)
                 {
-                    if (drayRays)
-                        Debug.DrawRay(pos, dir * rayDist, Color.red);
+                    if (data.drayRays)
+                        Debug.DrawRay(pos, dir * data.rayDist, Color.red);
 
                     continue;
                 }
 
-                if (drayRays)
+                if (data.drayRays)
                     Debug.DrawLine(pos, hit.point, Color.green);
 
                 Vector2 hitVector = hit.point - pos;
@@ -70,8 +61,8 @@ namespace Game
                 avoidance -= hitVector;
             }
 
-            if (drayRays)
-                Debug.DrawRay(pos, avoidance * avoidanceMultiplier, Color.blue);
+            if (data.drayRays)
+                Debug.DrawRay(pos, avoidance * data.avoidanceMultiplier, Color.blue);
 
             return avoidance;
         }

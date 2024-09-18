@@ -1,21 +1,19 @@
 using SpriteAnimator;
 using StateTree;
-using System;
 using UnityEngine;
 using Utilities;
 
 namespace Game
 {
-    [Serializable]
     public class CharacterStunState : State
     {
         [SerializeField] AudioClip stunSFX;
         [SerializeField] SpriteAnimation stunAnimation;
 
-
-        bool canDamage;
+        bool disableDamageDuringStun;
         int? lockDepth;
 
+        Data data;
         CharacterComponents components;
 
         Timer timer;
@@ -24,24 +22,24 @@ namespace Game
         DamageStats damage;
         Vector2? dir;
 
-        private CharacterStunState() : base(null) { }
-
-        public CharacterStunState Init(bool canDamage, int? lockDepth, CharacterComponents components, Node child = null)
+        public CharacterStunState(Data data, bool disableDamageDuringStun, int? lockDepth, CharacterComponents components, Node child = null) : base(child)
         {
-            InitializeState(child);
-
-            this.canDamage = canDamage;
+            this.data = data;
+            this.disableDamageDuringStun = disableDamageDuringStun;
             this.lockDepth = lockDepth;
 
             this.components = components;
 
             canReenter = true;
             eventSwitch = new EventSwitch((action) => components.health.OnDamage += action);
-
             components.health.OnDamageParams += OnDamage;
-            components.health.OnDie += OnDie;
+        }
 
-            return this;
+        [System.Serializable]
+        public class Data
+        {
+            public AudioClip stunSFX;
+            public SpriteAnimation stunAnimation;
         }
 
         protected override bool CanEnterState()
@@ -55,16 +53,12 @@ namespace Game
             this.dir = dir;
         }
 
-        private void OnDie()
-        {
-            canReenter = false;
-        }
-
         protected override void EnterState()
         {
             base.EnterState();
 
-            components.health.canTakeDamage = canDamage;
+            if (disableDamageDuringStun)
+                components.health.canTakeDamage = false;
 
             LockSuperStates(lockDepth, true);
 
@@ -91,9 +85,18 @@ namespace Game
         {
             base.ExitState();
 
-            components.health.canTakeDamage = true;
+            if (disableDamageDuringStun)
+                components.health.canTakeDamage = true;
 
             components.animator.enabled = true;
+        }
+
+        protected override void Destroy()
+        {
+            base.Destroy();
+
+            eventSwitch.Dispose((action) => components.health.OnDamage -= action);
+            components.health.OnDamageParams -= OnDamage;
         }
     }
 }

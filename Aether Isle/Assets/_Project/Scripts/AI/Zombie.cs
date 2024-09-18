@@ -3,60 +3,58 @@ using UnityEngine;
 
 namespace Game
 {
-    public class Zombie : MonoBehaviour, IAggravate
+    public class Zombie : StateTreeMB, IAggravate
     {
         [Header("General Vars")]
         [SerializeField] CharacterComponents components;
-        [SerializeField] AIMovement aiMovement;
-        [SerializeField] ObstacleAvoidance obstacleAvoidance;
+        [SerializeField] CharacterMovement.Data aiMovementData;
+        [SerializeField] ObstacleAvoidanceData obstacleAvoidanceData;
 
-        [Header("States")]
-        [SerializeField] RootState enemyRoot;
-        [SerializeField] FindTargetTask findTarget;
-        [SerializeField] CharacterIdleState idleState;
-        [SerializeField] ZombieChaseState chaseState;
-        [SerializeField] CharacterStunState stunState;
-        [SerializeField] CharacterDieState dieState;
+        [Header("Data")]
+        [SerializeField] FindTargetTaskData findTargetData;
+        [SerializeField] CharacterIdleState.Data idleData;
+        [SerializeField] CharacterChaseState.Data chaseData;
+        [SerializeField] CharacterRandomAttack.Data randomAttackData;
+        [SerializeField] CharacterStunState.Data stunData;
+        [SerializeField] CharacterDieState.Data dieData;
 
-        [Header("Modifiers")]
+        FindTargetTask findTargetTask;
 
         TargetInfo targetInfo = new TargetInfo();
+        CharacterMovement aiMovement;
+        ObstacleAvoidance obstacleAvoidance;
 
         private void OnDrawGizmosSelected()
         {
-            findTarget.DrawRadius(transform.position);
+            FindTargetTask.DrawRadius(findTargetData, transform.position);
         }
 
         void Awake()
         {
             components.Init(this);
-            aiMovement.Init(targetInfo, obstacleAvoidance, components);
+            obstacleAvoidance = new ObstacleAvoidance(obstacleAvoidanceData, transform);
+            aiMovement = new CharacterMovement(aiMovementData, targetInfo, obstacleAvoidance, components);
 
-            Node chaseBranch = findTarget.Init(components, targetInfo, new If(new VirtualCondition(TargetActiveCondition), chaseState.Init(aiMovement, components.animator))); 
-            Node moveBranch = new HolderState(new Selector(chaseBranch, idleState.Init(components.animator)));
+            findTargetTask = new FindTargetTask(findTargetData, components, targetInfo, 
+                                    new If(new VirtualCondition(TargetActiveCondition), 
+                                    new Selector(
+                                        new CharacterRandomAttack(randomAttackData, targetInfo, obstacleAvoidance, components),
+                                        new CharacterChaseState(chaseData, aiMovement, components.animator)))); 
 
-            enemyRoot.Init(new Selector(
+            Node moveBranch = new Selector(findTargetTask, new CharacterIdleState(idleData, components.animator));
+
+
+            rootState = new RootState(rootStateData, new Selector(
                 new CharacterSpawnState(components),
-                stunState.Init(true, null, components), // Automatically locks and returns null if
-                dieState.Init(components),
+                new CharacterStunState(stunData, false, null, components),
+                new CharacterDieState(dieData, components),
                 moveBranch));
 
-            enemyRoot.UpdateStateTree();
+            rootState.UpdateStateTree();
         }
 
-        private void Update()
-        {
-            enemyRoot.UpdateStateTree();
-        }
+        bool TargetActiveCondition() => targetInfo.isActive;
 
-        bool TargetActiveCondition()
-        {
-            return targetInfo.isActive;
-        }
-
-        public void Aggravate(Collider2D col)
-        {
-            findTarget.Aggravate(col);
-        }
+        public void Aggravate(Target tar) => findTargetTask.Aggravate(tar);
     }
 }

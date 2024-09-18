@@ -1,0 +1,20 @@
+using UnityEngine;
+using StateTree;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : State
+{
+    Data data;
+
+    public #SCRIPTNAME#(Data data, Node child = null) : base(child)
+    {
+        this.data = data;
+    }
+
+    [System.Serializable]
+    public class Data
+    {
+        #NOTRIM#
+    }
+}
+#ROOTNAMESPACEEND#

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   knockbackSpeed: 25
-  stunTime: 0.1
+  stunTime: 0.2

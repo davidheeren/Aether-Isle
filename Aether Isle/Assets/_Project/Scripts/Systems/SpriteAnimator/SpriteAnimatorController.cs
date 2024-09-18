@@ -60,7 +60,6 @@ namespace SpriteAnimator
             if (animations.Length > 0)
             {
                 currentAnimation = animations[0];
-                isStopped = true;
 
                 if (playFirsAnimationOnAwake)
                     Play(currentAnimation);
@@ -94,8 +93,6 @@ namespace SpriteAnimator
             // Go to the next sprite
             if (currentAnimationTime >= animationDelay * (currentSpriteIndex + 1))
             {
-                currentSpriteIndex++;
-
                 // Animation done
                 if (currentSpriteIndex >= currentAnimation.Sprites.Length - 1)
                 {
@@ -110,6 +107,8 @@ namespace SpriteAnimator
                     }
                 }
 
+                currentSpriteIndex++;
+
                 sr.sprite = currentAnimation.Sprites[currentSpriteIndex];
                 OnSpriteChanged?.Invoke();
             }
@@ -120,6 +119,7 @@ namespace SpriteAnimator
 
         public void Play(SpriteAnimation animation)
         {
+            if (animation == null) { Debug.LogWarning("Trying to play null animation"); return; }
             if (currentAnimation != animation) OnAnimationChanged?.Invoke();
             currentAnimation = animation;
             Restart();

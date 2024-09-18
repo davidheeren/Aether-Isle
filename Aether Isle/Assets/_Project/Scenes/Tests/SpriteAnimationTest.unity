@@ -222,7 +222,6 @@ GameObject:
   - component: {fileID: 538725860}
   - component: {fileID: 538725859}
   - component: {fileID: 538725858}
-  - component: {fileID: 538725861}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -245,9 +244,7 @@ MonoBehaviour:
   fps: 12
   playFirsAnimationOnAwake: 1
   animations:
-  - {fileID: 11400000, guid: 747c27fa31020a048bfa13c610f8cd70, type: 2}
-  - {fileID: 11400000, guid: 5141a13898675264689e2e5f624b1898, type: 2}
-  - {fileID: 11400000, guid: a5d03e34513fd214e888785e25d0b11a, type: 2}
+  - {fileID: 11400000, guid: b7224db2cd32121428b04c3e45c527c4, type: 2}
 --- !u!212 &538725859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -318,21 +315,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &538725861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538725857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37bbace0ccb35554f9733672b91ed7d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim1: {fileID: 11400000, guid: 9844ad133b84b274ea47ee09becc7412, type: 2}
-  anim2: Idle
-  anim3: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

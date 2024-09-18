@@ -44,8 +44,8 @@ Material:
     - _Contrast: 0
     - _Die: 0
     m_Colors:
-    - _DieColor: {r: 1, g: 0.48113203, b: 0.48113203, a: 1}
-    - _HitColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DieColor: {r: 0.64705884, g: 0.18823531, b: 0.18823531, a: 1}
+    - _HitColor: {r: 0.9215687, g: 0.9294118, b: 0.91372555, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

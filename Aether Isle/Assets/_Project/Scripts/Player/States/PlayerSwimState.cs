@@ -1,43 +1,43 @@
 ﻿using StateTree;
-using System;
 using UnityEngine;
 
 namespace Game
 {
-    [Serializable]
     public class PlayerSwimState : State
     {
-        [SerializeField] GameObject aimGraphic;
-        [SerializeField] AudioClip splashEnterSFX;
-        [SerializeField] AudioClip splashExitSFX;
-
+        Data data;
         CharacterComponents components;
 
-        private PlayerSwimState() : base(null) { }
-        public PlayerSwimState Init(CharacterComponents components, Node child = null)
+        public PlayerSwimState(Data data, CharacterComponents components, Node child = null) : base(child)
         {
-            InitializeState(child);
+            this.data = data;
             this.components = components;
+        }
 
-            return this;
+        [System.Serializable]
+        public class Data
+        {
+            public GameObject aimGraphic;
+            public AudioClip splashEnterSFX;
+            public AudioClip splashExitSFX;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            aimGraphic.SetActive(false);
+            data.aimGraphic.SetActive(false);
 
-            SFXManager.Instance.PlaySFXClip(splashEnterSFX, components.movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(data.splashEnterSFX, components.movement.transform.position);
         }
 
         protected override void ExitState()
         {
             base.ExitState();
 
-            SFXManager.Instance.PlaySFXClip(splashExitSFX, components.movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(data.splashExitSFX, components.movement.transform.position);
 
-            aimGraphic.SetActive(true);
+            data.aimGraphic.SetActive(true);
         }
     }
 }

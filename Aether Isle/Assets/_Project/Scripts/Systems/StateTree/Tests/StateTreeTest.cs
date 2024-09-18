@@ -3,15 +3,12 @@ using UnityEngine;
 
 namespace StateTree.Test
 {
-    public class StateTreeTest : MonoBehaviour
+    public class StateTreeTest : StateTreeMB
     {
-        [SerializeField] RootState rootState;
-
-
         private void Start()
         {
             Node mainBranch = new If(new VirtualCondition(InputCondition), new LockCooldownModifier(1, null, new VirtualState(UpdateMethod: UpdateState)));
-            rootState.Init(new Selector(mainBranch, new HolderState().SetName("TEST HOLDER")));
+            rootState = new RootState(rootStateData, new Selector(mainBranch, new HolderState().SetName("TEST HOLDER")));
 
 
             //print(test.GetFirstSuperNode<State>().name);
@@ -24,11 +21,6 @@ namespace StateTree.Test
             //    print(state.name);
             //}
 
-        }
-
-        private void Update()
-        {
-            rootState.UpdateStateTree();
         }
 
         bool InputCondition()

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 9016644599149174358}
   - component: {fileID: 8272798343029940250}
   - component: {fileID: 8583391220893560269}
-  - component: {fileID: 3803322075449923189}
   - component: {fileID: 6639802788125798520}
+  - component: {fileID: 3803322075449923189}
+  - component: {fileID: -4062663037219211520}
   - component: {fileID: 1203837206041879634}
   - component: {fileID: 9213849061626246228}
   - component: {fileID: 4310884689642328341}
@@ -38,6 +39,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8004401041037696213}
   - {fileID: 4724230302751466227}
   - {fileID: 2445947809449750202}
   - {fileID: 5191767157231032990}
@@ -109,82 +111,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.1}
   m_Radius: 0.35
---- !u!114 &3803322075449923189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021286478059127579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f1ab9b69c5606b4d917a4e5e17a9396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  components:
-    spriteRenderer: {fileID: 3988776961111551003}
-    animator: {fileID: 2369715705981750697}
-  playerRoot:
-    name: Root State
-    debugState: 0
-    debugGeneral: 0
-    createGameObjectTree: 0
-  stunState:
-    name: Stun State
-    stunSFX: {fileID: 8300000, guid: 1829f2a46c6e0e44da83a20a789eb9ba, type: 3}
-    stunAnimation: {fileID: 0}
-  dieState:
-    name: Die State
-    animation: {fileID: 11400000, guid: 9ade97ff8d6bcba47997c76769ba154f, type: 2}
-    dieSFX: {fileID: 8300000, guid: 8a9eb1719bbf26d42bc1b0f9734f0f2f, type: 3}
-  idleState:
-    name: Idle State
-    animation: {fileID: 11400000, guid: 747c27fa31020a048bfa13c610f8cd70, type: 2}
-  runState:
-    name: Run State
-    speed: 5
-    animation: {fileID: 11400000, guid: a5d03e34513fd214e888785e25d0b11a, type: 2}
-    SFXLoop: {fileID: 5529298315891190047}
-  dashState:
-    name: Dash State
-    dashSpeed: 12
-    dashSFX: {fileID: 8300000, guid: 23a0d389d6ce55c44975f38be39a1b51, type: 3}
-    animation: {fileID: 11400000, guid: 5141a13898675264689e2e5f624b1898, type: 2}
-    dashMask:
-      serializedVersion: 2
-      m_Bits: 128
-  attackState:
-    name: Attack State
-    moveAttackDirSpeed: 2
-    projectile: {fileID: 7040936197774290868, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
-    damageMask:
-      serializedVersion: 2
-      m_Bits: 128
-    attackSFX: {fileID: 8300000, guid: bd553016455b53143a890100e4e4c6c6, type: 3}
-    animation: {fileID: 11400000, guid: 114b8f54e771089429fe125fed9d53a3, type: 2}
-  swimState:
-    name: Swim State
-    aimGraphic: {fileID: 4704538075620284057}
-    splashEnterSFX: {fileID: 8300000, guid: 5b23874ad8cc25d40bfa1eb1a9649932, type: 3}
-    splashExitSFX: {fileID: 8300000, guid: d6eefc86dafed724d95e7182cc556b67, type: 3}
-  swimIdleState:
-    name: Swim Idle State
-    animation: {fileID: 11400000, guid: 2c9990df7f1e0cd42a53bb1754dca299, type: 2}
-  swimMoveState:
-    name: Swim Move State
-    speed: 2
-    animation: {fileID: 11400000, guid: 2c9990df7f1e0cd42a53bb1754dca299, type: 2}
-    SFXLoop: {fileID: 1599018523067815074}
-  swimCondition:
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 16
-    boxOffset: {x: 0, y: -0.35}
-    boxSize: {x: 0.5, y: 0.2}
-  dashDuration: 0.25
-  dashCooldown: 0.5
-  attackDuration: 0.25
-  attackCooldown: 0.25
 --- !u!114 &6639802788125798520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +125,84 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultAccelerationForce: 12
   defaultDecelerationForce: 7
+--- !u!114 &3803322075449923189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f1ab9b69c5606b4d917a4e5e17a9396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootStateData:
+    debugState: 0
+    debugGeneral: 0
+    createGameObjectTree: 1
+  components:
+    spriteRenderer: {fileID: 3988776961111551003}
+    animator: {fileID: 2369715705981750697}
+  stunData:
+    stunSFX: {fileID: 8300000, guid: 1829f2a46c6e0e44da83a20a789eb9ba, type: 3}
+    stunAnimation: {fileID: 0}
+  dieData:
+    animation: {fileID: 11400000, guid: 9ade97ff8d6bcba47997c76769ba154f, type: 2}
+    dieSFX: {fileID: 8300000, guid: 8a9eb1719bbf26d42bc1b0f9734f0f2f, type: 3}
+  idleData:
+    animation: {fileID: 11400000, guid: 747c27fa31020a048bfa13c610f8cd70, type: 2}
+  moveData:
+    speed: 5
+    animation: {fileID: 11400000, guid: a5d03e34513fd214e888785e25d0b11a, type: 2}
+    SFXLoop: {fileID: 5529298315891190047}
+  dashData:
+    dashSpeed: 12
+    dashSFX: {fileID: 8300000, guid: 23a0d389d6ce55c44975f38be39a1b51, type: 3}
+    animation: {fileID: 11400000, guid: 5141a13898675264689e2e5f624b1898, type: 2}
+    dashMask:
+      serializedVersion: 2
+      m_Bits: 128
+    duration: 0.25
+    cooldown: 0.5
+  attackData:
+    moveAttackDirSpeed: 2
+    projectile: {fileID: 7040936197774290868, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
+    damageMask:
+      serializedVersion: 2
+      m_Bits: 128
+    attackSFX: {fileID: 8300000, guid: bd553016455b53143a890100e4e4c6c6, type: 3}
+    animation: {fileID: 11400000, guid: 114b8f54e771089429fe125fed9d53a3, type: 2}
+    duration: 0.25
+    cooldown: 0.25
+  swimData:
+    aimGraphic: {fileID: 1805550755161401474}
+    splashEnterSFX: {fileID: 8300000, guid: 5b23874ad8cc25d40bfa1eb1a9649932, type: 3}
+    splashExitSFX: {fileID: 8300000, guid: d6eefc86dafed724d95e7182cc556b67, type: 3}
+  swimIdleData:
+    animation: {fileID: 11400000, guid: 2c9990df7f1e0cd42a53bb1754dca299, type: 2}
+  swimMoveData:
+    speed: 3
+    animation: {fileID: 11400000, guid: 2c9990df7f1e0cd42a53bb1754dca299, type: 2}
+    SFXLoop: {fileID: 1599018523067815074}
+  swimConditionData:
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 16
+    boxOffset: {x: 0, y: -0.35}
+    boxSize: {x: 0.4, y: 0.2}
+--- !u!114 &-4062663037219211520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cba4e4cbb8fbbd4ca6c35adddb39857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1203837206041879634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,7 +643,7 @@ GameObject:
   - component: {fileID: 3522664107895101640}
   - component: {fileID: 8932166441792734470}
   - component: {fileID: 5567202559079462499}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5657,6 +5661,87 @@ MonoBehaviour:
   nameOverride: Run SFX Loop
   tooltipOverride: 
   target: {fileID: 5529298315891190047}
+--- !u!1 &5577953470747513651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8004401041037696213}
+  - component: {fileID: 8866567073968729987}
+  - component: {fileID: 6615353230338141911}
+  m_Layer: 9
+  m_Name: Interact
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8004401041037696213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577953470747513651}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9016644599149174358}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &8866567073968729987
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577953470747513651}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 2
+--- !u!114 &6615353230338141911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577953470747513651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a5c228b82d1954abe4677115bef929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7458878945192643243
 GameObject:
   m_ObjectHideFlags: 0

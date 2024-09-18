@@ -152,7 +152,9 @@ namespace Game
                 }
             }
 
+# if UNITY_EDITOR
             SceneView.RepaintAll(); // This forces a refresh of the scene to automatically update the gizmos
+#endif
         }
 
         void CheckSpawnedEnemies()

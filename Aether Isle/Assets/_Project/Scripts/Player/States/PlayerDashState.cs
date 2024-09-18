@@ -1,30 +1,33 @@
 ﻿using SpriteAnimator;
 using StateTree;
-using System;
 using UnityEngine;
-using Utilities;
 
 namespace Game
 {
-    [Serializable]
     public class PlayerDashState : State
     {
-        [SerializeField] float dashSpeed = 10;
-        [SerializeField] AudioClip dashSFX;
-        [SerializeField] SpriteAnimation animation;
-        [SerializeField] LayerMask dashMask;
-
+        Data data;
         CharacterComponents components;
+        Target target;
 
         Vector2 dashDir;
 
-        private PlayerDashState() : base(null) { }
-        public PlayerDashState Init(CharacterComponents components, Node child = null)
+        public PlayerDashState(Data data, CharacterComponents components, Target target, Node child = null) : base(child)
         {
-            InitializeState(child);
+            this.data = data;
             this.components = components;
+            this.target = target;
+        }
 
-            return this;
+        [System.Serializable]
+        public class Data
+        {
+            public float dashSpeed = 10;
+            public AudioClip dashSFX;
+            public SpriteAnimation animation;
+            public LayerMask dashMask;
+            public float duration = 0.25f;
+            public float cooldown = 0.25f;
         }
 
         protected override bool CanEnterState()
@@ -36,20 +39,21 @@ namespace Game
         {
             base.EnterState();
 
-            components.col.excludeLayers = dashMask;
+            components.col.excludeLayers = data.dashMask;
             components.health.canTakeDamage = false;
+            target.DisablePosition();
 
-            components.animator.Play(animation);
+            components.animator.Play(data.animation);
 
             dashDir = InputManager.Instance.input.Game.Move.ReadValue<Vector2>();
-            SFXManager.Instance.PlaySFXClip(dashSFX, components.movement.transform.position);
+            SFXManager.Instance.PlaySFXClip(data.dashSFX, components.movement.transform.position);
         }
 
         protected override void UpdateState()
         {
             base.UpdateState();
 
-            components.movement.Move(dashDir * dashSpeed);
+            components.movement.Move(dashDir * data.dashSpeed);
         }
 
         protected override void ExitState()
@@ -58,6 +62,7 @@ namespace Game
 
             components.health.canTakeDamage = true;
             components.col.excludeLayers = new LayerMask();
+            target.EnablePosition();
         }
     }
 }

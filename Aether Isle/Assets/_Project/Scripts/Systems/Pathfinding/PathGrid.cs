@@ -66,7 +66,9 @@ namespace Pathfinding
         void Scan()
         {
             CreateGrid();
+# if UNITY_EDITOR
             SceneView.RepaintAll();
+#endif
         }
 
         private void CreateGrid()
@@ -111,7 +113,9 @@ namespace Pathfinding
                 }
             }
 
+#if UNITY_EDITOR
             SceneView.RepaintAll();
+#endif
         }
 
         void CreateNode(Vector2Int gridPos)

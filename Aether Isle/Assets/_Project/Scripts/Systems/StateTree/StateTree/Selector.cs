@@ -9,11 +9,6 @@
             this._children = _children;
         }
 
-        //public Selector Create(params Node[] _children)
-        //{
-        //    return Create(_children);
-        //}
-
         public override State Evaluate() // Goes through each child and returns the first one that is not null
         {
             State state = null;

@@ -4,6 +4,6 @@ namespace Game
 {
     public interface IAggravate
     {
-        public void Aggravate(Collider2D col);
+        public void Aggravate(Target tar);
     }
 }

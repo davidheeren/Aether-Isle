@@ -1,44 +1,56 @@
 using System;
+using UnityEngine;
 
 namespace StateTree
 {
-    [Serializable]
     public class RootState : State
     {
-        public bool debugState = false;
-        public bool debugGeneral = false;
-        public bool createGameObjectTree = false;
+        public Data data;
 
-        private RootState() : base(null) { }
-        public RootState(Node child = null) : base(child)
-        {
-            InitializeRootState();
-        }
+        #region Events
+        //public Action OnDrawGizmos;
+        //public Action OnDrawGizmosSelected;
 
-        public void Init(Node child = null)
-        {
-            InitializeState(child);
-            InitializeRootState();
-        }
+        public Action<Collision> OnCollisionEnter;
+        public Action<Collision> OnCollisionStay;
+        public Action<Collision> OnCollisionExit;
+        public Action<Collider> OnTriggerEnter;
+        public Action<Collider> OnTriggerStay;
+        public Action<Collider> OnTriggerExit;
+        public Action<Collision2D> OnCollisionEnter2D;
+        public Action<Collision2D> OnCollisionStay2D;
+        public Action<Collision2D> OnCollisionExit2D;
+        public Action<Collider2D> OnTriggerEnter2D;
+        public Action<Collider2D> OnTriggerStay2D;
+        public Action<Collider2D> OnTriggerExit2D;
+        #endregion
 
-        private void InitializeRootState()
+        public RootState(Data data, Node child = null) : base(child)
         {
+            this.data = data;
+
             SetupWrapper(this, 0);
 
-            if (createGameObjectTree)
+            if (data.createGameObjectTree)
                 CreateGameObjectTree(null);
+        }
+
+        [System.Serializable]
+        public class Data
+        {
+            public bool debugState = false;
+            public bool debugGeneral = false;
+            public bool createGameObjectTree = false;
         }
 
         public void UpdateStateTree()
         {
             Evaluate();
-            EnterStateWrapper();
+
             UpdateStateWrapper();
         }
 
-        public void FixedUpdateStateTree()
-        {
-            FixedUpdateStateWrapper();
-        }
+        public void FixedUpdateStateTree() => FixedUpdateStateWrapper();
+        public void DestroyStateTree() => DestroyWrapper();
     }
 }

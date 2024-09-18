@@ -1,34 +1,36 @@
 using StateTree;
-using System;
 using UnityEngine;
 
 namespace Game
 {
-    [Serializable]
     public class CheckGroundCondition : Condition
     {
-        [SerializeField] LayerMask layerMask;
-        [SerializeField] Vector2 boxOffset = new Vector2(0, -0.35f);
-        [SerializeField] Vector2 boxSize = new Vector2(0.4f, 0.2f);
-
+        Data data;
         Transform transform;
 
-        public CheckGroundCondition Init(Transform transform)
+        public CheckGroundCondition(Data data, Transform transform)
         {
+            this.data = data;
             this.transform = transform;
+        }
 
-            return this;
+        [System.Serializable]
+        public class Data
+        {
+            public LayerMask layerMask;
+            public Vector2 boxOffset = new Vector2(0, -0.35f);
+            public Vector2 boxSize = new Vector2(0.4f, 0.2f);
         }
 
         public override bool Calculate()
         {
-            return Physics2D.OverlapBox((Vector2)transform.position + boxOffset, boxSize, 0, layerMask);
+            return Physics2D.OverlapBox((Vector2)transform.position + data.boxOffset, data.boxSize, 0, data.layerMask);
         }
 
-        public void DrawBox(Vector2 pos)
+        public static void DrawBox(Data data, Vector2 pos)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(pos + boxOffset, boxSize);
+            Gizmos.DrawWireCube(pos + data.boxOffset, data.boxSize);
         }
     }
 }

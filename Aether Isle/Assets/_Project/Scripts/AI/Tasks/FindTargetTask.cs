@@ -1,28 +1,13 @@
 ﻿using StateTree;
-using System;
 using UnityEngine;
 using Utilities;
 
 namespace Game
 {
-    [Serializable]
     public class FindTargetTask : Task
     {
-        [Header("Vars")]
-        [SerializeField] float updateTime = 0.1f;
-        [SerializeField] float unAlertDetectionRadius = 8;
-        [SerializeField] float alertDetectionRadius = 12;
-        [SerializeField] float rememberTargetTime = 2;
-        [SerializeField] float rememberAggravateTargetTime = 5;
-        [SerializeField] LayerMask targetMask;
-        [SerializeField] LayerMask losMask;
-
-        [Header("Debug")]
-        [SerializeField] bool drawRadius;
-        [SerializeField] bool drawLOS;
-
+        FindTargetTaskData data;
         CharacterComponents components;
-
         TargetInfo targetInfo;
 
         Timer lookForTargetTimer;
@@ -33,50 +18,53 @@ namespace Game
         Vector2 losEnd;
         Color losColor;
 
-        private FindTargetTask() : base(null) { }
-        public FindTargetTask Init(CharacterComponents components, TargetInfo targetInfo, Node child = null)
+        public FindTargetTask(FindTargetTaskData data, CharacterComponents components, TargetInfo targetInfo, Node child = null) : base(child)
         {
-            InitializeTask(child);
-
-            this.targetInfo = targetInfo;
+            this.data = data;
             this.components = components;
-            lookForTargetTimer = new Timer(updateTime);
+            this.targetInfo = targetInfo;
+
+            lookForTargetTimer = new Timer(data.updateTime);
             rememberTargetTimer = new Timer(1).ForceDone();
 
             components.health.OnDamageParams += OnDamage;
-
-            return this;
         }
 
         private void OnDamage(DamageStats damage, Collider2D col, Collider2D source, Vector2? dir)
         {
             // Sets its own target to the new damage
-            targetInfo.SetTarget(source, CheckLOS(source, alertDetectionRadius));
-            rememberTargetTimer.SetDelay(rememberAggravateTargetTime).Reset();
-
-            //Debug.Log("Hit aggravated: " + components.gameObject.name);
-
-            // Loops over all aggravateable objects of its own layer
-            Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
-
-            foreach (Collider2D overlap in overlaps)
+            if (source.TryGetComponent<Target>(out Target tar))
             {
-                if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
+                if (!tar.isActiveAndEnabled) return;
+
+                targetInfo.SetNewTarget(tar, CheckLOS(source, data.alertDetectionRadius));
+
+                rememberTargetTimer.SetDelay(data.rememberAggravateTargetTime).Reset();
+
+                //Debug.Log("Hit aggravated: " + components.gameObject.name);
+
+                // Loops over all aggravateable objects of its own layer
+                Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
+
+                foreach (Collider2D overlap in overlaps)
                 {
-                    aggravate.Aggravate(source);
+                    if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
+                    {
+                        aggravate.Aggravate(tar);
+                    }
                 }
             }
         }
 
-        public void Aggravate(Collider2D col)
+        public void Aggravate(Target target)
         {
-            // Only aggravates if the current target is null
+            // Only aggravates if the current target is not active
             // If the chase state is locked while the LOS is broken it will aggravate to the new target
 
             if (targetInfo.isActive) return;
 
-            targetInfo.SetTarget(col, CheckLOS(col, alertDetectionRadius));
-            rememberTargetTimer.SetDelay(rememberTargetTime).Reset();
+            targetInfo.SetNewTarget(target, CheckLOS(target.col, data.alertDetectionRadius));
+            rememberTargetTimer.SetDelay(data.rememberTargetTime).Reset();
 
             Debug.Log("Alert Aggravated: " + components.gameObject.name);
         }
@@ -100,14 +88,18 @@ namespace Game
 
         void GetNewTarget()
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, unAlertDetectionRadius, targetMask);
+            Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, data.targetMask);
 
             foreach (Collider2D col in cols)
             {
-                if (CheckLOS(col, unAlertDetectionRadius))
+                if (!CheckLOS(col, data.unAlertDetectionRadius)) continue;
+
+                if (col.TryGetComponent<Target>(out Target target))
                 {
-                    targetInfo.SetTarget(col, true);
-                    rememberTargetTimer.SetDelay(rememberTargetTime).Reset();    
+                    if (!target.isActiveAndEnabled) continue;
+
+                    targetInfo.SetNewTarget(target, true);
+                    rememberTargetTimer.SetDelay(data.rememberTargetTime).Reset();
                     break;
                 }
             }
@@ -118,7 +110,7 @@ namespace Game
 
         void CheckCurrentTarget()
         {
-            bool los = CheckLOS(targetInfo.collider, alertDetectionRadius);
+            bool los = CheckLOS(targetInfo.target.col, data.alertDetectionRadius);
             targetInfo.UpdateLOS(los);
 
             if (los)
@@ -126,13 +118,15 @@ namespace Game
 
             if (!los && rememberTargetTimer.isDone)
             {
-                targetInfo.SetTarget(null, false);
+                targetInfo.DisableTarget();
+                //GetNewTarget();
             }
         }
 
         bool CheckLOS(Collider2D col, float radius)
         {
-            RaycastHit2D losHit = Physics2D.Raycast(components.transform.position, (col.transform.position - components.transform.position).normalized, radius + 0.1f, losMask | targetMask);
+            RaycastHit2D losHit = Physics2D.Raycast(components.transform.position, (col.transform.position - components.transform.position).normalized, 
+                radius + 0.1f, data.losMask | data.targetMask);
 
             if (losHit.collider == null)
             {
@@ -156,18 +150,19 @@ namespace Game
 
         void DrawLOS()
         {
-            if (drawLOS)
+            if (data.drawLOS)
                 Debug.DrawLine(losStart, losEnd, losColor);
         }
 
-        public void DrawRadius(Vector2 pos)
+        public static void DrawRadius(FindTargetTaskData data, Vector2 pos)
         {
-            if (!drawRadius) return;
+            if (data == null) return;
+            if (!data.drawRadius) return;
 
             Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(pos, unAlertDetectionRadius);
+            Gizmos.DrawWireSphere(pos, data.unAlertDetectionRadius);
             Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(pos, alertDetectionRadius);
+            Gizmos.DrawWireSphere(pos, data.alertDetectionRadius);
         }
     }
-} 
+}

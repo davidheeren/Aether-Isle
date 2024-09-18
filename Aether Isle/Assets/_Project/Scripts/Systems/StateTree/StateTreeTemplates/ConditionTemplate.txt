@@ -1,0 +1,12 @@
+using UnityEngine;
+using StateTree;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : Condition
+{
+    public override bool Calculate()
+    {
+        return false;
+    }
+}
+#ROOTNAMESPACEEND#

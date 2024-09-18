@@ -4,27 +4,28 @@ using UnityEngine;
 
 namespace Game
 {
-    [System.Serializable]
     public class CharacterIdleState : State
     {
-        [SerializeField] SpriteAnimation animation;
+        Data data;
         SpriteAnimatorController animator;
 
-        private CharacterIdleState() : base(null) { }
-        public CharacterIdleState Init(SpriteAnimatorController animator, Node child = null)
+        public CharacterIdleState(Data data, SpriteAnimatorController animator, Node child = null) : base(child)
         {
-            InitializeState(child);
-
+            this.data = data;
             this.animator = animator;
+        }
 
-            return this;
+        [System.Serializable]
+        public class Data
+        {
+            public SpriteAnimation animation;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            animator.Play(animation);
+            animator.Play(data.animation);
 
             //if (animation != null)
             //    animator.Play(animation);

@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace StateTree
 {
-    [Serializable]
     public abstract class Node
     {
         // Edit vars
@@ -12,20 +10,15 @@ namespace StateTree
         public Node SetName(string name) { this.name = name; return this; }
 
         // Read only vars
-        protected RootState rootState { get; private set; }
-        protected Node parent {  get; private set; }
+        public RootState rootState { get; private set; }
+        public Node parent { get; private set; }
         public List<Node> children { get; private set; } = new List<Node>();
         public int nodeDepth { get; private set; }
-
-        bool nodeWasConstructedProperly;
 
         // Constructor
         public Node()
         {
-            if (String.IsNullOrEmpty(name))
-                name = this.GetType().Name;
-
-            nodeWasConstructedProperly = true;
+            name = GetType().Name;
         }
 
         /// <summary>
@@ -35,7 +28,7 @@ namespace StateTree
         public abstract State Evaluate();
 
         /// <summary>
-        /// Setups each child
+        /// Setups each child. Use the AddChild() method in this method
         /// </summary>
         protected abstract void SetChildrenParentRelationships();
 
@@ -57,9 +50,9 @@ namespace StateTree
         /// </summary>
         protected void SetupWrapper(RootState rootState, int nodeDepth)
         {
-            if (!nodeWasConstructedProperly) Debug.LogError($"Node of type {GetType().Name} was not constructed properly. You probably need a private constructor with no parameters");
             this.rootState = rootState;
             this.nodeDepth = nodeDepth;
+
             SetChildrenParentRelationships();
 
             foreach (Node child in children)
@@ -69,6 +62,24 @@ namespace StateTree
 
             Setup();
         }
+
+        /// <summary>
+        /// Runs once when the State Tree is finished constructing. This runs after all child parent relationships are set
+        /// </summary>
+        protected virtual void Setup() { }
+
+        protected void DestroyWrapper()
+        {
+            Destroy();
+            foreach (Node child in children)
+            {
+                child.DestroyWrapper();
+            }
+        }
+        /// <summary>
+        /// Mainly used to unsubscribe to events outside of the state tree
+        /// </summary>
+        protected virtual void Destroy() { }
 
         protected void CreateGameObjectTree(GameObject parentGO)
         {
@@ -90,10 +101,7 @@ namespace StateTree
             }
         }
 
-        /// <summary>
-        /// Runs once when the State Tree is finished constructing. This runs after all child parent relationships are set
-        /// </summary>
-        protected virtual void Setup() { }
+        protected void Log(string msg) { if (rootState.data.debugGeneral) Debug.Log(msg); }
 
         #region Tree Helper Methods
         // Terms:
@@ -137,6 +145,7 @@ namespace StateTree
         }
 
         // TODO: Test all search functions below
+        // Seem to be fine for now but need more testing probably
 
         /// <summary>
         /// First Breadth Search
@@ -176,13 +185,6 @@ namespace StateTree
 
                 if (output.Count > 0 || nodesToSearchChildren.Count == 0)
                     return output;
-
-                //if (count == 0)
-                //{
-                //    Debug.LogError("GetFirstSuperNode Infinite Loop");
-                //    return null;
-                //}
-                //count--;
             }
         }
 
@@ -205,9 +207,6 @@ namespace StateTree
             {
                 foreach (Node child in nodeToSearchChildren.children)
                 {
-                    //if (child is T)
-                    //    output.Add((T)child);
-
                     if (TryCast<T>(child, out T cast))
                         output.Add(cast);
 

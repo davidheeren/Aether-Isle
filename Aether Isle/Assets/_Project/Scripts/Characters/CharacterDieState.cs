@@ -1,47 +1,39 @@
 ﻿using SpriteAnimator;
 using StateTree;
-using System;
 using UnityEngine;
 using Utilities;
 
 namespace Game
 {
-    [Serializable]
     public class CharacterDieState : State
     {
-        [SerializeField] SpriteAnimation animation;
-        [SerializeField] AudioClip dieSFX;
-
+        Data data;
         CharacterComponents components;
 
         Timer delayTimer;
         Timer fadeTimer;
 
-        bool canEnter;
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        private CharacterDieState() : base(null) { }
-        public CharacterDieState Init(CharacterComponents components, Node child = null)
+        public CharacterDieState(Data data, CharacterComponents components, Node child = null) : base(child)
         {
-            InitializeState(child);
-
+            this.data = data;
             this.components = components;
 
-            components.health.OnDie += OnDie;
             delayTimer = new Timer(despawnTime);
-
-            return this;
         }
 
-        void OnDie()
+        [System.Serializable]
+        public class Data
         {
-            canEnter = true;
+            public SpriteAnimation animation;
+            public AudioClip dieSFX;
         }
 
         protected override bool CanEnterState()
         {
-            return canEnter;
+            return components.health.isDead;
         }
 
         protected override void EnterState()
@@ -53,8 +45,8 @@ namespace Game
             delayTimer.Reset();
             components.col.enabled = false;
             components.rb.velocity = Vector2.zero;
-            components.animator.Play(animation);
-            SFXManager.Instance.PlaySFXClip(dieSFX, components.rb.transform.position);
+            components.animator.Play(data.animation);
+            SFXManager.Instance.PlaySFXClip(data.dieSFX, components.rb.transform.position);
         }
 
         protected override void UpdateState()

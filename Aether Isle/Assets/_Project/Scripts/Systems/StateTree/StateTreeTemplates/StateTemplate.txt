@@ -1,0 +1,12 @@
+using UnityEngine;
+using StateTree;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : State
+{
+    public #SCRIPTNAME#(Node child = null) : base(child)
+    {
+        #NOTRIM#
+    }
+}
+#ROOTNAMESPACEEND#

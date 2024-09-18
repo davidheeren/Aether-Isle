@@ -45,10 +45,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Outline: 0
     - _PPU: 16
     m_Colors:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _OutlineColor: {r: 1, g: 0.98808044, b: 0.6924528, a: 1}
+    - _OutlineColor: {r: 0.9058824, g: 0.8352942, b: 0.69803923, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1909696683573978059
