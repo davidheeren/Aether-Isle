@@ -206,7 +206,7 @@ TextureImporter:
         width: 26
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 4, y: 4, z: 4, w: 4}
       customData: 
       outline: []
@@ -215,6 +215,28 @@ TextureImporter:
       bones: []
       spriteID: f9d7291b609a9f343bb67239940a5a78
       internalID: -276119181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_0
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 212
+        width: 181
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33178fa618d4bb3438967f38546354a1
+      internalID: -241897796
       vertices: []
       indices: 
       edges: []
@@ -231,6 +253,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      UI_0: -241897796
       UI_CharPanel_9Slice: -276119181
       UI_EquipmentPanel_Left_9Slice: 5760202260919997367
       UI_Item_Slot: -1715125578

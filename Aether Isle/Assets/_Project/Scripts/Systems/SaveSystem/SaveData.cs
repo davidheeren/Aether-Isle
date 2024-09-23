@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Save
 {
-    [System.Serializable]
+    [Serializable]
     public class SaveData
     {
         // Using Newtonsoft's serialization library. It only serializes public fields and properties by default
@@ -39,5 +39,13 @@ namespace Save
         public float timeAtLastUnload;
 
         public Dictionary<string, float> enemySpawnTimes = new Dictionary<string, float>();
+
+        //public HashSet<int> inventoryIndices = new HashSet<int>();
+
+        /// <summary>
+        /// Key: item index in database
+        /// Value: item index in inventory
+        /// </summary>
+        public Dictionary<int, int> inventory = new Dictionary<int, int>();
     }
 }

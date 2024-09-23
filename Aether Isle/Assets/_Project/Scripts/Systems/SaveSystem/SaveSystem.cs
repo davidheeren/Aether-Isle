@@ -30,10 +30,14 @@ namespace Save
                 if (_saveData == null)
                     Load();
 
-                //#if UNITY_EDITOR
-                //if (!File.Exists(saveFilePath)) // Change the check path eventually bc it won't be needed 
-                //    Load();
-                //#endif
+#if UNITY_EDITOR
+                // The instance is static so if we delete the file in the editor without recompiling weird things can happen
+                if (!File.Exists(saveFilePath))
+                {
+                    Load();
+                    Debug.LogWarning("Create new save because the save file was deleted without recompiling");
+                }  
+#endif
 
                 return _saveData;
             }

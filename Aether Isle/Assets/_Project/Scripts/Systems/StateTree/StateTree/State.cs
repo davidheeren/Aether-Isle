@@ -7,7 +7,7 @@ namespace StateTree
     public abstract class State : Node
     {
         // Edit Vars
-        public bool isLocked { get; private set; } = false; // Locks current sub state from changing
+        public bool isLocked { get; private set; } = false; // Locks current sub state from changing; Set through LockSuperStates()
         public bool canReenter = false; // Exits then enters itself if locked and evaluated
         public State SetCanReenter(bool canReenter) { this.canReenter = canReenter; return this; }
 
@@ -17,6 +17,7 @@ namespace StateTree
         private List<State> superStates; // All the states "above" this modifier
         private Node child;
         public int stateDepth { get; private set; }
+        public bool isActive { get; private set; }
 
         // Events
         public event Action OnPreExitState;
@@ -55,6 +56,7 @@ namespace StateTree
         #region EnterUpdateExit Wrappers
         protected void EnterStateWrapper()
         {
+            isActive = true;
             EnterState();
             OnEnterState?.Invoke();
             if (rootState.data.debugState) Debug.Log("Enter: " + name);
@@ -79,6 +81,7 @@ namespace StateTree
 
         protected virtual void ExitStateWrapper()
         {
+            isActive = false;
             ExitState();
             OnExitState?.Invoke();
             if (rootState.data.debugState) Debug.Log("Exit: " + name);
@@ -96,7 +99,7 @@ namespace StateTree
 
         protected void SetCurrentSubState(State _possibleSubState, ref State _currentSubState)
         {
-
+            // Allows current state to lock super states if it is going to exit
             if (!isLocked && _possibleSubState != _currentSubState)
                 _currentSubState?.OnPreExitState?.Invoke();
 
@@ -115,7 +118,6 @@ namespace StateTree
                 _currentSubState?.ExitStateWrapper();
                 _currentSubState?.EnterStateWrapper();
             }
-
         }
 
         /// <summary>

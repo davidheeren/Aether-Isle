@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1371913981}
   - component: {fileID: 1371913982}
   m_Layer: 0
-  m_Name: Save
+  m_Name: Save Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,12 +164,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveCopy:
+    gameVersion: 1.0
     coins: 110
     timeAtLastUnload: 3.14
+    inventoryIndices: 000000000100000002000000
   loadCopy:
+    gameVersion: 1.0
     coins: 110
     timeAtLastUnload: 3.14
-  button: 
+    inventoryIndices: 000000000100000002000000
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

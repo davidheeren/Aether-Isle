@@ -13,8 +13,7 @@ namespace StateTree
             timeAtStart = Time.time;
             this.delay = delay;
 
-            if (delay <= 0)
-                Debug.LogError("Delay cannot be less than or equal to 0");
+            //if (delay <= 0) Debug.LogError("Delay cannot be less than or equal to 0");
         }
 
 

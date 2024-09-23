@@ -145,7 +145,7 @@ namespace StateTree
         }
 
         // TODO: Test all search functions below
-        // Seem to be fine for now but need more testing probably
+        // Seems to be fine for now but need more testing probably
 
         /// <summary>
         /// First Breadth Search

@@ -114,7 +114,6 @@ namespace Game
             }
 
             SaveSystem.SaveData.enemySpawnTimes[uniqueID.ID] = Time.time + SaveSystem.SaveData.timeAtLastUnload;
-            SaveSystem.Save();
 
             spawnedOnce = true;
             enemyDied = false;

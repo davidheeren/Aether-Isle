@@ -7,14 +7,11 @@ namespace Test
     public class SaveLoadTest : MonoBehaviour
     {
         [Button(nameof(Save))]
-        [SerializeField] SaveData saveCopy;
-
         [Button(nameof(Load))]
-        [SerializeField, ReadOnly] SaveData loadCopy;
-
         [Button(nameof(Clear))]
-        [Button(nameof(TestDictionary))]
-        [SerializeField, ReadOnly] string button;
+
+        [SerializeField] SaveData saveCopy;
+        [SerializeField, ReadOnly] SaveData loadCopy;
 
         void Save()
         {
@@ -31,12 +28,6 @@ namespace Test
         void Clear()
         {
             SaveSystem.Clear();
-        }
-
-        void TestDictionary()
-        {
-            SaveSystem.SaveData.enemySpawnTimes.Add(Random.value.ToString(), Random.value);
-            SaveSystem.Save();
         }
     }
 }
