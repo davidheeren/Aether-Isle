@@ -2,7 +2,7 @@
 
 namespace Game
 {
-    [CreateAssetMenu(menuName = "Stats/Damage")]
+    [CreateAssetMenu(menuName = "Damage")]
     public class DamageStats : ScriptableObject
     {
         public int damage = 1;

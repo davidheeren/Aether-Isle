@@ -1,5 +1,6 @@
 ﻿using SpriteAnimator;
 using StateTree;
+using Stats;
 using UnityEngine;
 
 namespace Game
@@ -7,18 +8,19 @@ namespace Game
     public class PlayerMoveState : State
     {
         Data data;
+        ObjectStats stats;
         CharacterComponents components;
 
-        public PlayerMoveState(Data data, CharacterComponents components, Node child = null) : base(child)
+        public PlayerMoveState(Data data, ObjectStats stats, CharacterComponents components, Node child = null) : base(child)
         {
             this.data = data;
+            this.stats = stats;
             this.components = components;
         }
 
         [System.Serializable]
         public class Data
         {
-            public float speed = 5;
             public SpriteAnimation animation;
             public SFXLoop SFXLoop;
         }
@@ -41,14 +43,15 @@ namespace Game
         {
             base.UpdateState();
 
-            components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * data.speed);
+            float speed = stats.GetStat(StatType.moveSpeed);
+            components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * speed);
         }
 
         protected override void ExitState()
         {
             base.ExitState();
 
-            data.SFXLoop?.Stop();
+            data.SFXLoop?.Pause();
         }
     }
 }

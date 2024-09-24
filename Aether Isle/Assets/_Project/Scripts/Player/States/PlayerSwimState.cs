@@ -1,4 +1,5 @@
 ﻿using StateTree;
+using Stats;
 using UnityEngine;
 
 namespace Game
@@ -6,17 +7,20 @@ namespace Game
     public class PlayerSwimState : State
     {
         Data data;
+        ObjectStats stats;
         CharacterComponents components;
 
-        public PlayerSwimState(Data data, CharacterComponents components, Node child = null) : base(child)
+        public PlayerSwimState(Data data , ObjectStats stats, CharacterComponents components, Node child = null) : base(child)
         {
             this.data = data;
+            this.stats = stats;
             this.components = components;
         }
 
         [System.Serializable]
         public class Data
         {
+            public StatModifier speedModifier;
             public GameObject aimGraphic;
             public AudioClip splashEnterSFX;
             public AudioClip splashExitSFX;
@@ -26,6 +30,7 @@ namespace Game
         {
             base.EnterState();
 
+            stats.AddModifier(data.speedModifier);
             data.aimGraphic.SetActive(false);
 
             SFXManager.Instance.PlaySFXClip(data.splashEnterSFX, components.movement.transform.position);
@@ -35,6 +40,7 @@ namespace Game
         {
             base.ExitState();
 
+            stats.RemoveModifier(data.speedModifier);
             SFXManager.Instance.PlaySFXClip(data.splashExitSFX, components.movement.transform.position);
 
             data.aimGraphic.SetActive(true);

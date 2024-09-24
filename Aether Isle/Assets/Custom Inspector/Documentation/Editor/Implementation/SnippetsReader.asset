@@ -1161,14 +1161,14 @@ MonoBehaviour:
       noRichText: We are <color=green><b>not</b></color> sad.
     sceneAttributeExamples:
       gameScene: 0
-      startScene: Assets/Custom Inspector/Demo/CI_DemoScene.unity
+      startScene: Assets/_Project/Scenes/David.unity
       _: 0
     selfFillAttributeExamples:
       cam: {fileID: 0}
     showAssetReferenceAttributeExamples:
       a:
-        name: Some Custom Class
-        amount: 10
+        name: Some Custom Classlkj
+        amount: 82
       testClass:
         id: 432564
         value: 0
@@ -1326,7 +1326,7 @@ MonoBehaviour:
     folderPathExamples:
       folderPath:
         path: Assets
-        assetReference: {fileID: 0}
+        assetReference: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
       path2:
         path: <invalid>
         assetReference: {fileID: 0}
@@ -1340,10 +1340,10 @@ MonoBehaviour:
       ak47_damage:
         _: 0
         points:
-        - {x: 10, y: 50}
-        - {x: 20, y: 20}
-        - {x: 50, y: 10}
-        - {x: 50, y: 0}
+        - {x: -0.07968494, y: -0.059250023}
+        - {x: 0.00326876, y: -0.042999983}
+        - {x: 0.023321474, y: -0.040500022}
+        - {x: 0.06603298, y: 0.04074998}
     listContainerExamples:
       visible: 1
       myList:
@@ -1405,13 +1405,14 @@ MonoBehaviour:
           info: 0
           values:
             _: 0
-            values: 0000000001000000
+            values: 0000000001000000c6fbffff
           editor_input: 0
         values:
           _: 0
           values:
           - abc
           - abc
+          - Some Random Value
         editor_keyInput: 1
         editor_valueInput: abc
       _: 0

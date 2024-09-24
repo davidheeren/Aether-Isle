@@ -56,7 +56,7 @@ namespace Game
                     Debug.DrawLine(pos, hit.point, Color.green);
 
                 Vector2 hitVector = hit.point - pos;
-                hitVector = hitVector.Reciprocal() * rayCountRecip;
+                hitVector = Reciprocal(hitVector) * rayCountRecip;
 
                 avoidance -= hitVector;
             }
@@ -65,6 +65,18 @@ namespace Game
                 Debug.DrawRay(pos, avoidance * data.avoidanceMultiplier, Color.blue);
 
             return avoidance;
+        }
+
+        private Vector2 Reciprocal(Vector2 vector)
+        {
+            float sqrMag = vector.sqrMagnitude;
+
+            if (sqrMag == 0)
+                return Vector3.zero;
+
+            float invSqrMag = 1.0f / sqrMag;
+
+            return vector * invSqrMag;
         }
     }
 }

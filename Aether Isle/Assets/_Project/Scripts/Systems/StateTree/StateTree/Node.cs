@@ -33,16 +33,19 @@ namespace StateTree
         protected abstract void SetChildrenParentRelationships();
 
         /// <summary>
-        /// Adds a child to the children list and sets its parent to this
+        /// Adds a child to the children list and sets its parent to this. Resolves null children
         /// </summary>
         /// <param name="child"></param>
-        protected void AddChild(Node child)
+        protected void AddChildren(params Node[] _children)
         {
-            if (child == null)
-                return;
+            foreach (Node child in _children)
+            {
+                if (child == null)
+                    return;
 
-            children.Add(child);
-            child.parent = this;
+                children.Add(child);
+                child.parent = this;
+            }
         }
 
         /// <summary>

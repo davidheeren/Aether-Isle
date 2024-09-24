@@ -16,7 +16,7 @@ namespace StateTree
             return child.Evaluate();
         }
 
-        protected override void SetChildrenParentRelationships() => AddChild(child);
+        protected override void SetChildrenParentRelationships() => AddChildren(child);
 
         protected abstract void DoTask();
     }

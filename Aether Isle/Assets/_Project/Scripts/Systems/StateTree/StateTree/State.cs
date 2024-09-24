@@ -31,7 +31,7 @@ namespace StateTree
             this.child = child;
         }
 
-        protected override void SetChildrenParentRelationships() => AddChild(child);
+        protected override void SetChildrenParentRelationships() => AddChildren(child);
 
         protected override void Setup()
         {

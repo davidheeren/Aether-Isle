@@ -2297,7 +2297,7 @@ Transform:
   m_GameObject: {fileID: 872157800}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 3, z: 0}
+  m_LocalPosition: {x: 2.375, y: 1.875, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2335,15 +2335,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unWalkableMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 24
   initialGridWorldSize: {x: 65, y: 35}
   nodeDiameter: 1
   overlapCircleOffset: -0.02
-  pathLayers:
-  - mask:
-      serializedVersion: 2
-      m_Bits: 16
-    penalty: 50
+  pathLayers: []
 --- !u!4 &1110738646
 Transform:
   m_ObjectHideFlags: 0
@@ -23004,7 +23000,7 @@ TilemapCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

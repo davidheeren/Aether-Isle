@@ -36,9 +36,6 @@ namespace StateTree
 
         public abstract override State Evaluate();
 
-        protected override void SetChildrenParentRelationships()
-        {
-            AddChild(child);
-        }
+        protected override void SetChildrenParentRelationships() => AddChildren(child);
     }
 }

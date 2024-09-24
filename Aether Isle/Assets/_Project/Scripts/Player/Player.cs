@@ -1,8 +1,10 @@
 using StateTree;
+using Stats;
 using UnityEngine;
 
 namespace Game
 {
+    [RequireComponent(typeof(ObjectStats))]
     [RequireComponent(typeof(Movement), typeof(PlayerAimDirection), typeof(Target))]
     public class Player : StateTreeMB
     {
@@ -35,13 +37,14 @@ namespace Game
             components.Init(this);
             PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
             Target target = GetComponent<Target>();
+            ObjectStats stats = GetComponent<ObjectStats>();
 
             // Conditions
             CheckGroundCondition swimCondition = new CheckGroundCondition(swimConditionData, transform);
 
             // State Branches
-            Node swimBranch = new PlayerSwimState(swimData, components, new Selector(
-                                new PlayerMoveState(swimMoveData, components),
+            Node swimBranch = new PlayerSwimState(swimData, stats, components, new Selector(
+                                new PlayerMoveState(swimMoveData, stats, components),
                                 new PlayerIdleState(swimIdleData, components)));
 
             Node dashBranch = new LockNullModifier(dashData.duration, 1, dashData.duration, new PlayerDashState(dashData, components, target));
@@ -51,7 +54,7 @@ namespace Game
             Node groundedBranch = new HolderState(new Selector(
                                     dashBranch,
                                     attackBranch,
-                                    new PlayerMoveState(moveData, components),
+                                    new PlayerMoveState(moveData, stats, components),
                                     new PlayerIdleState(idleData, components)));
 
             State notHitBranch = new HolderState(new Selector(

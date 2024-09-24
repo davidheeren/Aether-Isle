@@ -22,12 +22,6 @@
             return state;
         }
 
-        protected override void SetChildrenParentRelationships()
-        {
-            foreach (Node child in _children)
-            {
-                AddChild(child);
-            }
-        }
+        protected override void SetChildrenParentRelationships() => AddChildren(_children);
     }
 }
