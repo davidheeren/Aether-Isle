@@ -39,9 +39,6 @@ namespace Game
             Target target = GetComponent<Target>();
             ObjectStats stats = GetComponent<ObjectStats>();
 
-            // Conditions
-            CheckGroundCondition swimCondition = new CheckGroundCondition(swimConditionData, transform);
-
             // State Branches
             Node swimBranch = new PlayerSwimState(swimData, stats, components, new Selector(
                                 new PlayerMoveState(swimMoveData, stats, components),
@@ -58,7 +55,7 @@ namespace Game
                                     new PlayerIdleState(idleData, components)));
 
             State notHitBranch = new HolderState(new Selector(
-                                new If(swimCondition, swimBranch),
+                                new CheckGroundCondition(swimConditionData, transform, swimBranch),
                                 groundedBranch));
 
             // State Tree

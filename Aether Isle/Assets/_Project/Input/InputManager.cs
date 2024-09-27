@@ -12,21 +12,17 @@ namespace Game
 
         public ControlScheme currentControlScheme { get; private set; } = ControlScheme.None;
 
-        bool ignoreFirstUpdateInputForScheme = true;
-
         void Awake()
         {
             input = new GameInput();
             input.Enable();
-
-            input.Game.Get().actionTriggered += OnActionTriggered;
         }
 
         IEnumerator Start()
         {
             // The mouse input get used the first frame so we want to ignore that for setting the control scheme
             yield return null;
-            ignoreFirstUpdateInputForScheme = false;
+            input.Game.Get().actionTriggered += OnActionTriggered;
         }
 
         private void OnDestroy()
@@ -46,8 +42,6 @@ namespace Game
                 currentControlScheme = ControlScheme.None;
                 return;
             }
-
-            if (ignoreFirstUpdateInputForScheme) return;
 
             if (scheme.Value.name == "Gamepad")
                 currentControlScheme = ControlScheme.Gamepad;

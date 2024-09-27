@@ -16,7 +16,7 @@ namespace Game
         Timer timer;
         EventSwitch eventSwitch;
 
-        DamageStats damage;
+        DamageData damage;
         Vector2? dir;
 
         public CharacterStunState(Data data, bool disableDamageDuringStun, int? lockDepth, CharacterComponents components, Node child = null) : base(child)
@@ -44,7 +44,7 @@ namespace Game
             return eventSwitch.happened;
         }
 
-        private void OnDamage(DamageStats damage, Collider2D col, Collider2D source, Vector2? dir)
+        private void OnDamage(DamageData damage, Collider2D col, Collider2D source, Vector2? dir)
         {
             this.damage = damage;
             this.dir = dir;

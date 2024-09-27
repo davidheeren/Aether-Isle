@@ -1,5 +1,6 @@
 ﻿using SpriteAnimator;
 using StateTree;
+using UnityEditor;
 using UnityEngine;
 using Utilities;
 
@@ -29,6 +30,7 @@ namespace Game
         {
             public SpriteAnimation animation;
             public AudioClip dieSFX;
+            public GameObject[] gameObjectsToDisable;
         }
 
         protected override bool CanEnterState()
@@ -41,6 +43,8 @@ namespace Game
             base.EnterState();
 
             LockSuperStates(null, true);
+
+            foreach (GameObject go in data.gameObjectsToDisable) go.SetActive(false);
 
             delayTimer.Reset();
             components.col.enabled = false;
@@ -66,9 +70,8 @@ namespace Game
                 return;
             }
 
-            Color col = components.spriteRenderer.color;
-            col.a = fadeTimer.currentPercent;
-            components.spriteRenderer.color = col;
+            components.spriteRenderer.color = components.spriteRenderer.color.SetAlpha(fadeTimer.currentPercent);
+            components.shadowRenderer.color = components.shadowRenderer.color.SetAlpha(fadeTimer.currentPercent);
         }
     }
 }

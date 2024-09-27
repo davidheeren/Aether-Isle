@@ -7,7 +7,7 @@ namespace StateTree.Test
     {
         private void Start()
         {
-            Node mainBranch = new If(new VirtualCondition(InputCondition), new LockCooldownModifier(1, null, new VirtualState(UpdateMethod: UpdateState)));
+            Node mainBranch = new VirtualCondition(InputCondition, new LockCooldownModifier(1, null, new VirtualState(UpdateMethod: UpdateState)));
             rootState = new RootState(rootStateData, new Selector(mainBranch, new HolderState().SetName("TEST HOLDER")));
 
 

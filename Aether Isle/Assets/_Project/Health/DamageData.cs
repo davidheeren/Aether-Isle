@@ -2,8 +2,8 @@
 
 namespace Game
 {
-    [CreateAssetMenu(menuName = "Damage")]
-    public class DamageStats : ScriptableObject
+    [CreateAssetMenu(menuName = "Data/Damage")]
+    public class DamageData : ScriptableObject
     {
         public int damage = 1;
         public float knockbackSpeed = 10;

@@ -30,7 +30,7 @@ namespace Game
             components.health.OnDamageParams += OnDamage;
         }
 
-        private void OnDamage(DamageStats damage, Collider2D col, Collider2D source, Vector2? dir)
+        private void OnDamage(DamageData damage, Collider2D col, Collider2D source, Vector2? dir)
         {
             // Sets its own target to the new damage
             if (source.TryGetComponent<Target>(out Target tar))

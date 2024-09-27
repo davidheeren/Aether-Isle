@@ -6,6 +6,7 @@ namespace Game
     public class Chest : MonoBehaviour, IInteractable
     {
         [SerializeField] Sprite openChestSprite;
+        [SerializeField] AudioClip openChestSFX;
         Sprite closeChestSprite;
         SpriteRenderer sr;
 
@@ -35,6 +36,8 @@ namespace Game
                 sr.sprite = closeChestSprite;
 
             isOpened = !isOpened;
+
+            SFXManager.Instance.PlaySFXClip(openChestSFX, transform.position);
         }
 
         public bool CanContinue()

@@ -4,7 +4,7 @@
     {
         Ref<T> obj;
 
-        public NullCondition(Ref<T> obj)
+        public NullCondition(Ref<T> obj, Node child = null) : base(child)
         {
             this.obj = obj;
         }

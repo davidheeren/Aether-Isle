@@ -11,6 +11,7 @@ namespace Game
 
         public SpriteRenderer spriteRenderer;
         public SpriteAnimatorController animator;
+        public SpriteRenderer shadowRenderer;
 
         [NonSerialized] public Movement movement;
         [NonSerialized] public Collider2D col;
@@ -29,6 +30,18 @@ namespace Game
 
             gameObject = mb.gameObject;
             transform = mb.transform;
+
+            CheckNull(spriteRenderer);
+            CheckNull(animator);
+            CheckNull(shadowRenderer);
+        }
+
+        void CheckNull(Component comp)
+        {
+            if (comp == null)
+            {
+                Debug.LogError("Component of type: " + comp.GetType() + " is null on: " + gameObject.name);
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Game
             CharacterMovement aiMovement = new CharacterMovement(aiMovementData, targetInfo, obstacleAvoidance, components);
 
             findTargetTask = new FindTargetTask(findTargetData, components, targetInfo, 
-                                    new If(new VirtualCondition(TargetActiveCondition), 
+                                    new VirtualCondition(TargetActiveCondition, 
                                     new Selector(
                                         new CharacterRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
                                         new CharacterChaseState(chaseData, aiMovement, components.animator)))); 

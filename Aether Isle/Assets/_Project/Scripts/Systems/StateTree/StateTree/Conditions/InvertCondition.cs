@@ -2,12 +2,11 @@
 
 namespace StateTree
 {
-    [Serializable]
-    public class Not : Condition
+    public class InvertCondition : Condition
     {
         Condition condition;
 
-        public Not(Condition condition)
+        public InvertCondition(Condition condition, Node child) : base(child)
         {
             this.condition = condition;
         }

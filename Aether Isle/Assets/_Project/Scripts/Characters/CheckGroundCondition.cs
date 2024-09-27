@@ -8,7 +8,7 @@ namespace Game
         Data data;
         Transform transform;
 
-        public CheckGroundCondition(Data data, Transform transform)
+        public CheckGroundCondition(Data data, Transform transform, Node child = null) : base(child)
         {
             this.data = data;
             this.transform = transform;

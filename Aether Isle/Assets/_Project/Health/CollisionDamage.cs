@@ -10,7 +10,7 @@ namespace Game
     {
         [TooltipBox("This will be overwritten by a DamageProjectile")]
         public LayerMask damageMask;
-        [SerializeField] DamageStats damage;
+        [SerializeField] DamageData damage;
         [TooltipBox("This will use the rotation of this instead of the dir of the collision")]
         [SerializeField] bool useRotation;
 

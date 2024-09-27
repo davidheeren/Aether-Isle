@@ -1,10 +1,12 @@
+using System;
+
 namespace StateTree
 {
     public class VirtualCondition : Condition
     {
-        ConditionMethod condition;
+        Func<bool> condition;
 
-        public VirtualCondition(ConditionMethod condition)
+        public VirtualCondition(Func<bool> condition, Node child = null) : base(child)
         {
             this.condition = condition;
         }
@@ -14,6 +16,4 @@ namespace StateTree
             return condition();
         }
     }
-
-    public delegate bool ConditionMethod();
 }

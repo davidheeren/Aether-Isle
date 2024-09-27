@@ -7,7 +7,6 @@ namespace StateTree
         int? depth;
 
         bool isLocked = false;
-
         public LockIfModifier(Condition condition, int? depth, Node child) : base(child)
         {
             this.condition = condition;

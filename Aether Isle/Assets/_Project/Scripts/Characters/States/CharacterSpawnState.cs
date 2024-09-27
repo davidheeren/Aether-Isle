@@ -35,7 +35,8 @@ namespace Game
             base.UpdateState();
 
             float a = EasingFunction.EaseOutCubic(0, 1, 1 - timer.currentPercent);
-            components.spriteRenderer.color = ChangeAlpha(components.spriteRenderer.color, a);
+            components.spriteRenderer.color = components.spriteRenderer.color.SetAlpha(a);
+            components.shadowRenderer.color = components.shadowRenderer.color.SetAlpha(a);
         }
 
         protected override void ExitState()
@@ -43,14 +44,8 @@ namespace Game
             base.ExitState();
 
             components.col.enabled = true;
-            components.spriteRenderer.color = ChangeAlpha(components.spriteRenderer.color, 1);
-        }
-
-
-        private Color ChangeAlpha(Color color, float alpha)
-        {
-            color.a = alpha;
-            return color;
+            components.spriteRenderer.color = components.spriteRenderer.color.SetAlpha(1);
+            components.shadowRenderer.color = components.shadowRenderer.color.SetAlpha(1);
         }
     }
 }

@@ -24,15 +24,12 @@ namespace Game
 
         void UpdateAimDir()
         {
-            if (InputManager.Instance.currentControlScheme == InputManager.ControlScheme.None)
-                return;
-
             if (InputManager.Instance.currentControlScheme == InputManager.ControlScheme.Keyboard)
             {
                 isLocked = false;
                 aimDir = (InputManager.Instance.input.Game.MousePosition.ReadValue<Vector2>() - (Vector2)cam.WorldToScreenPoint(transform.position)).normalized;
             }
-            else
+            else if (InputManager.Instance.currentControlScheme == InputManager.ControlScheme.Gamepad)
             {
                 Vector2 newAimDir = InputManager.Instance.input.Game.AimDir.ReadValue<Vector2>();
                 if (newAimDir != Vector2.zero)

@@ -63,16 +63,19 @@ MonoBehaviour:
   rootStateData:
     debugState: 0
     debugGeneral: 0
-    createGameObjectTree: 1
+    createGameObjectTree: 0
   components:
     spriteRenderer: {fileID: 3988776961111551003}
     animator: {fileID: 2369715705981750697}
+    shadowRenderer: {fileID: 8953322674473544345}
   stunData:
     stunSFX: {fileID: 8300000, guid: 1829f2a46c6e0e44da83a20a789eb9ba, type: 3}
     stunAnimation: {fileID: 0}
   dieData:
     animation: {fileID: 11400000, guid: 9ade97ff8d6bcba47997c76769ba154f, type: 2}
     dieSFX: {fileID: 8300000, guid: 8a9eb1719bbf26d42bc1b0f9734f0f2f, type: 3}
+    gameObjectsToDisable:
+    - {fileID: 1805550755161401474}
   idleData:
     animation: {fileID: 11400000, guid: 747c27fa31020a048bfa13c610f8cd70, type: 2}
   moveData:
@@ -240,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7ff18ffae85a4488fa5a73576b6dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 8
+  <maxHealth>k__BackingField: 8
 --- !u!114 &4310884689642328341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6180,6 +6183,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
+--- !u!212 &8953322674473544345 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7328127227608943859, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
+  m_PrefabInstance: {fileID: 1869604529797719658}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9153569970763733873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}

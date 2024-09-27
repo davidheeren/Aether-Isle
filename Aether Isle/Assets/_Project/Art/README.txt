@@ -5,4 +5,5 @@ Details: 2
 Shadow: 5
 Obstacle: 6
 
+Low Objects: 40
 Characters/Objects: 50
