@@ -3813,7 +3813,7 @@ MonoBehaviour:
   unWalkableMask:
     serializedVersion: 2
     m_Bits: 24
-  initialGridWorldSize: {x: 65, y: 35}
+  initialGridWorldSize: {x: 105, y: 105}
   nodeDiameter: 1
   overlapCircleOffset: -0.02
   pathLayers: []
