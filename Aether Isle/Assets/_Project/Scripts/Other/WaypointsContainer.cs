@@ -10,10 +10,11 @@ namespace Game
     public class WaypointsContainer : MonoBehaviour
     {
         [SerializeField, HideInInspector] GameObject[] waypointGOs = new GameObject[0];
+
+        [Button(nameof(Reverse))]
         [SerializeField] bool drawLines = true;
 
-        [Button(nameof(UpdateChildrenManual))]
-        [Button(nameof(Reverse))]
+        //[Button(nameof(UpdateChildrenManual))]
         [SerializeField] Sprite waypointSprite;
         [SerializeField] float scale = 2;
         [SerializeField] Color startColor = Color.green;
@@ -23,7 +24,10 @@ namespace Game
 
         void UpdateChildrenManual() => OnTransformChildrenChanged();
 
-        private void OnTransformChildrenChanged()
+        private void OnTransformChildrenChanged() => UpdateChildren();
+        private void OnValidate() => UpdateChildren();
+
+        void UpdateChildren()
         {
             waypointGOs = GetChildren();
             for (int i = 0; i < waypointGOs.Length; i++)
@@ -38,7 +42,6 @@ namespace Game
                 sr.color = i == 0 ? startColor : defaultColor;
                 sr.sortingOrder = 200;
             }
-
         }
 
         void Awake()

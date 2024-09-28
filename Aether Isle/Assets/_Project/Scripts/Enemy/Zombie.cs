@@ -1,4 +1,5 @@
 using StateTree;
+using Stats;
 using UnityEngine;
 
 namespace Game
@@ -9,12 +10,11 @@ namespace Game
         [SerializeField] ObstacleAvoidanceData obstacleAvoidanceData;
         [SerializeField] ObstacleAvoidanceData smallObstacleAvoidanceData;
         [SerializeField] CharacterComponents components;
-        [SerializeField] CharacterMovement.Data aiMovementData;
 
         [Header("Data")]
         [SerializeField] FindTargetTaskData findTargetData;
         [SerializeField] CharacterIdleState.Data idleData;
-        [SerializeField] CharacterChaseState.Data chaseData;
+        [SerializeField] ActorChaseState.Data chaseData;
         [SerializeField] CharacterRandomAttack.Data randomAttackData;
         [SerializeField] CharacterStunState.Data stunData;
         [SerializeField] CharacterDieState.Data dieData;
@@ -22,7 +22,7 @@ namespace Game
         FindTargetTask findTargetTask;
 
         TargetInfo targetInfo = new TargetInfo();
-
+        ObjectStats stats;
 
         private void OnDrawGizmosSelected()
         {
@@ -32,15 +32,16 @@ namespace Game
         void Awake()
         {
             components.Init(this);
+            stats = GetComponent<ObjectStats>();
             ObstacleAvoidance obstacleAvoidance = new ObstacleAvoidance(obstacleAvoidanceData, transform);
             ObstacleAvoidance smallObstacleAvoidance = new ObstacleAvoidance(smallObstacleAvoidanceData, transform);
-            CharacterMovement aiMovement = new CharacterMovement(aiMovementData, targetInfo, obstacleAvoidance, components);
+            ActorMoveToPoint moveToPoint = new ActorMoveToPoint(obstacleAvoidance, components);
 
             findTargetTask = new FindTargetTask(findTargetData, components, targetInfo, 
                                     new VirtualCondition(TargetActiveCondition, 
                                     new Selector(
                                         new CharacterRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
-                                        new CharacterChaseState(chaseData, aiMovement, components.animator)))); 
+                                        new ActorChaseState(chaseData, stats, moveToPoint, targetInfo, components)))); 
 
             Node moveBranch = new Selector(findTargetTask, new CharacterIdleState(idleData, components.animator));
 

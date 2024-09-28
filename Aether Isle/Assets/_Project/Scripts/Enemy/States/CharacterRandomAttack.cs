@@ -62,7 +62,7 @@ namespace Game
                 randomTimer.Reset();
             }
 
-            Vector2 targetDir = obstacleAvoidance.GetDir(targetInfo.target.position + offset);
+            Vector2 targetDir = obstacleAvoidance.GetDirection(targetInfo.target.position + offset);
 
             components.movement.Move(targetDir * data.attackSpeed);
         }

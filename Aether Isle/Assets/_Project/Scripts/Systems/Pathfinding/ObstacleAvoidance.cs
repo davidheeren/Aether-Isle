@@ -13,7 +13,7 @@ namespace Game
             this.transform = transform;
         }
 
-        public Vector2 GetDir(Vector2 targetPos)
+        public Vector2 GetDirection(Vector2 targetPos)
         {
             Vector2 dir = targetPos - (Vector2)transform.position;
             dir.Normalize();

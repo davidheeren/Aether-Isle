@@ -10,10 +10,13 @@ namespace Pathfinding
 
         PathGrid pathGrid;
 
-        Vector2[] pathForDraw = new Vector2[0];
-
+        /// <summary>
+        /// If pathgrid is null it will be the singleton
+        /// </summary>
+        /// <param name="pathGrid"></param>
         public Pathfinder(PathGrid pathGrid)
         {
+            if (pathGrid == null) pathGrid = PathGrid.Instance;
             this.pathGrid = pathGrid;
             openSet = new Heap<Node>(pathGrid.gridSize.x * pathGrid.gridSize.y);
         }
@@ -26,23 +29,6 @@ namespace Pathfinding
             Node startNode = pathGrid.GetClosestWalkableNodeFromWorldPosition(startPos);
             startNode.gCost = 0; // ?
             Node targetNode = pathGrid.GetClosestWalkableNodeFromWorldPosition(endPos);
-
-            //#region Check start and end nodes
-            //if (!targetNode.walkable)
-            //    Debug.LogWarning("Target Node not walkable");
-
-            //int neighborUnwalkbableCount = 0;
-            //for (int i = 0; i < startNode.neighbors.Count; i++)
-            //{
-            //    if (!startNode.neighbors[i].walkable)
-            //        neighborUnwalkbableCount++;
-            //}
-
-            //if (neighborUnwalkbableCount == startNode.neighbors.Count && !startNode.walkable)
-            //{
-            //    Debug.LogWarning("Start node and neighbors are unwalkable");
-            //}
-            //#endregion
 
             openSet.Clear();
             openSet.Add(startNode);
@@ -60,7 +46,6 @@ namespace Pathfinding
                     //Debug.Log("Path found in " + sw.ElapsedMilliseconds + " ms");
 
                     Vector2[] path = RetracePath(startNode, targetNode);
-                    pathForDraw = path;
 
                     return path;
                 }
@@ -113,14 +98,6 @@ namespace Pathfinding
                 return 14 * distY + 10 * (distX - distY);
 
             return 14 * distX + 10 * (distY - distX);
-        }
-
-        public void DrawPath()
-        {
-            for (int i = 1; i < pathForDraw.Length; i++)
-            {
-                Debug.DrawLine(pathForDraw[i - 1], pathForDraw[i], Color.cyan);
-            }
         }
     }
 }

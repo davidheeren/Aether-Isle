@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5677f4eaf13a364aa9e5a640058b9ad, type: 3}
-  m_Name: SmallEnemyOA 1
+  m_Name: SmallEnemyOA
   m_EditorClassIdentifier: 
   rayCount: 20
   rayDist: 1

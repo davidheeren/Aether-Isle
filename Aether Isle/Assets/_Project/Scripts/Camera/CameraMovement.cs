@@ -1,6 +1,7 @@
 using EventSystem;
 using UnityEngine;
 using Utilities;
+using static UnityEditor.PlayerSettings;
 
 namespace Game
 {
@@ -9,6 +10,8 @@ namespace Game
         [SerializeField] Transform target;
         [SerializeField] bool hardLock = false;
         [SerializeField] float decay = 10;
+        [SerializeField] bool useFreeLook;
+        [SerializeField] float freeLookSpeed = 10;
 
         public void OnPlayerSpawn(GameEventData data)
         {
@@ -21,9 +24,18 @@ namespace Game
 
         void LateUpdate()
         {
-            if (target == null)
+            if (target != null)
+            {
+                UpdatePositionFromTarget();
                 return;
+            }
 
+            if (useFreeLook)
+                UpdatePositionUsingFreeLook();
+        }
+
+        void UpdatePositionFromTarget()
+        {
             Vector2 pos = target.position;
 
             if (!hardLock)
@@ -32,6 +44,11 @@ namespace Game
             }
 
             SetPos(pos);
+        }
+
+        void UpdatePositionUsingFreeLook()
+        {
+            transform.position += (Vector3)InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * freeLookSpeed * Time.deltaTime;
         }
 
         void SetPos(Vector2 pos)

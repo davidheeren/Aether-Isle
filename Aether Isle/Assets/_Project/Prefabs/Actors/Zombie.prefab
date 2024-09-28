@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 6009982237577127576}
   - component: {fileID: 2253225280846299221}
   - component: {fileID: -1814526223723732841}
+  - component: {fileID: -2532947948912588243}
   m_Layer: 7
   m_Name: Zombie
   m_TagString: Untagged
@@ -291,6 +292,7 @@ MonoBehaviour:
   dieData:
     animation: {fileID: 11400000, guid: b7224db2cd32121428b04c3e45c527c4, type: 2}
     dieSFX: {fileID: 8300000, guid: 58c5ba4b30c781f409d64c75c294f389, type: 3}
+    gameObjectsToDisable: []
 --- !u!114 &4037395337636954333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,9 +344,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   damage: {fileID: 11400000, guid: d7360cb86b7e63848a10df31d7b7b8b2, type: 2}
   useRotation: 0
+--- !u!114 &-2532947948912588243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697161190766838628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558f1dfd33e265d4a9704f9a3c72183d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 019c993f645769b478d7ef88d5f447da, type: 2}
+  initialModifiers: []
 --- !u!1001 &5549453306199264849
 PrefabInstance:
   m_ObjectHideFlags: 0
