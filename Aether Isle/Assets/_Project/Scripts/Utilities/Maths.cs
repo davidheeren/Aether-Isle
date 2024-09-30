@@ -11,5 +11,10 @@ namespace Utilities
             int r = x % m;
             return r < 0 ? r + m : r;
         }
+
+        public static Vector2 DirectionFromAngle(float radians)
+        {
+            return new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+        }
     }
 }

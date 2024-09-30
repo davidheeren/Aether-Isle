@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: -410351549, guid: 02f98c9e9da1e2e42bd712184b1d7c0f, type: 3}
+  m_Sprite: {fileID: -557859599, guid: 41e1f10d08de22847b36d6eea5210c60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   fps: 12
   playFirsAnimationOnAwake: 0
   animations:
-  - {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
+  - {fileID: 11400000, guid: 71dcfbd63e29b414e98a4a52743754a9, type: 2}
 --- !u!1 &697161190766838628
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,14 +144,14 @@ GameObject:
   - component: {fileID: 1242637730316275342}
   - component: {fileID: 8813272457405128670}
   - component: {fileID: 1217327562817206235}
-  - component: {fileID: 9154475787413530665}
+  - component: {fileID: 1266637623472528856}
   - component: {fileID: 4037395337636954333}
   - component: {fileID: 6009982237577127576}
   - component: {fileID: 2253225280846299221}
   - component: {fileID: -1814526223723732841}
   - component: {fileID: -2532947948912588243}
   m_Layer: 7
-  m_Name: Zombie
+  m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +186,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -235,8 +235,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.1}
-  m_Radius: 0.35
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.25
 --- !u!114 &1217327562817206235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultAccelerationForce: 12
   defaultDecelerationForce: 7
---- !u!114 &9154475787413530665
+--- !u!114 &1266637623472528856
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 697161190766838628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32368b236d01181459356439402320dc, type: 3}
+  m_Script: {fileID: 11500000, guid: e05656d9194a6094aabe57410f3f8c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rootStateData:
@@ -274,26 +274,26 @@ MonoBehaviour:
     animator: {fileID: 7375884800252258686}
     shadowRenderer: {fileID: 2932162774603661986}
   findTargetData: {fileID: 11400000, guid: 8f161e4f6ede5524f85d5b79701111d1, type: 2}
-  patrolData:
-    speedMultiplier: 0.65
-    animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
-    reverse: 1
-    waypoints: []
-  idleData:
-    animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
+  wanderData:
+    speedMultiplier: 0.5
+    randomDirectionTime: 1.5
+    randomDirectionDegrees: 180
+    rangeDistance: 10
+    updateHome: 0
+    animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   chaseData:
     updateTime: 0.25
-    animation: {fileID: 11400000, guid: 3264e7ea89e6ae844b2674cbd4077c35, type: 2}
+    animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   randomAttackData:
-    attackRange: 2
+    attackRange: 5
     randomOffsetTime: 0.5
     attackSpeed: 3
-    animation: {fileID: 11400000, guid: 3264e7ea89e6ae844b2674cbd4077c35, type: 2}
+    animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   stunData:
-    stunSFX: {fileID: 8300000, guid: 976abb4f93e3e554e80bfcdf66836d32, type: 3}
-    stunAnimation: {fileID: 0}
+    stunSFX: {fileID: 8300000, guid: 1829f2a46c6e0e44da83a20a789eb9ba, type: 3}
+    stunAnimation: {fileID: 11400000, guid: cc857a375700a4d43b08abe7f4003d63, type: 2}
   dieData:
-    animation: {fileID: 11400000, guid: b7224db2cd32121428b04c3e45c527c4, type: 2}
+    animation: {fileID: 11400000, guid: ce05bad7fe07f334297f09365af70192, type: 2}
     dieSFX: {fileID: 8300000, guid: 58c5ba4b30c781f409d64c75c294f389, type: 3}
     gameObjectsToDisable: []
 --- !u!114 &4037395337636954333
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7ff18ffae85a4488fa5a73576b6dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <maxHealth>k__BackingField: 3
+  <maxHealth>k__BackingField: 2
 --- !u!114 &2253225280846299221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558f1dfd33e265d4a9704f9a3c72183d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 019c993f645769b478d7ef88d5f447da, type: 2}
+  baseStats: {fileID: 11400000, guid: b485a1f300f8538409e69735e2fc97cf, type: 2}
   initialModifiers: []
 --- !u!1001 &5549453306199264849
 PrefabInstance:
@@ -379,14 +379,14 @@ PrefabInstance:
     - target: {fileID: 7328127227608943859, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9c59cd6643493ba488aa0be9bd3406b4, type: 3}
+      objectReference: {fileID: 21300000, guid: 142f1cd714d41c4429f2bbad97b0dddd, type: 3}
     - target: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.1755
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_LocalPosition.z

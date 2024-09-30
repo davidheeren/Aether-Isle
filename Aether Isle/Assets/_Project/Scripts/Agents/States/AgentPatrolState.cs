@@ -62,7 +62,7 @@ namespace Game
             Vector2? targetPos = waypointHelper.GetCurrentWaypoint(components.transform.position);
             if (targetPos == null) return; // This shouldn't happen because of Enter but just in case
 
-            Vector2 dir = obstacleAvoidance.GetDirection(targetPos.Value);
+            Vector2 dir = obstacleAvoidance.GetDirectionFromPoint(targetPos.Value);
 
             float speed = stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
             components.movement.Move(dir * speed);

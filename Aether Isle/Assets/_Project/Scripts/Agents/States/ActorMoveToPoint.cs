@@ -36,7 +36,7 @@ namespace Game
 
             if (targetPos == null) return;
 
-            components.movement.Move(obstacleAvoidance.GetDirection(targetPos.Value) * speed);
+            components.movement.Move(obstacleAvoidance.GetDirectionFromPoint(targetPos.Value) * speed);
 
             waypointHelper.DrawWaypoints();
         }

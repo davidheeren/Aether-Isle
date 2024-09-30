@@ -13,12 +13,23 @@ namespace Game
             this.transform = transform;
         }
 
-        public Vector2 GetDirection(Vector2 targetPos)
+        public Vector2 GetDirectionFromPoint(Vector2 targetPos)
         {
             Vector2 dir = targetPos - (Vector2)transform.position;
+
+            return GetDirectionFromDirection(dir);
+        }
+
+        /// <summary>
+        /// Input not have to be normalized, Returns normalized
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public Vector2 GetDirectionFromDirection(Vector2 dir)
+        {
             dir.Normalize();
 
-            dir += Avoidance() * data.avoidanceMultiplier;
+            dir += GetAvoidance() * data.avoidanceMultiplier;
 
             dir.Normalize();
 
@@ -28,7 +39,7 @@ namespace Game
             return dir;
         }
 
-        Vector2 Avoidance()
+        public Vector2 GetAvoidance()
         {
             Vector2 pos = transform.position;
 

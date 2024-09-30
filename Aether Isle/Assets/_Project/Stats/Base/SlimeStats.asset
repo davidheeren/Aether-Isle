@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e6d8bc64e315a4a8774b15b244de53, type: 3}
+  m_Name: SlimeStats
+  m_EditorClassIdentifier: 
+  <stats>k__BackingField:
+    info: 0
+    keys:
+      info: 0
+      values:
+        _: 0
+        values: 0000000002000000
+      editor_input: 0
+    values:
+      _: 0
+      values:
+      - 2
+      - 1
+    editor_keyInput: 1
+    editor_valueInput: 0
