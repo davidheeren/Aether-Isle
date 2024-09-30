@@ -14,11 +14,11 @@ namespace Game
         [Header("Data")]
         [SerializeField] FindTargetTaskData findTargetData;
         [SerializeField] AgentPatrolState.Data patrolData;
-        [SerializeField] CharacterIdleState.Data idleData;
+        [SerializeField] AgentIdleState.Data idleData;
         [SerializeField] AgentChaseState.Data chaseData;
-        [SerializeField] CharacterRandomAttack.Data randomAttackData;
-        [SerializeField] CharacterStunState.Data stunData;
-        [SerializeField] CharacterDieState.Data dieData;
+        [SerializeField] AgentRandomAttack.Data randomAttackData;
+        [SerializeField] ActorStunState.Data stunData;
+        [SerializeField] ActorDieState.Data dieData;
 
         FindTargetTask findTargetTask;
 
@@ -41,18 +41,18 @@ namespace Game
             findTargetTask = new FindTargetTask(findTargetData, components, targetInfo, 
                                     new VirtualCondition(TargetActiveCondition, 
                                     new Selector(
-                                        new CharacterRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
+                                        new AgentRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
                                         new AgentChaseState(chaseData, stats, moveToPoint, targetInfo, components)))); 
 
             Node moveBranch = new Selector(findTargetTask, 
                 new AgentPatrolState(patrolData, stats, obstacleAvoidance, components),
-                new CharacterIdleState(idleData, components.animator));
+                new AgentIdleState(idleData, components.animator));
 
 
             rootState = new RootState(rootStateData, new Selector(
-                new CharacterSpawnState(components),
-                new CharacterStunState(stunData, false, null, components),
-                new CharacterDieState(dieData, components),
+                new ActorSpawnState(components),
+                new ActorStunState(stunData, false, null, components),
+                new ActorDieState(dieData, components),
                 moveBranch));
 
             rootState.UpdateStateTree();

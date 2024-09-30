@@ -277,7 +277,7 @@ MonoBehaviour:
   patrolData:
     speedMultiplier: 0.65
     animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
-    reverse: 0
+    reverse: 1
     waypoints: []
   idleData:
     animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}

@@ -5,7 +5,7 @@ using Utilities;
 
 namespace Game
 {
-    public class CharacterRandomAttack : State
+    public class AgentRandomAttack : State
     {
         Data data;
         TargetInfo targetInfo;
@@ -17,7 +17,7 @@ namespace Game
 
         Vector2 offset;
 
-        public CharacterRandomAttack(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
+        public AgentRandomAttack(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.targetInfo = targetInfo;

@@ -5,7 +5,7 @@ using Utilities;
 
 namespace Game
 {
-    public class CharacterStunState : State
+    public class ActorStunState : State
     {
         bool disableDamageDuringStun;
         int? lockDepth;
@@ -19,7 +19,7 @@ namespace Game
         DamageData damage;
         Vector2? dir;
 
-        public CharacterStunState(Data data, bool disableDamageDuringStun, int? lockDepth, ActorComponents components, Node child = null) : base(child)
+        public ActorStunState(Data data, bool disableDamageDuringStun, int? lockDepth, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.disableDamageDuringStun = disableDamageDuringStun;

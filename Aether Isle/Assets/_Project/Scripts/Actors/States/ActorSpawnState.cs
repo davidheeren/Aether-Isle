@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Game
 {
-    public class CharacterSpawnState : State
+    public class ActorSpawnState : State
     {
         ActorComponents components;
 
         Timer timer;
         float spawnTime = 1;
 
-        public CharacterSpawnState(ActorComponents components, State child = null) : base(child)
+        public ActorSpawnState(ActorComponents components, State child = null) : base(child)
         {
             this.components = components;
             timer = new Timer(spawnTime).Stop();

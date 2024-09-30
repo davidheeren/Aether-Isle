@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Game
 {
-    public class CharacterDieState : State
+    public class ActorDieState : State
     {
         Data data;
         ActorComponents components;
@@ -17,7 +17,7 @@ namespace Game
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        public CharacterDieState(Data data, ActorComponents components, Node child = null) : base(child)
+        public ActorDieState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;

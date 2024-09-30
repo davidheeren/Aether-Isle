@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Game
 {
-    public class CharacterIdleState : State
+    public class AgentIdleState : State
     {
         Data data;
         SpriteAnimatorController animator;
 
-        public CharacterIdleState(Data data, SpriteAnimatorController animator, Node child = null) : base(child)
+        public AgentIdleState(Data data, SpriteAnimatorController animator, Node child = null) : base(child)
         {
             this.data = data;
             this.animator = animator;

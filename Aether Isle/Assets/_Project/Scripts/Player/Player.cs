@@ -12,8 +12,8 @@ namespace Game
         [SerializeField] ActorComponents components;
 
         [Header("States")]
-        [SerializeField] CharacterStunState.Data stunData;
-        [SerializeField] CharacterDieState.Data dieData;
+        [SerializeField] ActorStunState.Data stunData;
+        [SerializeField] ActorDieState.Data dieData;
         [SerializeField] PlayerIdleState.Data idleData;
         [SerializeField] PlayerMoveState.Data moveData;
         [SerializeField] PlayerDashState.Data dashData;
@@ -60,8 +60,8 @@ namespace Game
 
             // State Tree
             rootState = new RootState(rootStateData, new Selector(
-                            new CharacterStunState(stunData, true, null, components),
-                            new CharacterDieState(dieData, components),
+                            new ActorStunState(stunData, true, null, components),
+                            new ActorDieState(dieData, components),
                             notHitBranch));
         }
     }

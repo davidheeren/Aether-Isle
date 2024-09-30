@@ -138,6 +138,7 @@ namespace Game
         void TrySetWaypoints(GameObject obj)
         {
             if (waypointsContainer == null) return;
+            if (!waypointsContainer.enabled) return;
             if (obj.TryGetComponent<StateTreeMB>(out var stateTree))
             {
                 AgentPatrolState patrol = stateTree.RootState.GetFirstSubNode<AgentPatrolState>();

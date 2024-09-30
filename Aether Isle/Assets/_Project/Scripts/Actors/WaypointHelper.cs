@@ -16,6 +16,8 @@ namespace Game
         bool atEnd;
 
         int EndIndex => reverse ? 0 : waypoints.Length - 1;
+        int Offset => reverse ? -1 : 1;
+
         public int Length => waypoints.Length;
 
         public WaypointHelper(Vector2[] waypoints, bool loop = true, bool reverse = false, float nextWaypointRange = 0.5f)
@@ -33,14 +35,14 @@ namespace Game
 
             CheckIndex(position);
 
-            if (atEnd)
-            {
-                float sqrDis = (waypoints[currentIndex] - position).sqrMagnitude;
-                float epsilon = 0.05f;
+            if (atEnd) return null;
+            //{
+            //    float sqrDis = (waypoints[currentIndex] - position).sqrMagnitude;
+            //    float epsilon = 0.05f;
 
-                if (sqrDis < epsilon * epsilon) 
-                    return null;
-            }
+            //    if (sqrDis < epsilon * epsilon) 
+            //        return null;
+            //}
 
             return waypoints[currentIndex];
         }
@@ -48,7 +50,7 @@ namespace Game
         void CheckIndex(Vector2 position)
         {
             int i = currentIndex;
-            int offset = reverse ? -1 : 1;
+            
             while (i >= 0 && i < waypoints.Length)
             {
                 float sqrDist = (position - waypoints[i]).sqrMagnitude;
@@ -61,11 +63,11 @@ namespace Game
                 }
 
                 // Advance the loop
-                i += offset;
+                i += Offset;
             }
 
             // If at the last waypoint then set to last or first if loop
-            SetIndex(EndIndex + offset);
+            SetIndex(EndIndex + Offset);
         }
 
         public WaypointHelper SetIndex(int index)
@@ -80,10 +82,10 @@ namespace Game
             }
             else
             {
-                index = Mathf.Clamp(index, 0, waypoints.Length - 1);
-
-                if (index == EndIndex)
+                if (index == EndIndex + Offset)
                     atEnd = true;
+
+                index = Mathf.Clamp(index, 0, waypoints.Length - 1);
             }
 
             currentIndex = index;
