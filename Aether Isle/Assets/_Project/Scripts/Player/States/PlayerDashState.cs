@@ -7,13 +7,13 @@ namespace Game
     public class PlayerDashState : State
     {
         Data data;
-        CharacterComponents components;
+        ActorComponents components;
         Target target;
 
         Vector2 dashDir;
         LayerMask initialExcludeLayers;
 
-        public PlayerDashState(Data data, CharacterComponents components, Target target, Node child = null) : base(child)
+        public PlayerDashState(Data data, ActorComponents components, Target target, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;

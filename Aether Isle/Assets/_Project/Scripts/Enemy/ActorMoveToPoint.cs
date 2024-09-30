@@ -10,12 +10,12 @@ namespace Game
     public class ActorMoveToPoint
     {
         ObstacleAvoidance obstacleAvoidance;
-        CharacterComponents components;
+        ActorComponents components;
 
         Pathfinder pathfinder;
         WaypointHelper waypointHelper;
 
-        public ActorMoveToPoint(ObstacleAvoidance obstacleAvoidance, CharacterComponents components, PathGrid pathGrid = null)
+        public ActorMoveToPoint(ObstacleAvoidance obstacleAvoidance, ActorComponents components, PathGrid pathGrid = null)
         {
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;

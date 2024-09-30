@@ -9,7 +9,7 @@ namespace Game
     public class Player : StateTreeMB
     {
         [Header("General Vars")]
-        [SerializeField] CharacterComponents components;
+        [SerializeField] ActorComponents components;
 
         [Header("States")]
         [SerializeField] CharacterStunState.Data stunData;

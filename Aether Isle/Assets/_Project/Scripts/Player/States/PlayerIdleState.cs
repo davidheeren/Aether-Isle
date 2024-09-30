@@ -7,9 +7,9 @@ namespace Game
     public class PlayerIdleState : State
     {
         Data data;
-        CharacterComponents components;
+        ActorComponents components;
 
-        public PlayerIdleState(Data data, CharacterComponents components, Node child = null) : base(child)
+        public PlayerIdleState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;

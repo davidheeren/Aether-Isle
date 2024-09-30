@@ -10,14 +10,14 @@ namespace Game
         Data data;
         TargetInfo targetInfo;
         ObstacleAvoidance obstacleAvoidance;
-        CharacterComponents components;
+        ActorComponents components;
 
         Timer randomTimer;
         Timer posTimer;
 
         Vector2 offset;
 
-        public CharacterRandomAttack(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, CharacterComponents components, Node child = null) : base(child)
+        public CharacterRandomAttack(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.targetInfo = targetInfo;

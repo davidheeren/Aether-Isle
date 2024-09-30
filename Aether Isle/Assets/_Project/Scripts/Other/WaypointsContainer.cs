@@ -12,30 +12,28 @@ namespace Game
         [SerializeField, HideInInspector] GameObject[] waypointGOs = new GameObject[0];
 
         [Button(nameof(Reverse))]
-        [SerializeField] bool drawLines = true;
+        [Button(nameof(ToggleWaypointDisplayers))]
 
-        //[Button(nameof(UpdateChildrenManual))]
+        [SerializeField] bool drawLines = true;
         [SerializeField] Sprite waypointSprite;
         [SerializeField] float scale = 2;
         [SerializeField] Color startColor = Color.green;
         [SerializeField] Color defaultColor = Color.blue;
-
-        const float circleRadius = 0.25f;
-
-        void UpdateChildrenManual() => OnTransformChildrenChanged();
 
         private void OnTransformChildrenChanged() => UpdateChildren();
         private void OnValidate() => UpdateChildren();
 
         void UpdateChildren()
         {
+            if (Application.isPlaying) return;
+
             waypointGOs = GetChildren();
             for (int i = 0; i < waypointGOs.Length; i++)
             {
                 waypointGOs[i] = transform.GetChild(i).gameObject;
                 waypointGOs[i].name = "Waypoint " + i;
                 waypointGOs[i].transform.localScale = Vector3.one * scale;
-                waypointGOs[i].SetActive(true);
+                //waypointGOs[i].SetActive(true);
 
                 var sr = waypointGOs[i].GetOrAddComponent<SpriteRenderer>();
                 sr.sprite = waypointSprite;
@@ -47,13 +45,23 @@ namespace Game
         void Awake()
         {
             if (!Application.isPlaying) return;
+            EnableWaypointDisplayers(false);
+        }
 
+        void EnableWaypointDisplayers(bool enable)
+        {
             foreach (var go in waypointGOs)
             {
-                go.SetActive(false);
+                go.SetActive(enable);
             }
+        }
 
-            //drawLines = false;
+        void ToggleWaypointDisplayers()
+        {
+            foreach (var go in waypointGOs)
+            {
+                go.SetActive(!go.activeSelf);
+            }
         }
 
         GameObject[] GetChildren()

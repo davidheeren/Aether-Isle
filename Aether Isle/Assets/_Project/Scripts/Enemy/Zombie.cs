@@ -9,12 +9,13 @@ namespace Game
         [Header("General Vars")]
         [SerializeField] ObstacleAvoidanceData obstacleAvoidanceData;
         [SerializeField] ObstacleAvoidanceData smallObstacleAvoidanceData;
-        [SerializeField] CharacterComponents components;
+        [SerializeField] ActorComponents components;
 
         [Header("Data")]
         [SerializeField] FindTargetTaskData findTargetData;
+        [SerializeField] AgentPatrolState.Data patrolData;
         [SerializeField] CharacterIdleState.Data idleData;
-        [SerializeField] ActorChaseState.Data chaseData;
+        [SerializeField] AgentChaseState.Data chaseData;
         [SerializeField] CharacterRandomAttack.Data randomAttackData;
         [SerializeField] CharacterStunState.Data stunData;
         [SerializeField] CharacterDieState.Data dieData;
@@ -41,9 +42,11 @@ namespace Game
                                     new VirtualCondition(TargetActiveCondition, 
                                     new Selector(
                                         new CharacterRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
-                                        new ActorChaseState(chaseData, stats, moveToPoint, targetInfo, components)))); 
+                                        new AgentChaseState(chaseData, stats, moveToPoint, targetInfo, components)))); 
 
-            Node moveBranch = new Selector(findTargetTask, new CharacterIdleState(idleData, components.animator));
+            Node moveBranch = new Selector(findTargetTask, 
+                new AgentPatrolState(patrolData, stats, obstacleAvoidance, components),
+                new CharacterIdleState(idleData, components.animator));
 
 
             rootState = new RootState(rootStateData, new Selector(

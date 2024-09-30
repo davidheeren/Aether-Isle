@@ -15,7 +15,8 @@ namespace Game
         int currentIndex;
         bool atEnd;
 
-        int endIndex => reverse ? 0 : waypoints.Length - 1;
+        int EndIndex => reverse ? 0 : waypoints.Length - 1;
+        public int Length => waypoints.Length;
 
         public WaypointHelper(Vector2[] waypoints, bool loop = true, bool reverse = false, float nextWaypointRange = 0.5f)
         {
@@ -64,7 +65,7 @@ namespace Game
             }
 
             // If at the last waypoint then set to last or first if loop
-            SetIndex(endIndex + offset);
+            SetIndex(EndIndex + offset);
         }
 
         public WaypointHelper SetIndex(int index)
@@ -81,7 +82,7 @@ namespace Game
             {
                 index = Mathf.Clamp(index, 0, waypoints.Length - 1);
 
-                if (index == endIndex)
+                if (index == EndIndex)
                     atEnd = true;
             }
 
@@ -108,7 +109,7 @@ namespace Game
 
         public WaypointHelper SetCurrentIndexToEnd()
         {
-            SetIndex(endIndex);
+            SetIndex(EndIndex);
             return this;
         }
 

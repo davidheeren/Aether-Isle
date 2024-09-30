@@ -7,7 +7,7 @@ namespace Game
     public class FindTargetTask : Task
     {
         FindTargetTaskData data;
-        CharacterComponents components;
+        ActorComponents components;
         TargetInfo targetInfo;
 
         Timer lookForTargetTimer;
@@ -18,7 +18,7 @@ namespace Game
         Vector2 losEnd;
         Color losColor;
 
-        public FindTargetTask(FindTargetTaskData data, CharacterComponents components, TargetInfo targetInfo, Node child = null) : base(child)
+        public FindTargetTask(FindTargetTaskData data, ActorComponents components, TargetInfo targetInfo, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;

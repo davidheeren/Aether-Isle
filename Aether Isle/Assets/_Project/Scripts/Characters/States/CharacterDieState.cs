@@ -9,7 +9,7 @@ namespace Game
     public class CharacterDieState : State
     {
         Data data;
-        CharacterComponents components;
+        ActorComponents components;
 
         Timer delayTimer;
         Timer fadeTimer;
@@ -17,7 +17,7 @@ namespace Game
         const float despawnTime = 2;
         const float fadeTime = 1;
 
-        public CharacterDieState(Data data, CharacterComponents components, Node child = null) : base(child)
+        public CharacterDieState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;

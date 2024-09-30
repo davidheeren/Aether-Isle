@@ -28,7 +28,7 @@ namespace Game
             return true;
         }
 
-        public void Interact(CharacterComponents playerComponents)
+        public void Interact(ActorComponents playerComponents)
         {
             if (!isOpened)
                 sr.sprite = openChestSprite;

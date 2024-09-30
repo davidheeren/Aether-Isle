@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1784818152747556559}
   - component: {fileID: 1952334201044176932}
   - component: {fileID: 7323766476007780385}
+  - component: {fileID: -4841645760189354069}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: ZombieSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,8 +53,9 @@ MonoBehaviour:
   detectionMask:
     serializedVersion: 2
     m_Bits: 200
-  enemyPrefab: {fileID: 697161190766838628, guid: fd6a8aeed7095d64ebb294fb02bde755, type: 3}
-  enemyCount: 3
+  spawnOnAwake: 0
+  prefab: {fileID: 697161190766838628, guid: fd6a8aeed7095d64ebb294fb02bde755, type: 3}
+  count: 3
   randomOffsetRange: 0.2
   spawnDelay: 20
   respawnDelay: 10
@@ -69,4 +71,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c01c4d46c7bb0045a6dbf702566e581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 
+  _id: 22c19dfab301dfdb5a1b4fafe8e7b58f
+--- !u!114 &-4841645760189354069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895701962911461491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9c62b54e2a99d4c892ff7c5340418d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointGOs: []
+  drawLines: 1
+  waypointSprite: {fileID: 21300000, guid: 9c59cd6643493ba488aa0be9bd3406b4, type: 3}
+  scale: 1
+  startColor: {r: 0, g: 1, b: 0, a: 1}
+  defaultColor: {r: 0, g: 0, b: 1, a: 1}

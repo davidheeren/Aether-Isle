@@ -6,12 +6,12 @@ namespace Game
 {
     public class CharacterSpawnState : State
     {
-        CharacterComponents components;
+        ActorComponents components;
 
         Timer timer;
         float spawnTime = 1;
 
-        public CharacterSpawnState(CharacterComponents components, State child = null) : base(child)
+        public CharacterSpawnState(ActorComponents components, State child = null) : base(child)
         {
             this.components = components;
             timer = new Timer(spawnTime).Stop();

@@ -7,12 +7,12 @@ namespace Game
     public class PlayerAttackState : State
     {
         Data data;
-        CharacterComponents components;
+        ActorComponents components;
         PlayerAimDirection aim;
 
         Vector2 initialAimDir;
 
-        public PlayerAttackState(Data data, CharacterComponents components, PlayerAimDirection aim, Node child = null) : base(child)
+        public PlayerAttackState(Data data, ActorComponents components, PlayerAimDirection aim, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;

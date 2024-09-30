@@ -6,18 +6,18 @@ using Utilities;
 
 namespace Game
 {
-    public class ActorChaseState : State
+    public class AgentChaseState : State
     {
         Data data;
         ObjectStats stats;
         ActorMoveToPoint moveToPoint;
         TargetInfo targetInfo;
-        CharacterComponents components;
+        ActorComponents components;
 
         Pathfinding.Pathfinder pathfinder;
         Timer timer;
 
-        public ActorChaseState(Data data, ObjectStats stats, ActorMoveToPoint moveToPoint, TargetInfo targetInfo, CharacterComponents components, Node child = null) : base(child)
+        public AgentChaseState(Data data, ObjectStats stats, ActorMoveToPoint moveToPoint, TargetInfo targetInfo, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.stats = stats;

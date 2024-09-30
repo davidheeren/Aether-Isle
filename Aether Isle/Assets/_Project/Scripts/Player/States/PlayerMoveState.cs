@@ -9,9 +9,9 @@ namespace Game
     {
         Data data;
         ObjectStats stats;
-        CharacterComponents components;
+        ActorComponents components;
 
-        public PlayerMoveState(Data data, ObjectStats stats, CharacterComponents components, Node child = null) : base(child)
+        public PlayerMoveState(Data data, ObjectStats stats, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.stats = stats;

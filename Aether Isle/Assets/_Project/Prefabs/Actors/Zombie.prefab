@@ -273,13 +273,16 @@ MonoBehaviour:
     spriteRenderer: {fileID: 7029902482295278058}
     animator: {fileID: 7375884800252258686}
     shadowRenderer: {fileID: 2932162774603661986}
-  aiMovementData:
-    evaluateDirTime: 0.5
   findTargetData: {fileID: 11400000, guid: 8f161e4f6ede5524f85d5b79701111d1, type: 2}
+  patrolData:
+    speedMultiplier: 0.65
+    animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
+    reverse: 0
+    waypoints: []
   idleData:
     animation: {fileID: 11400000, guid: 3383618363c764745a18067e86973761, type: 2}
   chaseData:
-    chaseSpeed: 3
+    updateTime: 0.25
     animation: {fileID: 11400000, guid: 3264e7ea89e6ae844b2674cbd4077c35, type: 2}
   randomAttackData:
     attackRange: 2

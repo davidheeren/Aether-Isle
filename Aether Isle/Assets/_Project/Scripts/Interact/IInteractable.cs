@@ -8,7 +8,7 @@ namespace Game
         public Vector2 Position { get; }
 
         public bool CanInteract();
-        public void Interact(CharacterComponents playerComponents);
+        public void Interact(ActorComponents playerComponents);
         public bool CanContinue();
         public void UpdateInteract();
     }

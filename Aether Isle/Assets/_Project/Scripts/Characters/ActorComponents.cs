@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game
 {
     [Serializable]
-    public class CharacterComponents
+    public class ActorComponents
     {
         // Holds references to common components on a character
 

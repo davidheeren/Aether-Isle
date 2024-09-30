@@ -1,5 +1,6 @@
 using CustomInspector;
 using Save;
+using StateTree;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -7,7 +8,7 @@ using Utilities;
 
 namespace Game
 {
-    public class EnemySpawner : MonoBehaviour
+    public class Spawner : MonoBehaviour
     {
         // TODO: Refactor. Completely unreadable code
         [Header("Scan")]
@@ -21,8 +22,8 @@ namespace Game
 
         [Header("Enemy")]
         [Button(nameof(SpawnEnemies))]
-        [SerializeField] GameObject enemyPrefab;
-        [SerializeField] int enemyCount = 3;
+        [SerializeField] GameObject prefab;
+        [SerializeField] int count = 3;
         [SerializeField] float randomOffsetRange;
         [SerializeField] float spawnDelay = 120;
         [SerializeField] float respawnDelay = 10;
@@ -38,6 +39,7 @@ namespace Game
         bool spawnedOnce;
 
         UniqueID uniqueID;
+        WaypointsContainer waypointsContainer;
 
         private void OnDrawGizmosSelected()
         {
@@ -60,6 +62,7 @@ namespace Game
         void Awake()
         {
             uniqueID = GetComponent<UniqueID>();
+            waypointsContainer = GetComponent<WaypointsContainer>();
             Scan();
             enemyDieTimer = new Timer(respawnDelay);
             enemyDieTimer.Stop();
@@ -76,7 +79,7 @@ namespace Game
 
             if (spawnedOnce)
             {
-                if (spawnedEnemies.Count < enemyCount && !enemyDied)
+                if (spawnedEnemies.Count < count && !enemyDied)
                 {
                     enemyDieTimer.Reset();
                     enemyDied = true;
@@ -100,7 +103,7 @@ namespace Game
         {
             Scan();
 
-            int spawnCount = enemyCount - spawnedEnemies.Count;
+            int spawnCount = count - spawnedEnemies.Count;
 
             for (int i = 0; i < spawnCount; i++)
             {
@@ -118,8 +121,6 @@ namespace Game
             spawnedOnce = true;
             enemyDied = false;
             enemyDieTimer.Stop();
-
-            //print("SPAWNED");
         }
 
         void SpawnEnemy()
@@ -127,9 +128,24 @@ namespace Game
             int rand = Random.Range(0, canSpawnPositions.Count); // Max is exclusive
             Vector2 offset = new Vector2(Random.value, Random.value) * randomOffsetRange;
 
-            GameObject obj = Instantiate(enemyPrefab, canSpawnPositions[rand] + offset, Quaternion.identity, transform);
+            GameObject obj = Instantiate(prefab, canSpawnPositions[rand] + offset, Quaternion.identity, transform);
             spawnedEnemies.Add(obj);
             canSpawnPositions.RemoveAt(rand);
+
+            TrySetWaypoints(obj);
+        }
+
+        void TrySetWaypoints(GameObject obj)
+        {
+            if (waypointsContainer == null) return;
+            if (obj.TryGetComponent<StateTreeMB>(out var stateTree))
+            {
+                AgentPatrolState patrol = stateTree.RootState.GetFirstSubNode<AgentPatrolState>();
+                if (patrol != null)
+                {
+                    patrol.TrySetWaypoints(waypointsContainer.GetWaypoints());
+                }
+            }
         }
 
         void Scan()

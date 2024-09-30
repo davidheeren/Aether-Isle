@@ -11,7 +11,7 @@ namespace Game
         int? lockDepth;
 
         Data data;
-        CharacterComponents components;
+        ActorComponents components;
 
         Timer timer;
         EventSwitch eventSwitch;
@@ -19,7 +19,7 @@ namespace Game
         DamageData damage;
         Vector2? dir;
 
-        public CharacterStunState(Data data, bool disableDamageDuringStun, int? lockDepth, CharacterComponents components, Node child = null) : base(child)
+        public CharacterStunState(Data data, bool disableDamageDuringStun, int? lockDepth, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.disableDamageDuringStun = disableDamageDuringStun;

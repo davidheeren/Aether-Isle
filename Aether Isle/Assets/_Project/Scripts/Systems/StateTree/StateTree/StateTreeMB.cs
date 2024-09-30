@@ -6,6 +6,7 @@ namespace StateTree
     {
         [SerializeField] protected RootState.Data rootStateData;
         protected RootState rootState;
+        public RootState RootState => rootState;
 
         protected virtual void Update() => rootState.UpdateStateTree();
         protected virtual void FixedUpdate() => rootState.FixedUpdateStateTree();
