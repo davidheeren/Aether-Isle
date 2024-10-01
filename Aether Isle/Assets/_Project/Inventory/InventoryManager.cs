@@ -3,8 +3,8 @@ using Inventory;
 using Save;
 using UnityEngine;
 
-namespace Game
-{
+
+
     public class InventoryManager : MonoBehaviour
     {
         [SerializeField] ItemDatabase database;
@@ -41,4 +41,4 @@ namespace Game
 
         }
     }
-}
+
