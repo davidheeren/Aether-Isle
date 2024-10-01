@@ -92,7 +92,7 @@ MonoBehaviour:
     cooldown: 0.5
   attackData:
     moveAttackDirSpeed: 2
-    projectile: {fileID: 7040936197774290868, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
+    projectile: {fileID: 2253152753863011033, guid: fa8ee4b7136128d4cb88f01784bea5c9, type: 3}
     damageMask:
       serializedVersion: 2
       m_Bits: 128
