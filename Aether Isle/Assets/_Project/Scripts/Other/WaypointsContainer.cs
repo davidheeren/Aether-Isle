@@ -18,7 +18,7 @@ namespace Game
         [SerializeField] Color startColor = Color.green;
         [SerializeField] Color defaultColor = Color.blue;
 
-        [SerializeField, ReadOnly] GameObject[] waypointGOs = new GameObject[0];
+        GameObject[] waypointGOs = new GameObject[0];
 
         private void OnTransformChildrenChanged() => UpdateChildren();
         private void OnValidate() => UpdateChildren();
@@ -42,6 +42,7 @@ namespace Game
 
         void Awake()
         {
+            waypointGOs = GetChildren();
             if (!Application.isPlaying) return;
             EnableWaypointDisplayers(false);
         }
@@ -105,7 +106,7 @@ namespace Game
 
         public Vector2[] GetWaypoints()
         {
-            return waypointGOs.Select(go => (Vector2)go.transform.position).ToArray();
+            return GetChildren().Select(go => (Vector2)go.transform.position).ToArray();
         }
     }
 }

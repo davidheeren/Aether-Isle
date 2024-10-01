@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayCount: 20
   rayDist: 1
-  avoidanceMultiplier: 1
+  avoidanceMultiplier: 2
   avoidanceMask:
     serializedVersion: 2
     m_Bits: 152

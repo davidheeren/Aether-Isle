@@ -38,7 +38,7 @@ namespace Game
         bool spawnedOnce;
 
         UniqueID uniqueID;
-        WaypointsContainer waypointsContainer;
+        [SerializeField] WaypointsContainer waypointsContainer;
 
         private void OnDrawGizmosSelected()
         {
@@ -61,7 +61,6 @@ namespace Game
         void Awake()
         {
             uniqueID = GetComponent<UniqueID>();
-            waypointsContainer = GetComponent<WaypointsContainer>();
             Scan();
             enemyDieTimer = new Timer(respawnDelay);
             enemyDieTimer.Stop();
