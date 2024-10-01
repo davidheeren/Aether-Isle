@@ -5604,7 +5604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43f971d1a1911249ad28c55eb1a6a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFX: {fileID: 8300000, guid: 8825f87d46ea2764aaa09e022be8460e, type: 3}
+  SFX: {fileID: 8300000, guid: 7058dc6328a5af94d93d519483d1a3aa, type: 3}
 --- !u!114 &1599018523067815074
 MonoBehaviour:
   m_ObjectHideFlags: 0

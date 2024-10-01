@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1784818152747556559}
   - component: {fileID: 1952334201044176932}
   - component: {fileID: 7323766476007780385}
-  - component: {fileID: -4841645760189354069}
   m_Layer: 0
   m_Name: ZombieSpawner
   m_TagString: Untagged
@@ -31,7 +30,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6602433681765264661}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1952334201044176932
@@ -59,6 +59,7 @@ MonoBehaviour:
   randomOffsetRange: 0.2
   spawnDelay: 20
   respawnDelay: 10
+  waypointsContainer: {fileID: 6984582591320958867}
 --- !u!114 &7323766476007780385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,21 +73,76 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 22c19dfab301dfdb5a1b4fafe8e7b58f
---- !u!114 &-4841645760189354069
-MonoBehaviour:
+--- !u!1001 &1933193594435005990
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1784818152747556559}
+    m_Modifications:
+    - target: {fileID: 2104630950269134484, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_Name
+      value: WaypointContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+--- !u!4 &6602433681765264661 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4716565302256239411, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+  m_PrefabInstance: {fileID: 1933193594435005990}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2895701962911461491}
+--- !u!114 &6984582591320958867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -415969951253542475, guid: ec431626341d3774ba7b89a8aed84bb0, type: 3}
+  m_PrefabInstance: {fileID: 1933193594435005990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe9c62b54e2a99d4c892ff7c5340418d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypointGOs: []
-  drawLines: 1
-  waypointSprite: {fileID: 21300000, guid: 9c59cd6643493ba488aa0be9bd3406b4, type: 3}
-  scale: 1
-  startColor: {r: 0, g: 1, b: 0, a: 1}
-  defaultColor: {r: 0, g: 0, b: 1, a: 1}

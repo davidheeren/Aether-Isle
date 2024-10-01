@@ -64,7 +64,6 @@ namespace Save
 
             OnSave?.Invoke();
             Log("Saved Data");
-            Debug.Log(saveFilePath);
         }
 
 
