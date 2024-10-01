@@ -292,11 +292,11 @@ MonoBehaviour:
     speed: 8
     lungeAnimation: {fileID: 11400000, guid: cc857a375700a4d43b08abe7f4003d63, type: 2}
   stunData:
-    stunSFX: {fileID: 8300000, guid: 1829f2a46c6e0e44da83a20a789eb9ba, type: 3}
+    stunSFX: {fileID: 8300000, guid: a664367251aca2044936a30c7a25ccad, type: 3}
     stunAnimation: {fileID: 0}
   dieData:
     animation: {fileID: 11400000, guid: ce05bad7fe07f334297f09365af70192, type: 2}
-    dieSFX: {fileID: 8300000, guid: 58c5ba4b30c781f409d64c75c294f389, type: 3}
+    dieSFX: {fileID: 8300000, guid: 33b42e6a65bb290409e798ebd2df1aa5, type: 3}
     gameObjectsToDisable: []
 --- !u!114 &4037395337636954333
 MonoBehaviour:

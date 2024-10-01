@@ -60,6 +60,7 @@ namespace Game
 
         void LateUpdate()
         {
+            // Change to use modulo operator
             float parallax = parallaxPercent / 100;
             Vector3 targetPos = cam.transform.position * parallax;
             targetPos.z = transform.position.z;
