@@ -18,4 +18,4 @@ MonoBehaviour:
   avoidanceMask:
     serializedVersion: 2
     m_Bits: 152
-  drayRays: 1
+  drayRays: 0

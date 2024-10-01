@@ -36,7 +36,7 @@ namespace Game
 
         private void Update()
         {
-            if (timer.isDone)
+            if (timer.IsDone)
             {
                 material.SetFloat("_Contrast", 0);
                 timer.Stop();

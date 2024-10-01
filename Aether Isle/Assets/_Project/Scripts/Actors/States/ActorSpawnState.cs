@@ -19,7 +19,7 @@ namespace Game
 
         protected override bool CanEnterState()
         {
-            return !timer.isDone;
+            return !timer.IsDone;
         }
 
         protected override void EnterState()
@@ -34,7 +34,7 @@ namespace Game
         {
             base.UpdateState();
 
-            float a = EasingFunction.EaseOutCubic(0, 1, 1 - timer.currentPercent);
+            float a = EasingFunction.EaseOutCubic(0, 1, 1 - timer.CurrentPercent);
             components.spriteRenderer.color = components.spriteRenderer.color.SetAlpha(a);
             components.shadowRenderer.color = components.shadowRenderer.color.SetAlpha(a);
         }

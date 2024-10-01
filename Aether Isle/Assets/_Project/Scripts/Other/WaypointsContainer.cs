@@ -9,8 +9,6 @@ namespace Game
     [ExecuteInEditMode]
     public class WaypointsContainer : MonoBehaviour
     {
-        [SerializeField, HideInInspector] GameObject[] waypointGOs = new GameObject[0];
-
         [Button(nameof(Reverse))]
         [Button(nameof(ToggleWaypointDisplayers))]
 
@@ -19,6 +17,8 @@ namespace Game
         [SerializeField] float scale = 2;
         [SerializeField] Color startColor = Color.green;
         [SerializeField] Color defaultColor = Color.blue;
+
+        [SerializeField, ReadOnly] GameObject[] waypointGOs = new GameObject[0];
 
         private void OnTransformChildrenChanged() => UpdateChildren();
         private void OnValidate() => UpdateChildren();
@@ -30,10 +30,8 @@ namespace Game
             waypointGOs = GetChildren();
             for (int i = 0; i < waypointGOs.Length; i++)
             {
-                waypointGOs[i] = transform.GetChild(i).gameObject;
                 waypointGOs[i].name = "Waypoint " + i;
                 waypointGOs[i].transform.localScale = Vector3.one * scale;
-                //waypointGOs[i].SetActive(true);
 
                 var sr = waypointGOs[i].GetOrAddComponent<SpriteRenderer>();
                 sr.sprite = waypointSprite;
@@ -50,7 +48,7 @@ namespace Game
 
         void EnableWaypointDisplayers(bool enable)
         {
-            foreach (var go in waypointGOs)
+            foreach (GameObject go in waypointGOs)
             {
                 go.SetActive(enable);
             }
@@ -67,7 +65,7 @@ namespace Game
         GameObject[] GetChildren()
         {
             var output = new GameObject[transform.childCount];
-            for (int i = 0; i < waypointGOs.Length; i++)
+            for (int i = 0; i < output.Length; i++)
             {
                 output[i] = transform.GetChild(i).gameObject;
             }

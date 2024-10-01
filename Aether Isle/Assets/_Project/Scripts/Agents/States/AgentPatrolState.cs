@@ -22,7 +22,7 @@ namespace Game
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
 
-            waypointHelper = new WaypointHelper(data.waypoints, reverse: data.reverse, nextWaypointRange: 1, loop: false);// chage
+            waypointHelper = new WaypointHelper(data.waypoints, reverse: data.reverse, nextWaypointRange: 1);
         }
 
         [System.Serializable]

@@ -87,7 +87,7 @@ namespace SpriteAnimator
 
         void UpdateAnimation()
         {
-            if (currentAnimation == null) { Debug.LogError("Trying to play null animation"); return; }
+            if (currentAnimation == null) return;
             if (isPaused || isStopped) return;
 
             // Go to the next sprite
@@ -119,7 +119,7 @@ namespace SpriteAnimator
 
         public void Play(SpriteAnimation animation)
         {
-            if (animation == null) return;
+            if (animation == null) { Debug.LogWarning("Animation is null"); return; }
             if (currentAnimation != animation) OnAnimationChanged?.Invoke();
             currentAnimation = animation;
             Restart();
@@ -171,7 +171,7 @@ namespace SpriteAnimator
 
         public void Pause() => isPaused = true;
 
-        public void Continue() => isPaused = false;
+        public void Resume() => isPaused = false;
 
         public SpriteAnimation GetAnimation(string animationName)
         {

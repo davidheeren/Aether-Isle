@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SlimeStun
   m_EditorClassIdentifier: 
   <animationName>k__BackingField: 
-  <loop>k__BackingField: 1
+  <loop>k__BackingField: 0
   <animationEnd>k__BackingField: 2
   _sprites:
   - {fileID: 122655812, guid: 41e1f10d08de22847b36d6eea5210c60, type: 3}

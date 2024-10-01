@@ -55,7 +55,7 @@ namespace Game
         {
             base.UpdateState();
 
-            if (timer.isDone)
+            if (timer.IsDone)
             {
                 UpdateTargetDir();
                 timer.Reset();

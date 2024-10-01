@@ -41,7 +41,7 @@ namespace Game
             findTargetTask = new FindTargetTask(findTargetData, components, targetInfo, 
                                     new VirtualCondition(TargetActiveCondition, 
                                     new Selector(
-                                        new AgentRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
+                                        new AgentRandomAttack(randomAttackData, stats, targetInfo, smallObstacleAvoidance, components),
                                         new AgentChaseState(chaseData, stats, moveToPoint, targetInfo, components)))); 
 
             Node moveBranch = new Selector(findTargetTask, 

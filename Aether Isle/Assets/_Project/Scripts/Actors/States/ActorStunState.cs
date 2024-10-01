@@ -1,3 +1,4 @@
+using CustomInspector;
 using SpriteAnimator;
 using StateTree;
 using UnityEngine;
@@ -36,12 +37,14 @@ namespace Game
         public class Data
         {
             public AudioClip stunSFX;
+            [TooltipBox("If null, animator pauses")]
             public SpriteAnimation stunAnimation;
         }
 
         protected override bool CanEnterState()
         {
-            return eventSwitch.happened;
+            bool happened = eventSwitch.Happened;
+            return happened;
         }
 
         private void OnDamage(DamageData damage, Collider2D col, Collider2D source, Vector2? dir)
@@ -64,17 +67,17 @@ namespace Game
             if (dir != null)
                 components.rb.velocity = dir.Value * damage.knockbackSpeed;
 
-            components.animator.enabled = false;
-
             SFXManager.Instance.PlaySFXClip(data.stunSFX, components.transform.position);
 
             if (data.stunAnimation != null)
                 components.animator.Play(data.stunAnimation);
+            else
+                components.animator.Pause();
         }
 
         protected override void UpdateState()
         {
-            if (timer.isDone)
+            if (timer.IsDone)
                 LockSuperStates(lockDepth, false);
         }
 
@@ -85,7 +88,7 @@ namespace Game
             if (disableDamageDuringStun)
                 components.health.canTakeDamage = true;
 
-            components.animator.enabled = true;
+            components.animator.Resume();
         }
 
         protected override void Destroy()

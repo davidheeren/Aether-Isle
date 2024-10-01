@@ -6,7 +6,7 @@ namespace StateTree
     {
         private bool happenSwitch;
 
-        public bool happened
+        public bool Happened
         {
             get
             {

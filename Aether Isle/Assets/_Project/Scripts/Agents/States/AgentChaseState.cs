@@ -47,7 +47,7 @@ namespace Game
 
         protected override void UpdateState()
         {
-            if (timer.isDone)
+            if (timer.IsDone)
             {
                 moveToPoint.UpdatePath(targetInfo.GetKnownPosition(components.transform.position));
                 timer.Reset();

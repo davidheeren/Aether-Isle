@@ -22,7 +22,7 @@ namespace Game
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 if (animator.isPaused)
-                    animator.Continue();
+                    animator.Resume();
                 else
                     animator.Pause();
             }

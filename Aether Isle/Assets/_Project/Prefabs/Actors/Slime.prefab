@@ -186,7 +186,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45326cdbab0f7954a96e5e9f3bc80dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAccelerationForce: 12
-  defaultDecelerationForce: 7
+  defaultAccelerationForce: 15
+  defaultDecelerationForce: 6
 --- !u!114 &1266637623472528856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,9 +289,17 @@ MonoBehaviour:
     randomOffsetTime: 0.5
     attackSpeed: 3
     animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
+  lungeData:
+    range: 4
+    cooldownTime: 1
+    windupTime: 0.5
+    windupAnimation: {fileID: 11400000, guid: 71dcfbd63e29b414e98a4a52743754a9, type: 2}
+    lungeTime: 0.5
+    speed: 8
+    lungeAnimation: {fileID: 11400000, guid: cc857a375700a4d43b08abe7f4003d63, type: 2}
   stunData:
     stunSFX: {fileID: 8300000, guid: 1829f2a46c6e0e44da83a20a789eb9ba, type: 3}
-    stunAnimation: {fileID: 11400000, guid: cc857a375700a4d43b08abe7f4003d63, type: 2}
+    stunAnimation: {fileID: 0}
   dieData:
     animation: {fileID: 11400000, guid: ce05bad7fe07f334297f09365af70192, type: 2}
     dieSFX: {fileID: 8300000, guid: 58c5ba4b30c781f409d64c75c294f389, type: 3}
@@ -349,7 +357,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1088
   damage: {fileID: 11400000, guid: d7360cb86b7e63848a10df31d7b7b8b2, type: 2}
-  useRotation: 0
+  damageDirection: 1
 --- !u!114 &-2532947948912588243
 MonoBehaviour:
   m_ObjectHideFlags: 0

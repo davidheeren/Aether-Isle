@@ -15,7 +15,7 @@ namespace Game
 
         private void Update()
         {
-            if (timer.isDone)
+            if (timer.IsDone)
                 Destroy(gameObject);
         }
     }

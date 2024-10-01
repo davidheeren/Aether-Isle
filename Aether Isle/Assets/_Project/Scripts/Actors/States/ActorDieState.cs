@@ -55,7 +55,7 @@ namespace Game
 
         protected override void UpdateState()
         {
-            if (delayTimer.isDone)
+            if (delayTimer.IsDone)
             {
                 fadeTimer = new Timer(fadeTime);
                 delayTimer.Stop();
@@ -63,15 +63,15 @@ namespace Game
 
             if (fadeTimer == null) return;
 
-            if (fadeTimer.isDone)
+            if (fadeTimer.IsDone)
             {
                 components.col.gameObject.SetActive(false);
                 fadeTimer = null;
                 return;
             }
 
-            components.spriteRenderer.color = components.spriteRenderer.color.SetAlpha(fadeTimer.currentPercent);
-            components.shadowRenderer.color = components.shadowRenderer.color.SetAlpha(fadeTimer.currentPercent);
+            components.spriteRenderer.color = components.spriteRenderer.color.SetAlpha(fadeTimer.CurrentPercent);
+            components.shadowRenderer.color = components.shadowRenderer.color.SetAlpha(fadeTimer.CurrentPercent);
         }
     }
 }

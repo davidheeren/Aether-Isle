@@ -8,8 +8,10 @@ namespace Utilities
 
         float timeAtStart;
 
-        public bool isPaused { get; private set; }
+        public bool IsPaused { get; private set; }
         bool wasPaused;
+
+        public bool IsStopped => timeAtStart == Mathf.Infinity;
 
         float timeAtPause;
         float timeAtResume;
@@ -24,11 +26,11 @@ namespace Utilities
             //if (delay <= 0) Debug.LogError("Delay cannot be less than or equal to 0");
         }
 
-        float currentPauseDeltaTime
+        float CurrentPauseDeltaTime
         {
             get
             {
-                if (isPaused)
+                if (IsPaused)
                     return Time.time - timeAtPause;
                 else if (wasPaused)
                     return timeAtResume - timeAtPause;
@@ -37,28 +39,28 @@ namespace Utilities
             }
         }
 
-        public float currentDeltaTime
+        public float CurrentDeltaTime
         {
             get
             {
                 // only clamp this value
                 float deltaTime = timeAtStart + delay - Time.time;
-                return Mathf.Max(deltaTime + currentPauseDeltaTime + totalPauseTime, 0);
+                return Mathf.Max(deltaTime + CurrentPauseDeltaTime + totalPauseTime, 0);
             }
         }
-        public float currentPercent // starts at 1 and goes to 0
+        public float CurrentPercent // starts at 1 and goes to 0
         {
             get
             {
-                return currentDeltaTime / delay;
+                return CurrentDeltaTime / delay;
             }
         }
 
-        public bool isDone
+        public bool IsDone
         {
             get
             {
-                return currentDeltaTime == 0;
+                return CurrentDeltaTime == 0;
             }
         }
 
@@ -72,7 +74,7 @@ namespace Utilities
         public Timer Reset()
         {
             timeAtStart = Time.time;
-            isPaused = false;
+            IsPaused = false;
             wasPaused = false;
             totalPauseTime = 0;
 
@@ -95,7 +97,7 @@ namespace Utilities
 
         public Timer Pause()
         {
-            if (isPaused)
+            if (IsPaused)
             {
                 Debug.LogWarning("Paused SimpleTimer while already paused");
                 return this;
@@ -104,7 +106,7 @@ namespace Utilities
             if (wasPaused) // incudes previous pause times
                 totalPauseTime += timeAtResume - timeAtPause;
 
-            isPaused = true;
+            IsPaused = true;
             wasPaused = true;
             timeAtPause = Time.time;
 
@@ -113,13 +115,13 @@ namespace Utilities
 
         public Timer Resume()
         {
-            if (!isPaused)
+            if (!IsPaused)
             {
                 Debug.LogWarning("Resumed SimpleTimer while already resumed");
                 return this;
             }
 
-            isPaused = false;
+            IsPaused = false;
             timeAtResume = Time.time;
 
             return this;

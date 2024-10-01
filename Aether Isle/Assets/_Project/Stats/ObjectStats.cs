@@ -106,7 +106,7 @@ namespace Stats
             {
                 if (timer == null) return false;
 
-                return timer.isDone;
+                return timer.IsDone;
             }
         }
     }

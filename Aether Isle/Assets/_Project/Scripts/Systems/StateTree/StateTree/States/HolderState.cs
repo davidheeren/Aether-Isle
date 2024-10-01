@@ -8,5 +8,10 @@ namespace StateTree
         // Then you could have this state be the one that locks then have your selector as a child
 
         public HolderState(Node child = null) : base(child) { }
+
+        public HolderState(string name, Node child = null) : this(child)
+        {
+            this.name = name;
+        }
     }
 }

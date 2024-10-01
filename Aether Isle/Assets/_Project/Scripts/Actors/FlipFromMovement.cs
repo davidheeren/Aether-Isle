@@ -16,7 +16,7 @@ namespace Game
 
         void Update()
         {
-            if (movement.targetVelocity.x != 0 && timer.isDone)
+            if (movement.targetVelocity.x != 0 && timer.IsDone)
             {
                 transform.localScale = new Vector3(Mathf.Sign(movement.targetVelocity.x), 1, 1);
                 timer.Reset();

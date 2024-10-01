@@ -1,5 +1,6 @@
 ﻿using SpriteAnimator;
 using StateTree;
+using Stats;
 using UnityEngine;
 using Utilities;
 
@@ -8,6 +9,7 @@ namespace Game
     public class AgentRandomAttack : State
     {
         Data data;
+        ObjectStats stats;
         TargetInfo targetInfo;
         ObstacleAvoidance obstacleAvoidance;
         ActorComponents components;
@@ -17,9 +19,10 @@ namespace Game
 
         Vector2 offset;
 
-        public AgentRandomAttack(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
+        public AgentRandomAttack(Data data, ObjectStats stats, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
+            this.stats = stats;
             this.targetInfo = targetInfo;
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
@@ -32,7 +35,7 @@ namespace Game
         {
             public float attackRange = 2f;
             public float randomOffsetTime = 0.5f;
-            public float attackSpeed = 3;
+            public float speedMultiplier = 1;
             public SpriteAnimation animation;
         }
 
@@ -56,7 +59,7 @@ namespace Game
         {
             base.UpdateState();
 
-            if (randomTimer.isDone)
+            if (randomTimer.IsDone)
             {
                 UpdateOffset();
                 randomTimer.Reset();
@@ -64,7 +67,8 @@ namespace Game
 
             Vector2 targetDir = obstacleAvoidance.GetDirectionFromPoint(targetInfo.target.position + offset);
 
-            components.movement.Move(targetDir * data.attackSpeed);
+            float speed = stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
+            components.movement.Move(targetDir * speed);
         }
 
         void UpdateOffset()

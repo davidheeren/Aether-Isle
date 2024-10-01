@@ -12,7 +12,7 @@ namespace Game
         public LayerMask damageMask;
         [SerializeField] DamageData damage;
         [TooltipBox("This will use the rotation of this instead of the dir of the collision")]
-        [SerializeField] bool useRotation;
+        [SerializeField] DamageDirection damageDirection;
 
         Collider2D col;
         [NonSerialized] public Collider2D source; // Will be its own collider if not a projectile
@@ -39,9 +39,22 @@ namespace Game
 
             if (damageMask.Compare(collision.gameObject.layer) && collision.TryGetComponent<Health>(out Health health))
             {
-                Vector2 dir = useRotation ? transform.up : (collision.transform.position - transform.position).normalized;
+                Vector2? dir = damageDirection switch
+                {
+                    DamageDirection.Rotation => transform.up,
+                    DamageDirection.DirectionOfImpact => (collision.transform.position - transform.position).normalized,
+                    _ => null
+                };
+
+                
                 health.Damage(damage, col, source, dir);
             }
+        }
+
+        public enum DamageDirection
+        {
+            Rotation,
+            DirectionOfImpact
         }
     }
 }

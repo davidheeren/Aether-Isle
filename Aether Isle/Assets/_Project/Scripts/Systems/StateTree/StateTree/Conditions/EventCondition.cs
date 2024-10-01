@@ -15,7 +15,7 @@ namespace StateTree
 
         public override bool Calculate()
         {
-            return eventSwitch.happened;
+            return eventSwitch.Happened;
         }
 
         protected override void Destroy()

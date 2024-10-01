@@ -25,9 +25,11 @@ namespace StateTree
         public Action<Collider2D> OnTriggerExit2D;
         #endregion
 
-        public RootState(Data data, Node child = null) : base(child)
+        public RootState(Data data, Node child = null) : this(data, null, child) { }
+        public RootState(Data data, string name, Node child = null) : base(child)
         {
             this.data = data;
+            this.name = name;
 
             SetupWrapper(this, 0);
 

@@ -66,12 +66,12 @@ namespace Game
             targetInfo.SetNewTarget(target, CheckLOS(target.col, data.alertDetectionRadius));
             rememberTargetTimer.SetDelay(data.rememberTargetTime).Reset();
 
-            //Debug.Log("Alert Aggravated: " + components.gameObject.name);
+            Debug.Log("Alert Aggravated: " + components.gameObject.name);
         }
 
         protected override void DoTask()
         {
-            if (lookForTargetTimer.isDone)
+            if (lookForTargetTimer.IsDone)
             {
                 if (!targetInfo.isActive)
                     GetNewTarget();
@@ -116,7 +116,7 @@ namespace Game
             if (los)
                 rememberTargetTimer.Reset();
 
-            if (!los && rememberTargetTimer.isDone)
+            if (!los && rememberTargetTimer.IsDone)
             {
                 targetInfo.DisableTarget();
                 //GetNewTarget();

@@ -21,7 +21,6 @@ namespace Game
         [SerializeField] bool spawnOnAwake = false;
 
         [Header("Enemy")]
-        [Button(nameof(SpawnEnemies))]
         [SerializeField] GameObject prefab;
         [SerializeField] int count = 3;
         [SerializeField] float randomOffsetRange;
@@ -69,7 +68,7 @@ namespace Game
 
             if (spawnOnAwake)
             {
-                SpawnEnemies();
+                SpawnPrefabs();
             }
         }
 
@@ -85,7 +84,7 @@ namespace Game
                     enemyDied = true;
                 }
 
-                if (!enemyDieTimer.isDone)
+                if (!enemyDieTimer.IsDone)
                     return;
             }
 
@@ -93,13 +92,13 @@ namespace Game
             if (SaveSystem.SaveData.enemySpawnTimes.TryGetValue(uniqueID.ID, out var time))
             {
                 if (Time.time + SaveSystem.SaveData.timeAtLastUnload - time >= spawnDelay)
-                    SpawnEnemies();
+                    SpawnPrefabs();
             }
             else
-                SpawnEnemies();
+                SpawnPrefabs();
         }
 
-        void SpawnEnemies()
+        void SpawnPrefabs()
         {
             Scan();
 
@@ -113,7 +112,7 @@ namespace Game
                     break;
                 }
 
-                Invoke(nameof(SpawnEnemy), Random.value); // 0-1 second offset
+                Invoke(nameof(SpawnPrefab), Random.value); // 0-1 second offset
             }
 
             SaveSystem.SaveData.enemySpawnTimes[uniqueID.ID] = Time.time + SaveSystem.SaveData.timeAtLastUnload;
@@ -123,7 +122,7 @@ namespace Game
             enemyDieTimer.Stop();
         }
 
-        void SpawnEnemy()
+        void SpawnPrefab()
         {
             int rand = Random.Range(0, canSpawnPositions.Count); // Max is exclusive
             Vector2 offset = new Vector2(Random.value, Random.value) * randomOffsetRange;

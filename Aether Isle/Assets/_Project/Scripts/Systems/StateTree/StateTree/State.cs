@@ -82,11 +82,14 @@ namespace StateTree
         protected virtual void ExitStateWrapper()
         {
             isActive = false;
+            isLocked = false; // Edit recently
+
             ExitState();
             OnExitState?.Invoke();
             if (rootState.data.debugState) Debug.Log("Exit: " + name);
 
             currentSubState?.ExitStateWrapper();
+
             currentSubState = null;
             possibleSubState = null;
         }
@@ -113,11 +116,20 @@ namespace StateTree
                     _currentSubState?.EnterStateWrapper();
                 }
             }
-            else if (_currentSubState.canReenter && (_possibleSubState == _currentSubState))
+            else if (_currentSubState != null) // Error here once. Double check. Why does this have to not be locked?
             {
-                _currentSubState?.ExitStateWrapper();
-                _currentSubState?.EnterStateWrapper();
+                if (_currentSubState.canReenter && (_possibleSubState == _currentSubState))
+                {
+                    _currentSubState?.ExitStateWrapper();
+                    _currentSubState?.EnterStateWrapper();
+                }
             }
+
+            //else if (_currentSubState.canReenter && (_possibleSubState == _currentSubState)) // Original
+            //{
+            //    _currentSubState?.ExitStateWrapper();
+            //    _currentSubState?.EnterStateWrapper();
+            //}
         }
 
         /// <summary>
@@ -130,7 +142,7 @@ namespace StateTree
             int lockDepth = superStates.Count;
             if (depth != null) lockDepth = depth.Value;
 
-            for (int i = 0; i < lockDepth; ++i)
+            for (int i = 0; i < lockDepth; i++)
             {
                 if (i > superStates.Count)
                 {
