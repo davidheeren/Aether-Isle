@@ -15,7 +15,8 @@ namespace Save
         // use Application.persistentDataPath for save path
         // Use base64 encoding to deter cheating
 
-        static readonly string saveFolderPath = Application.dataPath + "/Saves";
+        // Location should be in %appdata% in windows
+        static readonly string saveFolderPath = Application.persistentDataPath + "/Saves";
         static readonly string saveFilePath = saveFolderPath + "/Save.json";
 
         static readonly bool canDebug = false;
@@ -63,6 +64,7 @@ namespace Save
 
             OnSave?.Invoke();
             Log("Saved Data");
+            Debug.Log(saveFilePath);
         }
 
 

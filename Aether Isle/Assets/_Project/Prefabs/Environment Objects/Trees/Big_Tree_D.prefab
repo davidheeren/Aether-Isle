@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1462062120745488599}
   - component: {fileID: 4455031601018375334}
   - component: {fileID: 3026379072318902942}
-  - component: {fileID: 4959841847931402061}
+  - component: {fileID: 6096542272303151129}
   m_Layer: 3
-  m_Name: Big_Tree
+  m_Name: Big_Tree_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.12, y: -0.06}
   m_Radius: 0.5
 --- !u!212 &3026379072318902942
 SpriteRenderer:
@@ -115,7 +115,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: -1609238970, guid: bce496f48254901408c442eb379951c3, type: 3}
+  m_Sprite: {fileID: 1397194846, guid: bce496f48254901408c442eb379951c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,7 +126,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!210 &4959841847931402061
+--- !u!210 &6096542272303151129
 SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,17 +150,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shadow
       objectReference: {fileID: 0}
-    - target: {fileID: 6045984677222947420, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.117
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.42
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: 48bb66a1952da844c8c535596254ab10, type: 3}
       propertyPath: m_LocalPosition.z

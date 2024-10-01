@@ -268,12 +268,11 @@ MonoBehaviour:
     debugGeneral: 0
     createGameObjectTree: 0
   obstacleAvoidanceData: {fileID: 11400000, guid: f0ad9b1769ff4b641830ad672c8df821, type: 2}
-  smallObstacleAvoidanceData: {fileID: 11400000, guid: 652c0b7b68921e64cac44933fa4c312d, type: 2}
   components:
     spriteRenderer: {fileID: 7029902482295278058}
     animator: {fileID: 7375884800252258686}
     shadowRenderer: {fileID: 2932162774603661986}
-  findTargetData: {fileID: 11400000, guid: 8f161e4f6ede5524f85d5b79701111d1, type: 2}
+  findTargetData: {fileID: 11400000, guid: 94ff65343c76bf448af7d299affd3683, type: 2}
   wanderData:
     speedMultiplier: 0.5
     randomDirectionTime: 1.5
@@ -283,11 +282,6 @@ MonoBehaviour:
     animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   chaseData:
     updateTime: 0.25
-    animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
-  randomAttackData:
-    attackRange: 5
-    randomOffsetTime: 0.5
-    attackSpeed: 3
     animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   lungeData:
     range: 4
