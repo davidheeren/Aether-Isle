@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4455031601018375334}
   - component: {fileID: 3026379072318902942}
   m_Layer: 3
-  m_Name: sapling_1
+  m_Name: sapling_1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5569596157140445957}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -67,8 +67,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: -0.12, y: -0.45}
+  m_Radius: 0.43741754
 --- !u!212 &3026379072318902942
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 1770100469, guid: bce496f48254901408c442eb379951c3, type: 3}
+  m_Sprite: {fileID: -984050630, guid: bce496f48254901408c442eb379951c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
