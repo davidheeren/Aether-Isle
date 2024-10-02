@@ -8,7 +8,7 @@ namespace Test
     {
         [Button(nameof(Save))]
         [Button(nameof(Load))]
-        [Button(nameof(Clear))]
+        [Button(nameof(CreateNew))]
 
         [SerializeField] SaveData saveCopy;
         [SerializeField, ReadOnly] SaveData loadCopy;
@@ -25,9 +25,9 @@ namespace Test
             loadCopy = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(SaveSystem.SaveData));
         }
 
-        void Clear()
+        void CreateNew()
         {
-            SaveSystem.Clear();
+            SaveSystem.CreateNewSave();
         }
     }
 }
