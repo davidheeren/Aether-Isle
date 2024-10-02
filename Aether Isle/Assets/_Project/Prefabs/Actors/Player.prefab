@@ -115,7 +115,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 16
     boxOffset: {x: 0, y: -0.35}
-    boxSize: {x: 0.4, y: 0.2}
+    boxSize: {x: 0.1, y: 0.1}
 --- !u!114 &3672991246304819348
 MonoBehaviour:
   m_ObjectHideFlags: 0
