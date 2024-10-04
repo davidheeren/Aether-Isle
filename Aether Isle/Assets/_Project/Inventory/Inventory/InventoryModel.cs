@@ -34,7 +34,10 @@ namespace Inventory
                 foreach (SerializedItem sItem in sItems)
                 {
                     InventoryItem item = new InventoryItem(database.GetItem(sItem.databaseIndex), sItem.count);
-                    items[sItem.inventoryIndex] = item;
+                    if (sItem.inventoryIndex >= 0 && sItem.inventoryIndex < length)
+                        items[sItem.inventoryIndex] = item;
+                    else
+                        Debug.LogError("Serialized Inventory Item not in range");
                 }
             }
         }
@@ -56,6 +59,7 @@ namespace Inventory
             }
 
             SaveSystem.Data.inventories[id] = sItems;
+            Debug.Log("Saved Inventory");
         }
 
         public void Dispose()

@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using Utilities;
 using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Game
 {
@@ -11,6 +12,8 @@ namespace Game
         public GameInput input { get; private set; }
 
         public ControlScheme currentControlScheme { get; private set; } = ControlScheme.None;
+
+        public event Action<ControlScheme> OnControlSchemeChange;
 
         void Awake()
         {
@@ -22,12 +25,17 @@ namespace Game
         {
             // The mouse input get used the first frame so we want to ignore that for setting the control scheme
             yield return null;
+
             input.Game.Get().actionTriggered += OnActionTriggered;
+            input.UI.Get().actionTriggered += OnActionTriggered;
+            input.Scene.Get().actionTriggered += OnActionTriggered;
         }
 
         private void OnDestroy()
         {
-            input.Game.Get().actionTriggered += OnActionTriggered;
+            input.Game.Get().actionTriggered -= OnActionTriggered;
+            input.UI.Get().actionTriggered -= OnActionTriggered;
+            input.Scene.Get().actionTriggered -= OnActionTriggered;
         }
 
         private void OnActionTriggered(InputAction.CallbackContext context)
@@ -37,20 +45,28 @@ namespace Game
             InputDevice device = context.control.device;
             InputControlScheme? scheme = InputControlScheme.FindControlSchemeForDevice(device, input.controlSchemes);
 
-            if (!scheme.HasValue)
+            ControlScheme newControlScheme = ControlScheme.None;
+
+            if (scheme.HasValue)
             {
-                currentControlScheme = ControlScheme.None;
-                return;
+                if (scheme.Value.name == "Gamepad")
+                    newControlScheme = ControlScheme.Gamepad;
+                else if (scheme.Value.name == "Keyboard")
+                    newControlScheme = ControlScheme.Keyboard;
+                else
+                    Debug.LogWarning("Control Scheme not found");
             }
 
-            if (scheme.Value.name == "Gamepad")
-                currentControlScheme = ControlScheme.Gamepad;
-            else if (scheme.Value.name == "Keyboard")
-                currentControlScheme = ControlScheme.Keyboard;
+            // If new Control scheme is different we publish event
+            if (newControlScheme != currentControlScheme)
+            {
+                currentControlScheme = newControlScheme;
+                OnControlSchemeChange?.Invoke(currentControlScheme);
+            }
             else
-                Debug.LogWarning("Control Scheme not found");
+                currentControlScheme = newControlScheme;
 
-            //context.action.GetBindingDisplayString();
+            //context.action.GetBindingDisplayString
         }
 
         public enum ControlScheme

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TestItemSword
   m_EditorClassIdentifier: 
   index: 0
-  id: sword
+  displayName: Test Sword
   sprite: {fileID: -2002597834, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}

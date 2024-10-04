@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5767977e94b8fd4b93700848a3438af, type: 3}
-  m_Name: TestItemGold
+  m_Script: {fileID: 11500000, guid: acf972e6754d898499ea8f07f7baa2bd, type: 3}
+  m_Name: OnChestInventoryOpened
   m_EditorClassIdentifier: 
-  index: 0
-  displayName: Test Gold
-  sprite: {fileID: -1437584897, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
