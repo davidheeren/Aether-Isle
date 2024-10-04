@@ -24,13 +24,14 @@ namespace Save
         static readonly bool canDebug = false;
 
         public static event Action OnSave;
+        public static event Action OnCreate;
 
-        static SaveData _saveData;
-        public static SaveData SaveData
+        static SaveData _data;
+        public static SaveData Data
         {
             get
             {
-                if (_saveData == null)
+                if (_data == null)
                     Load();
 
 #if UNITY_EDITOR
@@ -42,29 +43,30 @@ namespace Save
                 }  
 #endif
 
-                return _saveData;
+                return _data;
             }
 
-            set => _saveData = value;
+            set => _data = value;
         }
 
         public static void Save()
         {
             CheckSaveFile();
 
-            if (_saveData == null)
+            if (_data == null)
             {
                 Debug.LogError("Cannot save a null object");
                 return;
             }
 
-            _saveData.realTimeAtLastSaved = System.DateTime.Now;
+            OnSave?.Invoke();
+
+            _data.realTimeAtLastSaved = System.DateTime.Now;
             
-            string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
+            string jsonData = JsonConvert.SerializeObject(_data); // Changed to Json.Net
 
             File.WriteAllText(saveFilePath, jsonData);
 
-            OnSave?.Invoke();
             Log("Saved Data");
         }
 
@@ -74,9 +76,9 @@ namespace Save
 
             string jsonData = File.ReadAllText(saveFilePath);
 
-            _saveData = JsonConvert.DeserializeObject<SaveData>(jsonData); // Changed to Json.Net
+            _data = JsonConvert.DeserializeObject<SaveData>(jsonData); // Changed to Json.Net
 
-            if (_saveData.gameVersion != Application.version) // NEW
+            if (_data.gameVersion != Application.version) // NEW
             {
                 CreateNewSave();
                 Debug.Log("Save versions do not match so created new");
@@ -119,15 +121,17 @@ namespace Save
         {
             CheckDirectory();
 
-            _saveData = new SaveData();
+            _data = new SaveData();
 
-            _saveData.realTimeAtSaveCreated = System.DateTime.Now;
-            _saveData.realTimeAtLastSaved = System.DateTime.Now;
-            _saveData.gameVersion = Application.version;
+            _data.realTimeAtSaveCreated = System.DateTime.Now;
+            _data.realTimeAtLastSaved = System.DateTime.Now;
+            _data.gameVersion = Application.version;
 
-            string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
+            string jsonData = JsonConvert.SerializeObject(_data); // Changed to Json.Net
 
             File.WriteAllText(saveFilePath, jsonData);
+
+            OnCreate?.Invoke();
         }
 
         [MenuItem("Save/OpenLocation")]

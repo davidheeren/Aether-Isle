@@ -9,7 +9,7 @@ namespace Game
 
         void Awake()
         {
-            Instantiate(playerPrefab, (Vector3)SaveSystem.SaveData.PlayerSpawnPos, Quaternion.identity);
+            Instantiate(playerPrefab, (Vector3)SaveSystem.Data.PlayerSpawnPos, Quaternion.identity);
         }
     }
 }

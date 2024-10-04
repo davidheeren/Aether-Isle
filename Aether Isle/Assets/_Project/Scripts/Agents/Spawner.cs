@@ -88,9 +88,9 @@ namespace Game
             }
 
 
-            if (SaveSystem.SaveData.enemySpawnTimes.TryGetValue(uniqueID.ID, out var time))
+            if (SaveSystem.Data.enemySpawnTimes.TryGetValue(uniqueID.ID, out var time))
             {
-                if (Time.time + SaveSystem.SaveData.timeAtLastUnload - time >= spawnDelay)
+                if (Time.time + SaveSystem.Data.timeAtLastUnload - time >= spawnDelay)
                     SpawnPrefabs();
             }
             else
@@ -114,7 +114,7 @@ namespace Game
                 Invoke(nameof(SpawnPrefab), Random.value); // 0-1 second offset
             }
 
-            SaveSystem.SaveData.enemySpawnTimes[uniqueID.ID] = Time.time + SaveSystem.SaveData.timeAtLastUnload;
+            SaveSystem.Data.enemySpawnTimes[uniqueID.ID] = Time.time + SaveSystem.Data.timeAtLastUnload;
 
             spawnedOnce = true;
             enemyDied = false;

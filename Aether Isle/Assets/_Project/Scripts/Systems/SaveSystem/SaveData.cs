@@ -1,3 +1,4 @@
+using Inventory;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,12 +41,7 @@ namespace Save
 
         public Dictionary<string, float> enemySpawnTimes = new Dictionary<string, float>();
 
-        //public HashSet<int> inventoryIndices = new HashSet<int>();
-
-        /// <summary>
-        /// Key: item index in database
-        /// Value: item index in inventory
-        /// </summary>
-        public Dictionary<int, int> inventory = new Dictionary<int, int>();
+        // Key: unique id
+        public Dictionary<string, HashSet<SerializedItem>> inventories = new Dictionary<string, HashSet<SerializedItem>>();
     }
 }

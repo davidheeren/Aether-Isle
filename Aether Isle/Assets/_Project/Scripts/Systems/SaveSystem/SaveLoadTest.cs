@@ -15,14 +15,14 @@ namespace Test
 
         void Save()
         {
-            SaveSystem.SaveData = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(saveCopy));
+            SaveSystem.Data = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(saveCopy));
             SaveSystem.Save();
         }
 
         void Load()
         {
             SaveSystem.Load();
-            loadCopy = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(SaveSystem.SaveData));
+            loadCopy = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(SaveSystem.Data));
         }
 
         void CreateNew()
