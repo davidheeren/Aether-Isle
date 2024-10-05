@@ -1,17 +1,20 @@
-using System;
-using System.Collections;
-using System.Threading;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game
 {
     public class Test : MonoBehaviour
     {
-        [SerializeField] SpriteRenderer spriteRenderer;
+        Stack<float> myStack = new Stack<float>();
 
         private void Awake()
         {
-            spriteRenderer.color = spriteRenderer.color.SetAlpha(0.5f);
+            myStack.Push(1);
+            myStack.Push(2);
+            print(myStack.Peek());
+            print(myStack.Pop());
+            print(myStack.Peek());
         }
     }
 }

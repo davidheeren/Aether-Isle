@@ -23,15 +23,19 @@ namespace Utilities
             }
         }
 
-        /*
+
         public static T RawInstance
         {
             get
             {
-                if ((object)_instance == null) Debug.LogError("Should not be using destroyed instance unless you know for sure there will be one");
+                //if ((object)_instance == null) Debug.LogError("Should not be using destroyed instance unless you know for sure there will be one");
                 return _instance;
             }
         }
-        */
+
+        public static bool HasInstance()
+        {
+            return _instance != null;
+        }
     }
 }

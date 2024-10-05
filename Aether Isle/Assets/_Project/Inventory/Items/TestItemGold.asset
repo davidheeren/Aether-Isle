@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TestItemGold
   m_EditorClassIdentifier: 
   index: 0
-  id: gold ore
+  displayName: Test Gold
   sprite: {fileID: -1437584897, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}

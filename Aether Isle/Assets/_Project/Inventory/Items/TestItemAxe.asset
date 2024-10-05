@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TestItemAxe
   m_EditorClassIdentifier: 
   index: 0
-  id: axe1
+  displayName: Test Axe
   sprite: {fileID: -1314990110, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}

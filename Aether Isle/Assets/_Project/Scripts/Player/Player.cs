@@ -35,6 +35,8 @@ namespace Game
 
         private void Awake()
         {
+            InputManager.Instance.input.UI.Disable();
+
             // Components
             components.Init(this);
             PlayerAimDirection aim = GetComponent<PlayerAimDirection>();

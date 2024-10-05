@@ -1,7 +1,6 @@
 using EventSystem;
 using UnityEngine;
 using Utilities;
-using static UnityEditor.PlayerSettings;
 
 namespace Game
 {

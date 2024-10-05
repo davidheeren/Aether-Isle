@@ -26,7 +26,7 @@ namespace Legacy
                 slots[i] = slotHolder.transform.GetChild(i).gameObject;
             }
 
-            InputManager.Instance.input.Scene.ToggleInventory.performed += OnInventoryToggle;
+            //InputManager.Instance.input.Scene.ToggleInventory.performed += OnInventoryToggle;
 
             RefreshUI();
             ToggleInput();

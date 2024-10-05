@@ -8,26 +8,26 @@ namespace Test
     {
         [Button(nameof(Save))]
         [Button(nameof(Load))]
-        [Button(nameof(Clear))]
+        [Button(nameof(CreateNew))]
 
         [SerializeField] SaveData saveCopy;
         [SerializeField, ReadOnly] SaveData loadCopy;
 
         void Save()
         {
-            SaveSystem.SaveData = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(saveCopy));
+            SaveSystem.Data = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(saveCopy));
             SaveSystem.Save();
         }
 
         void Load()
         {
             SaveSystem.Load();
-            loadCopy = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(SaveSystem.SaveData));
+            loadCopy = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(SaveSystem.Data));
         }
 
-        void Clear()
+        void CreateNew()
         {
-            SaveSystem.Clear();
+            SaveSystem.CreateNewSave();
         }
     }
 }

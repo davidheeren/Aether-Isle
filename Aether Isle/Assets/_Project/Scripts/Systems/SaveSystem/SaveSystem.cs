@@ -1,6 +1,8 @@
+using CustomInspector;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Save
@@ -22,13 +24,14 @@ namespace Save
         static readonly bool canDebug = false;
 
         public static event Action OnSave;
+        public static event Action OnCreate;
 
-        static SaveData _saveData;
-        public static SaveData SaveData
+        static SaveData _data;
+        public static SaveData Data
         {
             get
             {
-                if (_saveData == null)
+                if (_data == null)
                     Load();
 
 #if UNITY_EDITOR
@@ -40,32 +43,32 @@ namespace Save
                 }  
 #endif
 
-                return _saveData;
+                return _data;
             }
 
-            set => _saveData = value;
+            set => _data = value;
         }
 
         public static void Save()
         {
             CheckSaveFile();
 
-            if (_saveData == null)
+            if (_data == null)
             {
                 Debug.LogError("Cannot save a null object");
                 return;
             }
 
-            _saveData.realTimeAtLastSaved = System.DateTime.Now;
+            OnSave?.Invoke();
+
+            _data.realTimeAtLastSaved = System.DateTime.Now;
             
-            string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
+            string jsonData = JsonConvert.SerializeObject(_data); // Changed to Json.Net
 
             File.WriteAllText(saveFilePath, jsonData);
 
-            OnSave?.Invoke();
             Log("Saved Data");
         }
-
 
         public static void Load()
         {
@@ -73,15 +76,20 @@ namespace Save
 
             string jsonData = File.ReadAllText(saveFilePath);
 
-            _saveData = JsonConvert.DeserializeObject<SaveData>(jsonData); // Changed to Json.Net
+            _data = JsonConvert.DeserializeObject<SaveData>(jsonData); // Changed to Json.Net
+
+            if (_data.gameVersion != Application.version) // NEW
+            {
+                CreateNewSave();
+                Debug.Log("Save versions do not match so created new");
+            }
 
             Log("Loaded Data");
         }
 
         static void CheckSaveFile() // ensures that there will always be a save file
         {
-            if (!Directory.Exists(saveFolderPath))
-                Directory.CreateDirectory(saveFolderPath);
+            CheckDirectory();
 
             if (!File.Exists(saveFilePath))
             {
@@ -91,26 +99,62 @@ namespace Save
             }
         }
 
-        public static void Clear()
+        static void CheckDirectory()
         {
-            _saveData = new SaveData();
-
-            string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
-
-            File.WriteAllText(saveFilePath, jsonData);
+            if (!Directory.Exists(saveFolderPath))
+                Directory.CreateDirectory(saveFolderPath);
         }
 
-        static void CreateNewSave()
+        //[MenuItem("Save/Clear")]
+        //public static void Clear()
+        //{
+        //    CheckDirectory();
+        //    _saveData = new SaveData();
+
+        //    string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
+
+        //    File.WriteAllText(saveFilePath, jsonData);
+        //}
+
+#if UNITY_EDITOR
+        [MenuItem("Save/CreateNew")]
+#endif
+        public static void CreateNewSave()
         {
-            _saveData = new SaveData();
+            CheckDirectory();
 
-            _saveData.realTimeAtSaveCreated = System.DateTime.Now;
-            _saveData.realTimeAtLastSaved = System.DateTime.Now;
-            _saveData.gameVersion = Application.version;
+            _data = new SaveData();
 
-            string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
+            _data.realTimeAtSaveCreated = System.DateTime.Now;
+            _data.realTimeAtLastSaved = System.DateTime.Now;
+            _data.gameVersion = Application.version;
+
+            string jsonData = JsonConvert.SerializeObject(_data); // Changed to Json.Net
 
             File.WriteAllText(saveFilePath, jsonData);
+
+            OnCreate?.Invoke();
+        }
+
+#if UNITY_EDITOR
+        [MenuItem("Save/OpenLocation")]
+#endif
+        public static void OpenSaveLocation() // I have not tested the Mac version
+        {
+            CheckDirectory();
+
+            try
+            {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+                System.Diagnostics.Process.Start("explorer.exe", saveFolderPath.Replace("/", "\\"));
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+                System.Diagnostics.Process.Start("open", saveFolderPath.Replace("/", "\\"));
+#endif
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Failed to open folder: " + ex.Message);
+            }
         }
 
         static void Log(string msg)

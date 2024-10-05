@@ -6,9 +6,37 @@ namespace Inventory
     [CreateAssetMenu(menuName = "Inventory/ItemDatabase")]
     public class ItemDatabase : ScriptableObject
     {
-        public Item[] items;
+        [SerializeField] Item[] items;
 
         Item[] oldItems = new Item[0];
+
+        public Item GetItem(int index)
+        {
+            if (index < 0 || index >= items.Length)
+            {
+                Debug.LogError("Index out of range for database");
+                return null;
+            }
+
+            return items[index];
+        }
+
+        public int GetIndex(Item item)
+        {
+            if (item == null)
+            {
+                Debug.LogError("Item is null");
+                return -1;
+            }
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] == item)
+                    return i;
+            }
+
+            return -1;
+        }
 
         // Called when the array is modified in the inspector but before the changes are applied
         public void OnItemsChanged()

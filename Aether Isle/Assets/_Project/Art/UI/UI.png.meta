@@ -241,6 +241,138 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Hotbar
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 155
+        width: 128
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ce8d6d30329f5747803ef21fdd80bb3
+      internalID: 302819604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Empty_UI_Box
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 157
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a29522a156ea5ea4cad77b60efdaab17
+      internalID: 68536117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Play_Button
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 128
+        width: 48
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f5cf8c9ef1881549b73682685e036fd
+      internalID: 911125744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Option_Button
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 109
+        width: 40
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c56e294f2a4b73f4bbe9622ee56e6ad3
+      internalID: -1194099337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Quit_Button
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 90
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25a3297cc7931c64187d8c36339f5e47
+      internalID: 1666183904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Box
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 383
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e71b39ef0c3ab54c9aac2712a7daea6
+      internalID: -2010014677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -253,7 +385,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Empty_UI_Box: 68536117
+      Hotbar: 302819604
+      Option_Button: -1194099337
+      Play_Button: 911125744
+      Quit_Button: 1666183904
       UI_0: -241897796
+      UI_Box: -2010014677
       UI_CharPanel_9Slice: -276119181
       UI_EquipmentPanel_Left_9Slice: 5760202260919997367
       UI_Item_Slot: -1715125578

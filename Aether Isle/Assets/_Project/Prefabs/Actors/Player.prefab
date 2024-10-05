@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 9213849061626246228}
   - component: {fileID: 4310884689642328341}
   - component: {fileID: 3367582257713908701}
+  - component: {fileID: -6804236372151145118}
+  - component: {fileID: -8560277172237634033}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -115,7 +117,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 16
     boxOffset: {x: 0, y: -0.35}
-    boxSize: {x: 0.4, y: 0.2}
+    boxSize: {x: 0.1, y: 0.1}
 --- !u!114 &3672991246304819348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +273,34 @@ MonoBehaviour:
   onPlayerSpawn: {fileID: 11400000, guid: 6fdf84a869578084790c9c74b8ade21d, type: 2}
   onPlayerHealthChange: {fileID: 11400000, guid: 7d66c050b3386f44cb5ebe25702d59f6, type: 2}
   onPlayerDie: {fileID: 11400000, guid: 1f798e8f5d2e0374b8761279ae9a917f, type: 2}
+--- !u!114 &-6804236372151145118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c01c4d46c7bb0045a6dbf702566e581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 95576250d5a7216c657ea26045451350
+  newIdOnDuplicate: 0
+--- !u!114 &-8560277172237634033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f2d632aeb6931468aa2c628eba4316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: 018eb80b0915e054c80fc792cd65a656, type: 2}
+  inventoryLength: 8
 --- !u!1 &1137874522100965792
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,7 +104,7 @@ namespace Game
             if (waypoints != null)
                 this.waypoints = waypoints;
             else
-                waypoints = new Vector2[0];
+                this.waypoints = new Vector2[0];
 
             return this;
         }
