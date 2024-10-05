@@ -382,7 +382,7 @@ namespace Input
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Cancel"",
+                    ""name"": ""Back"",
                     ""type"": ""Button"",
                     ""id"": ""1ded3668-8b8b-4f41-b38f-c25ede8bc68c"",
                     ""expectedControlType"": """",
@@ -600,13 +600,79 @@ namespace Input
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Arrows"",
+                    ""id"": ""65edba97-1132-4b02-ab26-4354c5c2dd55"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""9481d591-9ada-4dcf-8885-0298d548eb2a"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""63e06aee-4a97-4b71-affb-9f26b18a8ee2"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""720462bb-9969-4b74-8962-4c730ec3c895"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""1f22a4de-8b94-4b7d-8391-c3362230952d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""7db2b808-43c7-4a93-83ee-4a2a0c7fec83"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Cancel"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""551688a2-6d75-41ca-a5aa-a627f7c6d575"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -628,18 +694,9 @@ namespace Input
             ""id"": ""49844b1c-f67d-4151-89d4-da4fcd0ce951"",
             ""actions"": [
                 {
-                    ""name"": ""Toggle Inventory"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""442d5989-e5c4-4337-8a00-6376f7a2523a"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Restart"",
-                    ""type"": ""Button"",
-                    ""id"": ""93710dfd-d404-49a8-9d45-dfd14e74f9cd"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -650,44 +707,22 @@ namespace Input
                 {
                     ""name"": """",
                     ""id"": ""921be0bf-ebee-4bcd-811c-b71e1d294136"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Toggle Inventory"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""1c695b01-9d19-4d11-a673-04263af96e97"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Toggle Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""21d4d75b-d69f-424e-8973-d50133f7df1b"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard"",
-                    ""action"": ""Restart"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""08a26d76-8f13-4d0f-b35f-3ca22620c591"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Restart"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -738,12 +773,11 @@ namespace Input
             m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
             m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
-            m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+            m_UI_Back = m_UI.FindAction("Back", throwIfNotFound: true);
             m_UI_LeftClick = m_UI.FindAction("LeftClick", throwIfNotFound: true);
             // Scene
             m_Scene = asset.FindActionMap("Scene", throwIfNotFound: true);
-            m_Scene_ToggleInventory = m_Scene.FindAction("Toggle Inventory", throwIfNotFound: true);
-            m_Scene_Restart = m_Scene.FindAction("Restart", throwIfNotFound: true);
+            m_Scene_Pause = m_Scene.FindAction("Pause", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -909,7 +943,7 @@ namespace Input
         private readonly InputAction m_UI_Point;
         private readonly InputAction m_UI_Submit;
         private readonly InputAction m_UI_Navigate;
-        private readonly InputAction m_UI_Cancel;
+        private readonly InputAction m_UI_Back;
         private readonly InputAction m_UI_LeftClick;
         public struct UIActions
         {
@@ -918,7 +952,7 @@ namespace Input
             public InputAction @Point => m_Wrapper.m_UI_Point;
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
-            public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+            public InputAction @Back => m_Wrapper.m_UI_Back;
             public InputAction @LeftClick => m_Wrapper.m_UI_LeftClick;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
@@ -938,9 +972,9 @@ namespace Input
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
-                @Cancel.started += instance.OnCancel;
-                @Cancel.performed += instance.OnCancel;
-                @Cancel.canceled += instance.OnCancel;
+                @Back.started += instance.OnBack;
+                @Back.performed += instance.OnBack;
+                @Back.canceled += instance.OnBack;
                 @LeftClick.started += instance.OnLeftClick;
                 @LeftClick.performed += instance.OnLeftClick;
                 @LeftClick.canceled += instance.OnLeftClick;
@@ -957,9 +991,9 @@ namespace Input
                 @Navigate.started -= instance.OnNavigate;
                 @Navigate.performed -= instance.OnNavigate;
                 @Navigate.canceled -= instance.OnNavigate;
-                @Cancel.started -= instance.OnCancel;
-                @Cancel.performed -= instance.OnCancel;
-                @Cancel.canceled -= instance.OnCancel;
+                @Back.started -= instance.OnBack;
+                @Back.performed -= instance.OnBack;
+                @Back.canceled -= instance.OnBack;
                 @LeftClick.started -= instance.OnLeftClick;
                 @LeftClick.performed -= instance.OnLeftClick;
                 @LeftClick.canceled -= instance.OnLeftClick;
@@ -984,14 +1018,12 @@ namespace Input
         // Scene
         private readonly InputActionMap m_Scene;
         private List<ISceneActions> m_SceneActionsCallbackInterfaces = new List<ISceneActions>();
-        private readonly InputAction m_Scene_ToggleInventory;
-        private readonly InputAction m_Scene_Restart;
+        private readonly InputAction m_Scene_Pause;
         public struct SceneActions
         {
             private @GameInput m_Wrapper;
             public SceneActions(@GameInput wrapper) { m_Wrapper = wrapper; }
-            public InputAction @ToggleInventory => m_Wrapper.m_Scene_ToggleInventory;
-            public InputAction @Restart => m_Wrapper.m_Scene_Restart;
+            public InputAction @Pause => m_Wrapper.m_Scene_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Scene; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1001,22 +1033,16 @@ namespace Input
             {
                 if (instance == null || m_Wrapper.m_SceneActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_SceneActionsCallbackInterfaces.Add(instance);
-                @ToggleInventory.started += instance.OnToggleInventory;
-                @ToggleInventory.performed += instance.OnToggleInventory;
-                @ToggleInventory.canceled += instance.OnToggleInventory;
-                @Restart.started += instance.OnRestart;
-                @Restart.performed += instance.OnRestart;
-                @Restart.canceled += instance.OnRestart;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(ISceneActions instance)
             {
-                @ToggleInventory.started -= instance.OnToggleInventory;
-                @ToggleInventory.performed -= instance.OnToggleInventory;
-                @ToggleInventory.canceled -= instance.OnToggleInventory;
-                @Restart.started -= instance.OnRestart;
-                @Restart.performed -= instance.OnRestart;
-                @Restart.canceled -= instance.OnRestart;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(ISceneActions instance)
@@ -1067,13 +1093,12 @@ namespace Input
             void OnPoint(InputAction.CallbackContext context);
             void OnSubmit(InputAction.CallbackContext context);
             void OnNavigate(InputAction.CallbackContext context);
-            void OnCancel(InputAction.CallbackContext context);
+            void OnBack(InputAction.CallbackContext context);
             void OnLeftClick(InputAction.CallbackContext context);
         }
         public interface ISceneActions
         {
-            void OnToggleInventory(InputAction.CallbackContext context);
-            void OnRestart(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
     }
 }

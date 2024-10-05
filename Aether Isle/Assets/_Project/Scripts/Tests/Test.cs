@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,11 +6,15 @@ namespace Game
 {
     public class Test : MonoBehaviour
     {
-        private InputAction action;
+        Stack<float> myStack = new Stack<float>();
 
         private void Awake()
         {
-            action = InputManager.Instance.input.Game.Attack;
+            myStack.Push(1);
+            myStack.Push(2);
+            print(myStack.Peek());
+            print(myStack.Pop());
+            print(myStack.Peek());
         }
     }
 }

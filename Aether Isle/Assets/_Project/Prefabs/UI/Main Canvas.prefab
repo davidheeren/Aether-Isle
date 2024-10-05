@@ -57,7 +57,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_PointAction: {fileID: -6483288965602444804, guid: 6185017be7dca114bb9ef7585bf34859, type: 3}
   m_MoveAction: {fileID: 2210134578961743302, guid: 6185017be7dca114bb9ef7585bf34859, type: 3}
   m_SubmitAction: {fileID: -8478744921410697867, guid: 6185017be7dca114bb9ef7585bf34859, type: 3}
-  m_CancelAction: {fileID: -3316274041653937810, guid: 6185017be7dca114bb9ef7585bf34859, type: 3}
+  m_CancelAction: {fileID: 0}
   m_LeftClickAction: {fileID: -9166338270844371083, guid: 6185017be7dca114bb9ef7585bf34859, type: 3}
   m_MiddleClickAction: {fileID: 0}
   m_RightClickAction: {fileID: 0}
