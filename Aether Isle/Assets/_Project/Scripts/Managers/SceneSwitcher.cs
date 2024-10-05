@@ -8,11 +8,10 @@ namespace Game
 {
     public class SceneSwitcher : Singleton<SceneSwitcher>
     {
-        private void Restart(InputAction.CallbackContext context) => Restart();
-
         public void Restart()
         {
             LoadScene(SceneManager.GetActiveScene().buildIndex);
+            print("Current Scene Index: " + SceneManager.GetActiveScene().buildIndex);
         }
 
         public void Quit()

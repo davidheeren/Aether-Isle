@@ -707,7 +707,7 @@ namespace Input
                 {
                     ""name"": """",
                     ""id"": ""921be0bf-ebee-4bcd-811c-b71e1d294136"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",

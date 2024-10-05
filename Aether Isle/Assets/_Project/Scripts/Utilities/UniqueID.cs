@@ -1,7 +1,6 @@
 using CustomInspector;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,6 +45,7 @@ namespace Game
             }
         }
 
+#if UNITY_EDITOR
         [InitializeOnLoadMethod]
         private static void Initialize()
         {
@@ -69,14 +69,15 @@ namespace Game
                     GameObject createdGameObject = EditorUtility.InstanceIDToObject(createGameObjData.instanceId) as GameObject;
 
                     //this is null while in Prefab mode (Preview scene). Leaving the null check for any future unexpected cases
-                    if (createdGameObject == null || EditorSceneManager.IsPreviewScene(createdGameObject.scene))
-                        return;
+                    //if (createdGameObject == null || EditorSceneManager.IsPreviewScene(createdGameObject.scene))
+                    //    return;
 
                     //print("CALLBACK");
                     lastCreatedGameObjects.Add(createdGameObject);
                 }
             }
         }
+#endif
 
 
         [ContextMenu("Set New ID")]

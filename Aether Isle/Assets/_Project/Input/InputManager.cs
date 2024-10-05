@@ -69,6 +69,43 @@ namespace Game
             //context.action.GetBindingDisplayString
         }
 
+        public void EnableGameInput(bool enable)
+        {
+            if (enable)
+            {
+                input.Game.Enable();
+
+            }
+            else
+                input.Game.Disable();
+        }
+
+        public void EnableSceneInput(bool enable)
+        {
+            if (enable)
+                input.Scene.Enable();
+            else
+                input.Scene.Disable();
+        }
+
+        public void EnableUIInput(bool enable)
+        {
+            if (enable)
+                input.UI.Enable();
+            else
+                input.UI.Disable();
+        }
+        public void EnableInput(bool enable)
+        {
+            if (enable)
+            {
+                input.Game.Enable();
+
+            }
+            else
+                input.Game.Disable();
+        }
+
         public enum ControlScheme
         {
             None,

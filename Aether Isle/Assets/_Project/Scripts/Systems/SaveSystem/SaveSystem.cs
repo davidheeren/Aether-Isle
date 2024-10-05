@@ -116,7 +116,9 @@ namespace Save
         //    File.WriteAllText(saveFilePath, jsonData);
         //}
 
+#if UNITY_EDITOR
         [MenuItem("Save/CreateNew")]
+#endif
         public static void CreateNewSave()
         {
             CheckDirectory();
@@ -134,7 +136,9 @@ namespace Save
             OnCreate?.Invoke();
         }
 
+#if UNITY_EDITOR
         [MenuItem("Save/OpenLocation")]
+#endif
         public static void OpenSaveLocation() // I have not tested the Mac version
         {
             CheckDirectory();
