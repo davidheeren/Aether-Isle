@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "DeltaMouse",
+                    "type": "Value",
+                    "id": "c84943fe-ca7d-469f-847d-0d0e9d43ba62",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "AimDir",
                     "type": "Value",
                     "id": "be7a8cf3-3874-4819-90f6-1c5999d425a6",
@@ -322,6 +331,17 @@
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14a857d2-825e-4572-b41f-df3ae1046330",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "DeltaMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -373,6 +393,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DeltaMouse",
+                    "type": "Value",
+                    "id": "6a2c8f47-2df6-4417-b867-60f91a518ca5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -384,6 +413,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse;Keyboard",
                     "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b70935d8-ba92-4ac1-b826-b256bd0e6247",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "DeltaMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

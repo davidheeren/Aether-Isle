@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5270321707850897179}
   - component: {fileID: 3395433801379597934}
   - component: {fileID: 2552916322232192999}
+  - component: {fileID: -1735319294645101338}
   - component: {fileID: 2932475018049708987}
   - component: {fileID: 4508412341497492577}
   m_Layer: 0
@@ -139,6 +140,30 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &-1735319294645101338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2938526429020860010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_AssetsPPU: 16
+  m_RefResolutionX: 400
+  m_RefResolutionY: 225
+  m_CropFrame: 0
+  m_GridSnapping: 0
+  m_FilterMode: 0
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!114 &2932475018049708987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +179,8 @@ MonoBehaviour:
   target: {fileID: 0}
   hardLock: 1
   decay: 5
+  useFreeLook: 0
+  freeLookSpeed: 10
 --- !u!114 &4508412341497492577
 MonoBehaviour:
   m_ObjectHideFlags: 0

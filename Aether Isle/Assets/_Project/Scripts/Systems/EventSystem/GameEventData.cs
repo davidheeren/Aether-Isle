@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EventSystem
+namespace CustomEventSystem
 {
     public class GameEventData
     {
