@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StateTree
@@ -54,5 +56,15 @@ namespace StateTree
 
         public void FixedUpdateStateTree() => FixedUpdateStateWrapper();
         public void DestroyStateTree() => DestroyWrapper();
+
+        public void PrintCurrentStates()
+        {
+            List<State> states = GetSubNodes<State>();
+            foreach (State state in states)
+            {
+                if (state.isActive)
+                    Debug.Log(state.name);
+            }
+        }
     }
 }

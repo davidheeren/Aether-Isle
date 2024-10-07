@@ -8,6 +8,9 @@ namespace StateTree
         protected RootState rootState;
         public RootState RootState => rootState;
 
+        [ContextMenu("Print Current States")]
+        void printCurrentStates() => rootState.PrintCurrentStates();
+
         protected virtual void Update() => rootState.UpdateStateTree();
         protected virtual void FixedUpdate() => rootState.FixedUpdateStateTree();
         protected virtual void OnDestroy() => rootState.DestroyStateTree();
