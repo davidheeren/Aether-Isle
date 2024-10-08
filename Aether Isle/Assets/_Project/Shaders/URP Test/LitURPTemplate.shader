@@ -1,11 +1,9 @@
-Shader "Custom/Shadow2"
+Shader "Custom/LitURPTemplate"
 {
-    // LITERALLY DOES NOTHING BECAUSE WE ARE MULTIPLYING BY BLACK
-	Properties
+    // Source: https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Lit-Default.shader
+    Properties
     {
         _MainTex("_MainTex", 2D) = "white" {}
-        _Tint ( "Tint", Color ) = ( 1, 1, 1, 1 )
-		_AlphaClip ("AlphaClip", Float) = 0.1
     }
 
     SubShader
@@ -18,13 +16,6 @@ Shader "Custom/Shadow2"
         Pass
         {
             Tags { "LightMode" = "Universal2D" }
-
-            Stencil
-			{
-				Ref 4
-				Comp NotEqual
-				Pass Replace
-			}
 
             HLSLPROGRAM
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -56,8 +47,6 @@ Shader "Custom/Shadow2"
             // NOTE: Do not ifdef the properties here as SRP batcher can not handle different layouts.
             CBUFFER_START(UnityPerMaterial)
                 sampler2D _MainTex;
-                float4 _Tint;
-                float _AlphaClip;
             CBUFFER_END
 
             #if USE_SHAPE_LIGHT_TYPE_0
@@ -108,12 +97,7 @@ Shader "Custom/Shadow2"
 
             half4 CombinedShapeLightFragment(Varyings i) : SV_Target
             {
-                half4 unlit = tex2D(_MainTex, i.uv);
-
-                if (unlit.a <= _AlphaClip)
-					discard;
-
-                return GetLightColor(i) * _Tint;
+                return GetLightColor(i);
             }
             ENDHLSL
         }
