@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4455031601018375334}
   - component: {fileID: 3026379072318902942}
   - component: {fileID: 4959841847931402061}
+  - component: {fileID: 2627240315150927251}
   m_Layer: 3
   m_Name: Big_Tree_A
   m_TagString: Untagged
@@ -94,7 +95,9 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 1a7d992b01e49a1499319899ee039a08, type: 2}
+  - {fileID: 2100000, guid: 2a9cee8d5b9ab054c8c312520fabb72b, type: 2}
+  - {fileID: 2100000, guid: 488c4f37736d4804bba7ecf96efa8b02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,6 +141,22 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_SortAtRoot: 0
+--- !u!114 &2627240315150927251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5569596157140445957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9684c06d5d2073648a7a0e41a3d153c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 1a7d992b01e49a1499319899ee039a08, type: 2}
+  - {fileID: 2100000, guid: 2a9cee8d5b9ab054c8c312520fabb72b, type: 2}
+  - {fileID: 2100000, guid: 488c4f37736d4804bba7ecf96efa8b02, type: 2}
 --- !u!1001 &8927432246688100759
 PrefabInstance:
   m_ObjectHideFlags: 0

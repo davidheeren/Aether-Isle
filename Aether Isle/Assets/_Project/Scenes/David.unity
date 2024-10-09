@@ -477,6 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f276fb1ca4122224c986b7d29207672b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionTime: 0.5
 --- !u!4 &240584884
 Transform:
   m_ObjectHideFlags: 0
@@ -23895,7 +23896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2895701962911461491, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7323766476007780385, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: _id
@@ -24210,7 +24211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2895701962911461491, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7323766476007780385, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: _id
@@ -24830,6 +24831,10 @@ PrefabInstance:
     - target: {fileID: 2938526429020860010, guid: ad2838d49f3c3cc4aab0279dd14e5e40, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270321707850897179, guid: ad2838d49f3c3cc4aab0279dd14e5e40, type: 3}
+      propertyPath: orthographic size
+      value: 8.09375
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

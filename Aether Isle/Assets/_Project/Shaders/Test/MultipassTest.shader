@@ -1,15 +1,14 @@
-Shader "Custom/UnlitURPTemplate"
+Shader "Custom/MultipassTest"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _Tint ("Tint", Color) = (1, 1, 1, 1)
-
-        //[MainTexture] [MainColor] tags for material.MainColor and material.MainTexture
+        [PerRendererData] _MainTex ("Texture", 2D) = "white" {}
+        _Flip ("Flip", Float) = 0
     }
+
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" } // Don't know if need render pipline tag
+        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Back // Only renders front of object
 
@@ -38,8 +37,7 @@ Shader "Custom/UnlitURPTemplate"
             };
 
             CBUFFER_START(UnityPerMaterial)
-                float4 _Tint;
-                sampler2D _MainTex;
+                float _Flip;
             CBUFFER_END
 
             Varyings vert(Attributes i)
@@ -50,10 +48,24 @@ Shader "Custom/UnlitURPTemplate"
                 return o;
             }
 
-            float4 frag(Varyings i) : SV_Target
+            half4 frag(Varyings i) : SV_Target
             {
-                 float4 col = tex2D(_MainTex, i.uv);
-                 return col * _Tint * unity_SpriteColor;
+                if (_Flip > 0.5)
+                {
+                    if (i.uv.x < 0.6)
+                        return float4(1,0,0,1);
+                    else
+                        discard;
+                }
+                else
+                {
+                    if (i.uv.x > 0.4)
+                        return float4(0,1,0,1);
+                    else
+                        discard;
+                }
+
+                return float4(0,0,1,1);
             }
 
             ENDHLSL

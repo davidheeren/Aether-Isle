@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 0
-    - _AlphaClip: 0.1
+    - _AlphaClip: 0.5
     - _ClipAlpha: 0.25
     - _ColorMask: 19.87
     - _EnableExternalAlpha: 0

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LitURPTemplate
-  m_Shader: {fileID: 4800000, guid: 566c0b1552c1bef4e8935c26c077068e, type: 3}
+  m_Name: MultipassTest1
+  m_Shader: {fileID: 4800000, guid: 674ae175657b2034ba2f6a26a8b5b586, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
