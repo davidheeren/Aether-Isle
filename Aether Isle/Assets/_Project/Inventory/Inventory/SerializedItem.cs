@@ -3,14 +3,14 @@
     [System.Serializable]
     public struct SerializedItem
     {
+        public string id;
         public int count;
-        public int databaseIndex;
         public int inventoryIndex;
 
-        public SerializedItem(int count, int databaseIndex, int inventoryIndex)
+        public SerializedItem(string id, int count, int inventoryIndex)
         {
+            this.id = id;
             this.count = count;
-            this.databaseIndex = databaseIndex;
             this.inventoryIndex = inventoryIndex;
         }
     }

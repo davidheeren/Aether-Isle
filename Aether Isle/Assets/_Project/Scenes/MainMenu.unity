@@ -1239,17 +1239,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286323768}
   m_CullTransparentMesh: 1
---- !u!114 &1316020711 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1749697756717121004, guid: 01d8bbcc8d1a3584cbbbc160d57c2fdf, type: 3}
-  m_PrefabInstance: {fileID: 1960095969}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1340325069 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9128005221472634247, guid: 01d8bbcc8d1a3584cbbbc160d57c2fdf, type: 3}
@@ -1401,6 +1390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378762014}
   - component: {fileID: 1378762013}
+  - component: {fileID: 1378762015}
   m_Layer: 0
   m_Name: Sene Switcher
   m_TagString: Untagged
@@ -1420,6 +1410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f276fb1ca4122224c986b7d29207672b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionTime: 2
 --- !u!4 &1378762014
 Transform:
   m_ObjectHideFlags: 0
@@ -1435,6 +1426,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378762015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378762012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 659e09065a7099645b9471749681eaed, type: 2}
 --- !u!1 &1472397352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1993,7 +2001,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6593b77a40f274499f5d22e09c3c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventSystem: {fileID: 1316020711}
   initialState: {fileID: 1062596842}
   canUseBackInput: 1
 --- !u!1001 &1960095969
@@ -2147,6 +2154,10 @@ PrefabInstance:
     - target: {fileID: 2938526429020860010, guid: ad2838d49f3c3cc4aab0279dd14e5e40, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270321707850897179, guid: ad2838d49f3c3cc4aab0279dd14e5e40, type: 3}
+      propertyPath: orthographic size
+      value: 8.8125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

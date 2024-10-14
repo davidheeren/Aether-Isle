@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0899440f65f451746a884e5de006e7a9, type: 3}
   m_Name: FishingRodEquipable
   m_EditorClassIdentifier: 
-  index: -1
-  displayName: Fishing Rod
+  id: Fishing Rod
   sprite: {fileID: 1911604212, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}

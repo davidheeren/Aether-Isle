@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <time>k__BackingField: 5
   <statType>k__BackingField: 0
-  modifierType: 0
-  a: 2
-  b: 0
+  modifierType: 5
+  a: 5.14
+  b: 10.36

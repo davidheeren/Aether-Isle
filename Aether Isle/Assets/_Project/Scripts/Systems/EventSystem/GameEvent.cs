@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-namespace EventSystem
+namespace CustomEventSystem
 {
     [CreateAssetMenu(menuName = "EventSystem/Event")]
     public class GameEvent : ScriptableObject

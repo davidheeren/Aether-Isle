@@ -8,7 +8,7 @@ namespace Inventory
     {
         public void Use(ActorComponents components)
         {
-            Debug.Log($"Use: {displayName} equippable");
+            Debug.Log($"Use: {id} equipable");
         }
     }
 }

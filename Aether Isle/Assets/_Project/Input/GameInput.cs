@@ -49,6 +49,15 @@ namespace Input
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""DeltaMouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""c84943fe-ca7d-469f-847d-0d0e9d43ba62"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""AimDir"",
                     ""type"": ""Value"",
                     ""id"": ""be7a8cf3-3874-4819-90f6-1c5999d425a6"",
@@ -347,6 +356,17 @@ namespace Input
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14a857d2-825e-4572-b41f-df3ae1046330"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""DeltaMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -398,6 +418,15 @@ namespace Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DeltaMouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""6a2c8f47-2df6-4417-b867-60f91a518ca5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -409,6 +438,17 @@ namespace Input
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b70935d8-ba92-4ac1-b826-b256bd0e6247"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""DeltaMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -763,6 +803,7 @@ namespace Input
             m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
             m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
             m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
+            m_Game_DeltaMouse = m_Game.FindAction("DeltaMouse", throwIfNotFound: true);
             m_Game_AimDir = m_Game.FindAction("AimDir", throwIfNotFound: true);
             m_Game_LockAim = m_Game.FindAction("LockAim", throwIfNotFound: true);
             m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
@@ -775,6 +816,7 @@ namespace Input
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
             m_UI_Back = m_UI.FindAction("Back", throwIfNotFound: true);
             m_UI_LeftClick = m_UI.FindAction("LeftClick", throwIfNotFound: true);
+            m_UI_DeltaMouse = m_UI.FindAction("DeltaMouse", throwIfNotFound: true);
             // Scene
             m_Scene = asset.FindActionMap("Scene", throwIfNotFound: true);
             m_Scene_Pause = m_Scene.FindAction("Pause", throwIfNotFound: true);
@@ -848,6 +890,7 @@ namespace Input
         private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
         private readonly InputAction m_Game_Move;
         private readonly InputAction m_Game_MousePosition;
+        private readonly InputAction m_Game_DeltaMouse;
         private readonly InputAction m_Game_AimDir;
         private readonly InputAction m_Game_LockAim;
         private readonly InputAction m_Game_Attack;
@@ -859,6 +902,7 @@ namespace Input
             public GameActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Game_Move;
             public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
+            public InputAction @DeltaMouse => m_Wrapper.m_Game_DeltaMouse;
             public InputAction @AimDir => m_Wrapper.m_Game_AimDir;
             public InputAction @LockAim => m_Wrapper.m_Game_LockAim;
             public InputAction @Attack => m_Wrapper.m_Game_Attack;
@@ -879,6 +923,9 @@ namespace Input
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @DeltaMouse.started += instance.OnDeltaMouse;
+                @DeltaMouse.performed += instance.OnDeltaMouse;
+                @DeltaMouse.canceled += instance.OnDeltaMouse;
                 @AimDir.started += instance.OnAimDir;
                 @AimDir.performed += instance.OnAimDir;
                 @AimDir.canceled += instance.OnAimDir;
@@ -904,6 +951,9 @@ namespace Input
                 @MousePosition.started -= instance.OnMousePosition;
                 @MousePosition.performed -= instance.OnMousePosition;
                 @MousePosition.canceled -= instance.OnMousePosition;
+                @DeltaMouse.started -= instance.OnDeltaMouse;
+                @DeltaMouse.performed -= instance.OnDeltaMouse;
+                @DeltaMouse.canceled -= instance.OnDeltaMouse;
                 @AimDir.started -= instance.OnAimDir;
                 @AimDir.performed -= instance.OnAimDir;
                 @AimDir.canceled -= instance.OnAimDir;
@@ -945,6 +995,7 @@ namespace Input
         private readonly InputAction m_UI_Navigate;
         private readonly InputAction m_UI_Back;
         private readonly InputAction m_UI_LeftClick;
+        private readonly InputAction m_UI_DeltaMouse;
         public struct UIActions
         {
             private @GameInput m_Wrapper;
@@ -954,6 +1005,7 @@ namespace Input
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
             public InputAction @Back => m_Wrapper.m_UI_Back;
             public InputAction @LeftClick => m_Wrapper.m_UI_LeftClick;
+            public InputAction @DeltaMouse => m_Wrapper.m_UI_DeltaMouse;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -978,6 +1030,9 @@ namespace Input
                 @LeftClick.started += instance.OnLeftClick;
                 @LeftClick.performed += instance.OnLeftClick;
                 @LeftClick.canceled += instance.OnLeftClick;
+                @DeltaMouse.started += instance.OnDeltaMouse;
+                @DeltaMouse.performed += instance.OnDeltaMouse;
+                @DeltaMouse.canceled += instance.OnDeltaMouse;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -997,6 +1052,9 @@ namespace Input
                 @LeftClick.started -= instance.OnLeftClick;
                 @LeftClick.performed -= instance.OnLeftClick;
                 @LeftClick.canceled -= instance.OnLeftClick;
+                @DeltaMouse.started -= instance.OnDeltaMouse;
+                @DeltaMouse.performed -= instance.OnDeltaMouse;
+                @DeltaMouse.canceled -= instance.OnDeltaMouse;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -1082,6 +1140,7 @@ namespace Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnMousePosition(InputAction.CallbackContext context);
+            void OnDeltaMouse(InputAction.CallbackContext context);
             void OnAimDir(InputAction.CallbackContext context);
             void OnLockAim(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
@@ -1095,6 +1154,7 @@ namespace Input
             void OnNavigate(InputAction.CallbackContext context);
             void OnBack(InputAction.CallbackContext context);
             void OnLeftClick(InputAction.CallbackContext context);
+            void OnDeltaMouse(InputAction.CallbackContext context);
         }
         public interface ISceneActions
         {

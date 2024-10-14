@@ -1,3 +1,4 @@
+using CustomInspector;
 using System.Linq;
 using UnityEngine;
 
@@ -6,101 +7,90 @@ namespace Inventory
     [CreateAssetMenu(menuName = "Inventory/ItemDatabase")]
     public class ItemDatabase : ScriptableObject
     {
+        [Button(nameof(ValidateItems))]
+        [Button(nameof(SortItems))]
+        [ReadOnly] public string buttons = "buttons";
+
         [SerializeField] Item[] items;
 
-        Item[] oldItems = new Item[0];
-
-        public Item GetItem(int index)
+        public Item GetItem(string id)
         {
-            if (index < 0 || index >= items.Length)
-            {
-                Debug.LogError("Index out of range for database");
-                return null;
-            }
-
-            return items[index];
+            Item item = items.FirstOrDefault(x => x.id == id);
+            if (item == null) Debug.LogError($"Item: {id} does not exist in database");
+            return item;
         }
 
-        public int GetIndex(Item item)
+        private void SortItems()
         {
-            if (item == null)
-            {
-                Debug.LogError("Item is null");
-                return -1;
-            }
+            Item[] sortedItems = items.OrderBy(item => item.GetType().Name)
+                            .ThenBy(item => item.id)
+                            .ToArray();
 
-            for (int i = 0; i < items.Length; i++)
-            {
-                if (items[i] == item)
-                    return i;
-            }
-
-            return -1;
+            items = sortedItems;
         }
 
         // Called when the array is modified in the inspector but before the changes are applied
-        public void OnItemsChanged()
-        {
-            oldItems = new Item[items.Length];
-            items.CopyTo(oldItems, 0);
-        }
-
+        //public void OnItemsChanged() { }
         // Called when the array is modified and applied
-        public void OnItemsChangesApplied()
-        {
-            SetOldItemIndices();
-            SetItemIndices();
-        }
+        //public void OnItemsChangesApplied() { }
+        //public void OnEditorDisable()
+        //{
+        //    ValidateItems();
+        //}
 
-        void SetOldItemIndices()
+        private void ValidateItems()
         {
-            foreach (Item oldItem in oldItems)
+            if (IsValid())
             {
-                if (oldItem == null) 
-                    continue;
-
-                // If the updated array contains an old item, the old item has been removed
-                if (!items.Contains(oldItem))
-                {
-                    oldItem.index = -1;
-                }
+                Debug.Log("All Items are valid");
             }
         }
 
-        void SetItemIndices()
-        {
-            for (int i = 0; i < items.Length; i++)
-            {
-                if (items[i] == null)
-                    continue;
-
-                items[i].index = i;
-            }
-        }
-
-        public void OnEditorDisable()
+        public bool IsValid()
         {
             bool isValid = true;
-
-            // Check for duplicates
-            if (items.ToHashSet().Count != items.Length)
-            {
-                Debug.LogError("Item Database has duplicate items");
-                isValid = false;
-            }
 
             // Check for null entries
             if (items.Contains(null))
             {
                 Debug.LogError("Item Database has null values");
                 isValid = false;
+                return false;
             }
 
-            // Let user know database is valid
-            if (isValid)
+            // Check for duplicate items
+            if (items.ToHashSet().Count != items.Length)
             {
-                Debug.Log("Changed Item Database successfully");
+                Debug.LogError("Item Database has duplicate items");
+                isValid = false;
             }
+
+            // Check for duplicate ids
+            Item[] duplicateIDItems = items.GroupBy(item => item.id)
+                                         .Where(group => group.Count() > 1)
+                                         .SelectMany(group => group)
+                                         .ToArray();
+
+            if (duplicateIDItems.Length > 0)
+            {
+                Debug.LogError("Item Database has duplicate item ids");
+
+                foreach (Item item in duplicateIDItems)
+                {
+                    Debug.LogError($"Duplicate ID => Item: {item.name} -- ID: {item.id}");
+                }
+
+                isValid = false;
+            }
+
+            // Check for empty ids
+            if (items.Any(x => string.IsNullOrEmpty(x.id)))
+            {
+                Debug.LogError("Item Database has empty id values");
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }

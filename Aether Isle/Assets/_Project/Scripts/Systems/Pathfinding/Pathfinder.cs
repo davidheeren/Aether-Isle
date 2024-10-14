@@ -50,9 +50,9 @@ namespace Pathfinding
                     return path;
                 }
 
-                foreach (Node neighbor in currentNode.neighbors)
+                foreach (Node neighbor in currentNode.validNeighbors)
                 {
-                    if (!neighbor.walkable || closedSet.Contains(neighbor))
+                    if (closedSet.Contains(neighbor)) // Neighbor should never be walkable
                         continue;
 
                     int neighborCost = currentNode.gCost + GetDistanceBetweenNodes(currentNode, neighbor) + neighbor.penalty;
