@@ -11,7 +11,7 @@ namespace Inventory
         public readonly int length;
         readonly ItemDatabase database;
 
-        public readonly InventoryItem[] items;
+        public InventoryItem[] items; // TODO: Readonly after testing
 
         public InventoryModel(string id, int length, ItemDatabase database)
         {
@@ -33,7 +33,7 @@ namespace Inventory
 
                 foreach (SerializedItem sItem in sItems)
                 {
-                    InventoryItem item = new InventoryItem(database.GetItem(sItem.databaseIndex), sItem.count);
+                    InventoryItem item = new InventoryItem(database.GetItem(sItem.id), sItem.count);
                     if (sItem.inventoryIndex >= 0 && sItem.inventoryIndex < length)
                         items[sItem.inventoryIndex] = item;
                     else
@@ -50,9 +50,7 @@ namespace Inventory
             {
                 if (items[i] != null)
                 {
-                    int databaseIndex = database.GetIndex(items[i].item);
-
-                    SerializedItem sItem = new SerializedItem(items[i].count, databaseIndex, i);
+                    SerializedItem sItem = new SerializedItem(items[i].item.id, items[i].count, i);
 
                     sItems.Add(sItem);
                 }
@@ -60,6 +58,19 @@ namespace Inventory
 
             SaveSystem.Data.inventories[id] = sItems;
             Debug.Log("Saved Inventory");
+        }
+
+        public void TestSetItems(Item[] items)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] == null)
+                {
+                    this.items[i] = null;
+                    continue;
+                }
+                this.items[i] = new InventoryItem(items[i], i);
+            }
         }
 
         public void Dispose()

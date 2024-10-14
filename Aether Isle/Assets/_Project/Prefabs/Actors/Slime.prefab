@@ -281,7 +281,7 @@ MonoBehaviour:
     updateHome: 0
     animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   chaseData:
-    updateTime: 0.25
+    updateTime: 0.1
     animation: {fileID: 11400000, guid: 97d508f450bb6a043a1d5361e3ce5502, type: 2}
   lungeData:
     range: 4

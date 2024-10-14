@@ -105,16 +105,15 @@ namespace Save
                 Directory.CreateDirectory(saveFolderPath);
         }
 
-        //[MenuItem("Save/Clear")]
-        //public static void Clear()
-        //{
-        //    CheckDirectory();
-        //    _saveData = new SaveData();
-
-        //    string jsonData = JsonConvert.SerializeObject(_saveData); // Changed to Json.Net
-
-        //    File.WriteAllText(saveFilePath, jsonData);
-        //}
+#if UNITY_EDITOR
+        [InitializeOnEnterPlayMode]
+        static void SetDataNull()
+        {
+            // Static variables do not reset after editor play mode by themselves
+            // This clears it incase of editing save file in editor
+            _data = null;
+        }
+#endif
 
 #if UNITY_EDITOR
         [MenuItem("Save/CreateNew")]

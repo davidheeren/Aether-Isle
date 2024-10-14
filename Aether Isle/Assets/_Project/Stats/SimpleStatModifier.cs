@@ -1,4 +1,5 @@
 ﻿using CustomInspector;
+using System;
 using UnityEngine;
 
 namespace Stats
@@ -6,32 +7,34 @@ namespace Stats
     [CreateAssetMenu(menuName = "Stats/Modifiers/Simple")]
     public class SimpleStatModifier : StatModifier
     {
-        [SerializeField] SimpleModifierType modifierType;
+        [SerializeField] ModifierType modifierType;
         [SerializeField] float a;
         [SerializeField, ShowIf(nameof(IsClamp))] float b;
 
         // Only display value B if we are clamping
-        bool IsClamp() => modifierType == SimpleModifierType.Clamp;
+        bool IsClamp() => modifierType == ModifierType.Clamp;
 
 
-        public override float ModifyStat(float stat)
+        public override float ModifyStat(float baseStat, float modifiedStat)
         {
             switch (modifierType)
             {
-                case SimpleModifierType.Add:
-                    return stat + a;
-                case SimpleModifierType.Multiply:
-                    return stat * a;
-                case SimpleModifierType.Max:
-                    return Mathf.Max(stat, a);
-                case SimpleModifierType.Min:
-                    return Mathf.Min(stat, a);
-                case SimpleModifierType.Clamp:
-                    return Mathf.Clamp(stat, a, b);
+                case ModifierType.Add:
+                    return modifiedStat + a;
+                case ModifierType.AddPercent:
+                    return modifiedStat + a / 100 * baseStat;
+                case ModifierType.Multiply:
+                    return modifiedStat * a;
+                case ModifierType.Max:
+                    return Mathf.Max(modifiedStat, a);
+                case ModifierType.Min:
+                    return Mathf.Min(modifiedStat, a);
+                case ModifierType.Clamp:
+                    return Mathf.Clamp(modifiedStat, Mathf.Min(a, b), Mathf.Max(a, b));
             }
 
             Debug.LogError("Something went wrong with SimpleModifier");
-            return stat;
+            return modifiedStat;
         }
         public override float priority
         {
@@ -39,25 +42,28 @@ namespace Stats
             {
                 switch (modifierType)
                 {
-                    case SimpleModifierType.Add:
+                    case ModifierType.Add:
                         return 0;
-                    case SimpleModifierType.Multiply:
-                        return 1;
-                    case SimpleModifierType.Max:
+                    case ModifierType.AddPercent:
+                        return 0;
+                    case ModifierType.Multiply:
+                        return 5;
+                    case ModifierType.Max:
                         return 10;
-                    case SimpleModifierType.Min:
+                    case ModifierType.Min:
                         return 10;
-                    case SimpleModifierType.Clamp:
+                    case ModifierType.Clamp:
                         return 10;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-
-                return 0;
             }
         }
 
-        enum SimpleModifierType
+        enum ModifierType
         {
             Add,
+            AddPercent,
             Multiply,
             Max,
             Min,

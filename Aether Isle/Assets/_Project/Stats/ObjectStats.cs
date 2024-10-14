@@ -65,8 +65,10 @@ namespace Stats
         {
             if (baseStats == null) { Debug.LogError("Base stats is null"); return 0; }
 
-            if (baseStats.stats.TryGetValue(type, out float stat))
+            if (baseStats.stats.TryGetValue(type, out float baseStat))
             {
+                float modifiedStat = baseStat;
+
                 if (modifiers.TryGetValue(type, out var list))
                 {
                     // Remove all modifiers whose timers are done
@@ -74,14 +76,14 @@ namespace Stats
 
                     foreach (TimedModifier timedModifier in list)
                     {
-                        stat = timedModifier.modifier.ModifyStat(stat);
+                        modifiedStat = timedModifier.modifier.ModifyStat(baseStat, modifiedStat);
                     }
 
-                    return stat;
+                    return modifiedStat;
                 }
                 else
                 {
-                    return stat;
+                    return modifiedStat;
                 }
             }
 
