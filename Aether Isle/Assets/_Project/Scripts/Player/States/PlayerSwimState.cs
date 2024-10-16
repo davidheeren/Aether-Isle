@@ -1,4 +1,5 @@
-﻿using StateTree;
+﻿using DamageSystem;
+using StateTree;
 using Stats;
 using UnityEngine;
 
@@ -7,13 +8,11 @@ namespace Game
     public class PlayerSwimState : State
     {
         Data data;
-        ObjectStats stats;
         ActorComponents components;
 
-        public PlayerSwimState(Data data , ObjectStats stats, ActorComponents components, Node child = null) : base(child)
+        public PlayerSwimState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.stats = stats;
             this.components = components;
         }
 
@@ -30,8 +29,10 @@ namespace Game
         {
             base.EnterState();
 
-            stats.AddModifier(data.speedModifier);
+            components.stats.AddModifier(data.speedModifier);
             data.aimGraphic.SetActive(false);
+
+            components.health.RemoveDamage(typeof(FireDamage));
 
             SFXManager.Instance.PlaySFXClip(data.splashEnterSFX, components.movement.transform.position);
         }
@@ -40,7 +41,7 @@ namespace Game
         {
             base.ExitState();
 
-            stats.RemoveModifier(data.speedModifier);
+            components.stats.RemoveModifier(data.speedModifier);
             SFXManager.Instance.PlaySFXClip(data.splashExitSFX, components.movement.transform.position);
 
             data.aimGraphic.SetActive(true);

@@ -1,39 +1,41 @@
 using SpriteAnimator;
+using Stats;
 using System;
 using UnityEngine;
 
 namespace Game
 {
-    [Serializable]
-    public class ActorComponents
+    public class ActorComponents : MonoBehaviour
     {
         // Holds references to common components on a character
 
         public SpriteRenderer spriteRenderer;
         public SpriteAnimatorController animator;
         public SpriteRenderer shadowRenderer;
+        public SpriteRenderer fireRenderer;
 
         [NonSerialized] public Movement movement;
         [NonSerialized] public Collider2D col;
         [NonSerialized] public Rigidbody2D rb;
         [NonSerialized] public Health health;
+        [NonSerialized] public ActorStats stats;
+        [NonSerialized] public Target target;
 
-        [NonSerialized] public GameObject gameObject;
-        [NonSerialized] public Transform transform;
-
-        public void Init(MonoBehaviour mb)
+        public ActorComponents Init()
         {
-            movement = mb.GetComponent<Movement>();
-            col = mb.GetComponent<Collider2D>();
-            rb = mb.GetComponent<Rigidbody2D>();
-            health = mb.GetComponent<Health>();
-
-            gameObject = mb.gameObject;
-            transform = mb.transform;
+            movement = GetComponent<Movement>();
+            col = GetComponent<Collider2D>();
+            rb = GetComponent<Rigidbody2D>();
+            health = GetComponent<Health>();
+            stats = GetComponent<ActorStats>();
+            target = GetComponent<Target>();
 
             CheckNull(spriteRenderer);
             CheckNull(animator);
             CheckNull(shadowRenderer);
+            CheckNull(fireRenderer);
+
+            return this;
         }
 
         void CheckNull(Component comp)

@@ -43,7 +43,7 @@ namespace Game
 
             initialAimDir = aim.aimDir;
 
-            data.projectile.Spawn(components.col, data.damageMask, components.transform.position + (Vector3)aim.aimDir * 0.75f, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90);
+            data.projectile.Spawn(components, data.damageMask, components.transform.position + (Vector3)aim.aimDir * 0.75f, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90);
             SFXManager.Instance.PlaySFXClip(data.attackSFX, components.transform.position);
             components.animator.Play(data.animation);
         }

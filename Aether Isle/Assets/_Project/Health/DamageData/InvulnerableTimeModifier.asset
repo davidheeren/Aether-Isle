@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f710f312fdc3eda468abad4ebe21cc4d, type: 3}
-  m_Name: Enemy Damage
+  m_Script: {fileID: 11500000, guid: 8cb817a9a443a7c4bb215ebdadbeadb5, type: 3}
+  m_Name: InvulnerableTimeModifier
   m_EditorClassIdentifier: 
-  damage: 1
-  knockbackSpeed: 25
-  stunTime: 0.2
+  <time>k__BackingField: 0
+  <statType>k__BackingField: 2
+  modifierType: 2
+  a: 3
+  b: 0

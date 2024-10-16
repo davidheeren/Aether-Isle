@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Game
 {
+    [RequireComponent(typeof(ActorComponents))]
     public class Zombie : StateTreeMB, IAggravate
     {
         [Header("General Vars")]
         [SerializeField] ObstacleAvoidanceData obstacleAvoidanceData;
         [SerializeField] ObstacleAvoidanceData smallObstacleAvoidanceData;
-        [SerializeField] ActorComponents components;
 
         [Header("Data")]
         [SerializeField] FindTargetTaskData findTargetData;
@@ -23,7 +23,7 @@ namespace Game
         FindTargetTask findTargetTask;
 
         TargetInfo targetInfo = new TargetInfo();
-        ObjectStats stats;
+        ActorComponents components;
 
         private void OnDrawGizmosSelected()
         {
@@ -32,8 +32,7 @@ namespace Game
 
         void Awake()
         {
-            components.Init(this);
-            stats = GetComponent<ObjectStats>();
+            components = GetComponent<ActorComponents>().Init();
             ObstacleAvoidance obstacleAvoidance = new ObstacleAvoidance(obstacleAvoidanceData, transform);
             ObstacleAvoidance smallObstacleAvoidance = new ObstacleAvoidance(smallObstacleAvoidanceData, transform);
             ActorMoveToPoint moveToPoint = new ActorMoveToPoint(obstacleAvoidance, components);
@@ -41,17 +40,17 @@ namespace Game
             findTargetTask = new FindTargetTask(findTargetData, components, targetInfo, 
                                     new VirtualCondition(TargetActiveCondition, 
                                     new Selector(
-                                        new AgentRandomAttack(randomAttackData, stats, targetInfo, smallObstacleAvoidance, components),
-                                        new AgentChaseState(chaseData, stats, moveToPoint, targetInfo, components)))); 
+                                        new AgentRandomAttack(randomAttackData, targetInfo, smallObstacleAvoidance, components),
+                                        new AgentChaseState(chaseData, moveToPoint, targetInfo, components)))); 
 
             Node moveBranch = new Selector(findTargetTask, 
-                new AgentPatrolState(patrolData, stats, obstacleAvoidance, components),
+                new AgentPatrolState(patrolData, obstacleAvoidance, components),
                 new AgentIdleState(idleData, components.animator));
 
 
             rootState = new RootState(rootStateData, new Selector(
                 new ActorSpawnState(components),
-                new ActorStunState(stunData, false, null, components),
+                new ActorStunState(stunData, null, components),
                 new ActorDieState(dieData, components),
                 moveBranch));
 

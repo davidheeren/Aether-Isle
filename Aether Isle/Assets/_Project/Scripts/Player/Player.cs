@@ -4,13 +4,10 @@ using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(ObjectStats))]
+    [RequireComponent(typeof(ActorStats))]
     [RequireComponent(typeof(Movement), typeof(PlayerAimDirection), typeof(Target))]
     public class Player : StateTreeMB
     {
-        [Header("General Vars")]
-        [SerializeField] ActorComponents components;
-
         [Header("States")]
         [SerializeField] ActorStunState.Data stunData;
         [SerializeField] ActorDieState.Data dieData;
@@ -25,6 +22,8 @@ namespace Game
         [Header("Conditions")]
         [SerializeField] CheckGroundCondition.Data swimConditionData;
 
+        ActorComponents components;
+
         private void OnDrawGizmosSelected()
         {
             // Just to draw the box where we are checking for water
@@ -36,24 +35,22 @@ namespace Game
             InputManager.Instance.input.UI.Disable();
 
             // Components
-            components.Init(this);
+            components = GetComponent<ActorComponents>().Init();
             PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
-            Target target = GetComponent<Target>();
-            ObjectStats stats = GetComponent<ObjectStats>();
 
             // State Branches
-            Node swimBranch = new PlayerSwimState(swimData, stats, components, new Selector(
-                                new PlayerMoveState(swimMoveData, stats, components),
+            Node swimBranch = new PlayerSwimState(swimData, components, new Selector(
+                                new PlayerMoveState(swimMoveData, components),
                                 new PlayerIdleState(swimIdleData, components)));
 
-            Node dashBranch = new LockNullModifier(dashData.duration, 1, dashData.duration, new PlayerDashState(dashData, components, target));
+            Node dashBranch = new LockNullModifier(dashData.duration, 1, dashData.duration, new PlayerDashState(dashData, components));
             Node attackBranch = new LockNullModifier(attackData.duration, 2, attackData.cooldown, new PlayerAttackState(attackData, components, aim));
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(
                                     dashBranch,
                                     attackBranch,
-                                    new PlayerMoveState(moveData, stats, components),
+                                    new PlayerMoveState(moveData, components),
                                     new PlayerIdleState(idleData, components)));
 
             State notHitBranch = new HolderState(new Selector(
@@ -62,7 +59,7 @@ namespace Game
 
             // State Tree
             rootState = new RootState(rootStateData, new Selector(
-                            new ActorStunState(stunData, true, null, components),
+                            new ActorStunState(stunData, null, components),
                             new ActorDieState(dieData, components),
                             notHitBranch));
         }

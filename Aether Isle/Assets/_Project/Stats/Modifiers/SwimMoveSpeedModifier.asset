@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwimMoveSpeedModifier
   m_EditorClassIdentifier: 
   <time>k__BackingField: 0
-  <type>k__BackingField: 0
-  modifierType: 1
+  <statType>k__BackingField: 0
+  modifierType: 2
   a: 0.5
   b: 0

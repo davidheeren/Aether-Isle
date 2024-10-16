@@ -9,7 +9,6 @@ namespace Game
     public class AgentRandomAttack : State
     {
         Data data;
-        ObjectStats stats;
         TargetInfo targetInfo;
         ObstacleAvoidance obstacleAvoidance;
         ActorComponents components;
@@ -19,10 +18,9 @@ namespace Game
 
         Vector2 offset;
 
-        public AgentRandomAttack(Data data, ObjectStats stats, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
+        public AgentRandomAttack(Data data, TargetInfo targetInfo, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.stats = stats;
             this.targetInfo = targetInfo;
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
@@ -67,7 +65,7 @@ namespace Game
 
             Vector2 targetDir = obstacleAvoidance.GetDirectionFromPoint(targetInfo.target.position + offset);
 
-            float speed = stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
+            float speed = components.stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
             components.movement.Move(targetDir * speed);
         }
 

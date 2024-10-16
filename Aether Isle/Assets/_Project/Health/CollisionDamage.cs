@@ -1,4 +1,5 @@
 using CustomInspector;
+using DamageSystem;
 using System;
 using UnityEngine;
 using Utilities;
@@ -10,17 +11,18 @@ namespace Game
     {
         [TooltipBox("This will be overwritten by a DamageProjectile")]
         public LayerMask damageMask;
-        [SerializeField] DamageData damage;
+        [SerializeField] DamageData damageData;
         [TooltipBox("This will use the rotation of this instead of the dir of the collision")]
         [SerializeField] DamageDirection damageDirection;
 
-        Collider2D col;
-        [NonSerialized] public Collider2D source; // Will be its own collider if not a projectile
+        [NonSerialized] public ActorComponents source; // Will be its own collider if not a projectile
 
         private void Awake()
         {
-            col = GetComponent<Collider2D>();
-            source = col;
+            source = GetComponent<ActorComponents>();
+
+            if (damageData == null)
+                Debug.LogError("Damage Data is null", gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -39,16 +41,20 @@ namespace Game
 
             if (damageMask.Compare(collision.gameObject.layer) && collision.TryGetComponent<Health>(out Health health))
             {
-                Vector2? dir = damageDirection switch
-                {
-                    DamageDirection.Rotation => transform.up,
-                    DamageDirection.DirectionOfImpact => (collision.transform.position - transform.position).normalized,
-                    _ => null
-                };
-
+                Vector2 dir = GetDirection(collision);
                 
-                health.Damage(damage, col, source, dir);
+                health.AddDamage(damageData, source, dir);
             }
+        }
+
+        Vector2 GetDirection(Collider2D collision)
+        {
+            return damageDirection switch
+            {
+                DamageDirection.Rotation => transform.up,
+                DamageDirection.DirectionOfImpact => (collision.transform.position - transform.position).normalized,
+                _ => Vector2.zero
+            };
         }
 
         public enum DamageDirection

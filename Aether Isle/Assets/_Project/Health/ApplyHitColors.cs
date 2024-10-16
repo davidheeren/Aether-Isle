@@ -8,7 +8,7 @@ namespace Game
     {
         [SerializeField] Health health;
 
-        const float contrastTime = 0.25f;
+        const float hitTime = 0.25f;
 
         SpriteRenderer sr;
         Timer timer;
@@ -20,19 +20,19 @@ namespace Game
             health.OnDamage += OnHit;
             health.OnDie += OnDie;
 
-            timer = new Timer(contrastTime);
+            timer = new Timer(hitTime);
             timer.Stop();
         }
 
         private void OnDie()
         {
-            SetPropertyFloat("_DieFactor", 1);
+            sr.SetPropertyFloat("_DieFactor", 1);
             timer.Reset();
         }
 
         void OnHit()
         {
-            SetPropertyFloat("_HitFactor", 1);
+            sr.SetPropertyFloat("_HitFactor", 1);
             timer.Reset();
         }
 
@@ -40,19 +40,10 @@ namespace Game
         {
             if (timer.IsDone)
             {
-                SetPropertyFloat("_HitFactor", 0);
-                SetPropertyFloat("_DieFactor", 0);
+                sr.SetPropertyFloat("_HitFactor", 0);
+                sr.SetPropertyFloat("_DieFactor", 0);
                 timer.Stop();
             }
-        }
-
-        // More performant that material.SetFloat() because it does not create a new instance
-        void SetPropertyFloat(string property, float value)
-        {
-            MaterialPropertyBlock block = new MaterialPropertyBlock();
-            sr.GetPropertyBlock(block, 0);
-            block.SetFloat(property, value);
-            sr.SetPropertyBlock(block, 0);
         }
     }
 }

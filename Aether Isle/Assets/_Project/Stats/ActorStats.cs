@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Utilities;
 
 namespace Stats
 {
-    public class ObjectStats : MonoBehaviour
+    public class ActorStats : MonoBehaviour
     {
         [SerializeField] BaseStats baseStats;
         [SerializeField] List<StatModifier> initialModifiers;
@@ -67,28 +66,33 @@ namespace Stats
 
             if (baseStats.stats.TryGetValue(type, out float baseStat))
             {
-                float modifiedStat = baseStat;
-
-                if (modifiers.TryGetValue(type, out var list))
-                {
-                    // Remove all modifiers whose timers are done
-                    list.RemoveAll(timedModifier => timedModifier.ShouldRemove());
-
-                    foreach (TimedModifier timedModifier in list)
-                    {
-                        modifiedStat = timedModifier.modifier.ModifyStat(baseStat, modifiedStat);
-                    }
-
-                    return modifiedStat;
-                }
-                else
-                {
-                    return modifiedStat;
-                }
+                return GetStat(type, baseStat);
             }
 
             Debug.LogError("Base stats does not contain typeof: " + type.ToString());
             return 0;
+        }
+
+        public float GetStat(StatType type, float baseStat)
+        {
+            float modifiedStat = baseStat;
+
+            if (modifiers.TryGetValue(type, out List<TimedModifier> list))
+            {
+                // Remove all modifiers whose timers are done
+                list.RemoveAll(timedModifier => timedModifier.ShouldRemove());
+
+                foreach (TimedModifier timedModifier in list)
+                {
+                    modifiedStat = timedModifier.modifier.ModifyStat(baseStat, modifiedStat);
+                }
+
+                return modifiedStat;
+            }
+            else
+            {
+                return modifiedStat;
+            }
         }
 
         public class TimedModifier

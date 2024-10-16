@@ -9,9 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f710f312fdc3eda468abad4ebe21cc4d, type: 3}
-  m_Name: Player Damage
+  m_Script: {fileID: 11500000, guid: e50fb35f74a39c24a9f3386378efbfa2, type: 3}
+  m_Name: TestFireDamage
   m_EditorClassIdentifier: 
   damage: 1
   knockbackSpeed: 15
   stunTime: 0.25
+  fireTickDamage: 1
+  fireTickStunTime: 0.1
+  fireTickDelay: 2
+  fireTickCount: 4
+  totalTime: 8
+  totalDamage: 5

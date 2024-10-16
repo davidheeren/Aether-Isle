@@ -9,16 +9,14 @@ namespace Game
     public class AgentPatrolState : State
     {
         Data data;
-        ObjectStats stats;
         ObstacleAvoidance obstacleAvoidance;
         ActorComponents components;
 
         WaypointHelper waypointHelper;
 
-        public AgentPatrolState(Data data, ObjectStats stats, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
+        public AgentPatrolState(Data data, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.stats = stats;
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
 
@@ -64,7 +62,7 @@ namespace Game
 
             Vector2 dir = obstacleAvoidance.GetDirectionFromPoint(targetPos.Value);
 
-            float speed = stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
+            float speed = components.stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
             components.movement.Move(dir * speed);
         }
     }
