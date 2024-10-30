@@ -1,3 +1,4 @@
+using Inventory;
 using StateTree;
 using Stats;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace Game
 {
     [RequireComponent(typeof(ActorStats))]
     [RequireComponent(typeof(Movement), typeof(PlayerAimDirection), typeof(Target))]
-    public class Player : StateTreeMB
+    public class Player : StateTreeMB, IDamageMask
     {
         [Header("States")]
         [SerializeField] ActorStunState.Data stunData;
@@ -22,7 +23,9 @@ namespace Game
         [Header("Conditions")]
         [SerializeField] CheckGroundCondition.Data swimConditionData;
 
-        ActorComponents components;
+        [Header("Vars")]
+        [SerializeField] LayerMask damageMask;
+        public LayerMask DamageMask => damageMask;
 
         private void OnDrawGizmosSelected()
         {
@@ -35,8 +38,8 @@ namespace Game
             InputManager.Instance.input.UI.Disable();
 
             // Components
-            components = GetComponent<ActorComponents>().Init();
-            PlayerAimDirection aim = GetComponent<PlayerAimDirection>();
+            ActorComponents components = GetComponent<ActorComponents>().Init();
+            PlayerInventoryController inventoryController = GetComponent<PlayerInventoryController>();
 
             // State Branches
             Node swimBranch = new PlayerSwimState(swimData, components, new Selector(
@@ -44,12 +47,13 @@ namespace Game
                                 new PlayerIdleState(swimIdleData, components)));
 
             Node dashBranch = new LockNullModifier(dashData.duration, 1, dashData.duration, new PlayerDashState(dashData, components));
-            Node attackBranch = new LockNullModifier(attackData.duration, 2, attackData.cooldown, new PlayerAttackState(attackData, components, aim));
+            Node attackBranch = new LockNullModifier(attackData.duration, 2, attackData.cooldown, new PlayerAttackState(attackData, components));
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(
+                                    new PlayerUseableState(components, inventoryController),
                                     dashBranch,
-                                    attackBranch,
+                                    //attackBranch,
                                     new PlayerMoveState(moveData, components),
                                     new PlayerIdleState(idleData, components)));
 

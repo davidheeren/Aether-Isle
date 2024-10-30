@@ -12,6 +12,9 @@ namespace Game
         [SerializeField, ReadOnly] string _id;
         [SerializeField, ReadOnly] bool newIdOnDuplicate = true;
 
+        [SerializeField, Hook(nameof(SetOverrideID)), ShowIf(nameof(canOverride))] string overrideID;
+        bool canOverride = false;
+
         string idDump;
 
         static List<GameObject> lastCreatedGameObjects = new List<GameObject>();
@@ -95,6 +98,7 @@ namespace Game
             hash.Append(rand.Next());
 
             _id = hash.ToString();
+            idDump = _id;
 
             Debug.Log("Set ID", gameObject);
         }
@@ -103,6 +107,21 @@ namespace Game
         void ToggleNewOnDuplicate()
         {
             newIdOnDuplicate = !newIdOnDuplicate;
+        }
+
+        [ContextMenu("Toggle Can Override")]
+        void ToggleCanOverride()
+        {
+            canOverride = !canOverride;
+        }
+
+        void SetOverrideID()
+        {
+            if (!string.IsNullOrEmpty(overrideID))
+            {
+                _id = overrideID;
+                idDump = _id;
+            }
         }
 
         #region PreventResetSerialization

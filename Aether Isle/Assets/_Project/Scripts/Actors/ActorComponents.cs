@@ -21,6 +21,10 @@ namespace Game
         [NonSerialized] public ActorStats stats;
         [NonSerialized] public Target target;
 
+
+        public IAimDirection aimDirection;
+        public IDamageMask damageMask;
+
         public ActorComponents Init()
         {
             movement = GetComponent<Movement>();
@@ -29,6 +33,9 @@ namespace Game
             health = GetComponent<Health>();
             stats = GetComponent<ActorStats>();
             target = GetComponent<Target>();
+
+            aimDirection = GetComponent<IAimDirection>(); // Do not require for now
+            damageMask = GetComponent<IDamageMask>();
 
             CheckNull(spriteRenderer);
             CheckNull(animator);

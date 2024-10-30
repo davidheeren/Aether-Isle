@@ -23,7 +23,7 @@ namespace DamageSystem
         {
             speed = sourceComponents.stats.GetStat(StatType.knockbackApply, speed);
             speed = components.stats.GetStat(StatType.knockbackReceive, speed);
-            components.rb.velocity = direction * speed;
+            components.rb.linearVelocity = direction * speed;
 
             stunTime = sourceComponents.stats.GetStat(StatType.stunTimeApply, stunTime);
             stunTime = components.stats.GetStat(StatType.stunTimeReceive, stunTime);

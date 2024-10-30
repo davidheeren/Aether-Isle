@@ -6,9 +6,7 @@ namespace Inventory
     [RequireComponent(typeof(Image))]
     public class UIInventorySlot : MonoBehaviour
     {
-        [SerializeField] int index;
-
-        Image image;
+        public Image image { get; private set; }
 
         void Awake()
         {

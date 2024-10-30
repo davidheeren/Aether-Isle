@@ -11,18 +11,18 @@ namespace Inventory
         [Button(nameof(SortItems))]
         [ReadOnly] public string buttons = "buttons";
 
-        [SerializeField] Item[] items;
+        [SerializeField] ItemData[] items;
 
-        public Item GetItem(string id)
+        public ItemData GetItem(string id)
         {
-            Item item = items.FirstOrDefault(x => x.id == id);
+            ItemData item = items.FirstOrDefault(x => x.id == id);
             if (item == null) Debug.LogError($"Item: {id} does not exist in database");
             return item;
         }
 
         private void SortItems()
         {
-            Item[] sortedItems = items.OrderBy(item => item.GetType().Name)
+            ItemData[] sortedItems = items.OrderBy(item => item.GetType().Name)
                             .ThenBy(item => item.id)
                             .ToArray();
 
@@ -66,7 +66,7 @@ namespace Inventory
             }
 
             // Check for duplicate ids
-            Item[] duplicateIDItems = items.GroupBy(item => item.id)
+            ItemData[] duplicateIDItems = items.GroupBy(item => item.id)
                                          .Where(group => group.Count() > 1)
                                          .SelectMany(group => group)
                                          .ToArray();
@@ -75,7 +75,7 @@ namespace Inventory
             {
                 Debug.LogError("Item Database has duplicate item ids");
 
-                foreach (Item item in duplicateIDItems)
+                foreach (ItemData item in duplicateIDItems)
                 {
                     Debug.LogError($"Duplicate ID => Item: {item.name} -- ID: {item.id}");
                 }

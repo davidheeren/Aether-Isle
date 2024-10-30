@@ -3,7 +3,7 @@ using Utilities;
 
 namespace Game
 {
-    [RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), RequireComponent(typeof(CollisionDamage))]
+    [RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), RequireComponent(typeof(ProjectileDamage))]
     public class Arrow : MonoBehaviour
     {
         [SerializeField] LayerMask obstacleMask;
@@ -11,7 +11,7 @@ namespace Game
 
         Collider2D col;
         Rigidbody2D rb;
-        CollisionDamage collisionDamage;
+        ProjectileDamage projectileDamage;
 
         bool collided;
 
@@ -19,13 +19,13 @@ namespace Game
         {
             col = GetComponent<Collider2D>();
             rb = GetComponent<Rigidbody2D>();
-            collisionDamage = GetComponent<CollisionDamage>();
+            projectileDamage = GetComponent<ProjectileDamage>();
         }
 
         private void FixedUpdate()
         {
             if (!collided)
-                rb.velocity = transform.up * speed;
+                rb.linearVelocity = transform.up * speed;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -33,13 +33,13 @@ namespace Game
             if (collision == col)
                 return;
 
-            LayerMask totalMask = collisionDamage.damageMask | obstacleMask;
+            LayerMask totalMask = projectileDamage.damageMask | obstacleMask;
 
             if (!totalMask.Compare(collision.gameObject.layer))
                 return;
 
             collided = true;
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             col.enabled = false;
 
             transform.parent = collision.transform;

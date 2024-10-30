@@ -48,7 +48,7 @@ namespace Game
 
             delayTimer.Reset();
             components.col.enabled = false;
-            components.rb.velocity = Vector2.zero;
+            components.rb.linearVelocity = Vector2.zero;
             components.animator.Play(data.animation);
             SFXManager.Instance.PlaySFXClip(data.dieSFX, components.rb.transform.position);
         }

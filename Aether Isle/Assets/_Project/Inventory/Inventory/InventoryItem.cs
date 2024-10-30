@@ -4,12 +4,12 @@ namespace Inventory
 {
     public class InventoryItem
     {
-        public readonly Item item;
+        public readonly ItemData item;
         public readonly int count;
 
         public readonly Type itemType;
 
-        public InventoryItem(Item item, int count)
+        public InventoryItem(ItemData item, int count)
         {
             this.item = item;
             this.count = count;
