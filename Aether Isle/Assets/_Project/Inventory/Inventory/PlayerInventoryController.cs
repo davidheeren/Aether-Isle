@@ -1,7 +1,5 @@
-using CustomInspector;
 using Game;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +17,7 @@ namespace Inventory
         UniqueID uniqueID;
 
         InventoryModel model;
+        public InventoryModel Model => model;
 
         #region Indices
         const int helmetIndex = 0;
@@ -29,7 +28,7 @@ namespace Inventory
         const int resourcesLength = 20;
         const int wearablesLength = 20;
 
-        readonly Range hotbarRange = new Range(bootIndex + 1, bootIndex + 1 + hotbarLength);
+        public readonly Range hotbarRange = new Range(bootIndex + 1, bootIndex + 1 + hotbarLength);
 
         const int inventoryLength = bootIndex + hotbarLength + equipablesLength + resourcesLength + wearablesLength + 1;
 
@@ -39,7 +38,7 @@ namespace Inventory
         public event Action<InventoryItem> OnHotbarItemChange;
         public event Action<int> OnHotbarIndexChange;
 
-        int currentHotbarIndex;
+        public int currentHotbarIndex { get; private set; }
 
         void Awake()
         {

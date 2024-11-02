@@ -12,7 +12,6 @@ namespace Inventory
 
         bool isEntered;
 
-
         protected Tool(ToolData toolData, ActorComponents components) : base(toolData, components)
         {
             this.toolData = toolData;

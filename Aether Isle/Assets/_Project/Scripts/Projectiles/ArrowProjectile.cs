@@ -4,10 +4,10 @@ using Utilities;
 namespace Game
 {
     [RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(Collider2D)), RequireComponent(typeof(ProjectileDamage))]
-    public class Arrow : MonoBehaviour
+    public class ArrowProjectile : MonoBehaviour
     {
         [SerializeField] LayerMask obstacleMask;
-        [SerializeField] float speed = 10;
+        public float speed = 10;
 
         Collider2D col;
         Rigidbody2D rb;

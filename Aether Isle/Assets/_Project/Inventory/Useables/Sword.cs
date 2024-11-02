@@ -7,11 +7,20 @@ namespace Inventory
     {
         SwordData data;
 
+        IAimDirection aimDirection;
+        IDamageMask damageMask;
+
         Vector2 dir;
 
         public Sword(SwordData data, ActorComponents components) : base(data, components)
         {
             this.data = data;
+
+            if (!components.TryGetComponent<IAimDirection>(out aimDirection))
+                throw new System.Exception("Item's component should contain IAimDirection");
+
+            if (!components.TryGetComponent<IDamageMask>(out damageMask))
+                throw new System.Exception("Item's component should contain IDamageMask");
         }
 
         public override void Equip()
@@ -28,12 +37,11 @@ namespace Inventory
         {
             base.Enter();
 
-            dir = components.aimDirection.AimDirection;
+            dir = aimDirection.AimDirection;
 
             SFXManager.Instance.PlaySFXClip(data.swingSFX, components.transform.position);
 
-            //data.projectile.Spawn(components, components.damageMask.DamageMask, components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90);
-            data.projectile.Spawn(components.damageMask.DamageMask, data.damageData, components,components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90);
+            data.projectile.Spawn(damageMask.DamageMask, data.damageData, components,components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90);
 
             components.animator.Play(data.animation);
         }

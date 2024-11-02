@@ -12,7 +12,7 @@ namespace Game
         public SpriteRenderer spriteRenderer;
         public SpriteAnimatorController animator;
         public SpriteRenderer shadowRenderer;
-        public SpriteRenderer fireRenderer;
+        public SpriteAnimatorController fireAnimator;
 
         [NonSerialized] public Movement movement;
         [NonSerialized] public Collider2D col;
@@ -22,8 +22,8 @@ namespace Game
         [NonSerialized] public Target target;
 
 
-        public IAimDirection aimDirection;
-        public IDamageMask damageMask;
+        //public IAimDirection aimDirection;
+        //public IDamageMask damageMask;
 
         public ActorComponents Init()
         {
@@ -34,13 +34,13 @@ namespace Game
             stats = GetComponent<ActorStats>();
             target = GetComponent<Target>();
 
-            aimDirection = GetComponent<IAimDirection>(); // Do not require for now
-            damageMask = GetComponent<IDamageMask>();
+            //aimDirection = GetComponent<IAimDirection>(); // Do not require for now
+            //damageMask = GetComponent<IDamageMask>();
 
             CheckNull(spriteRenderer);
             CheckNull(animator);
             CheckNull(shadowRenderer);
-            CheckNull(fireRenderer);
+            CheckNull(fireAnimator);
 
             return this;
         }

@@ -19,18 +19,29 @@ namespace Inventory
         {
             controller = data.GetData<GameObject>().GetComponent<PlayerInventoryController>();
 
+            SetSprites();
+
+            controller.OnHotbarIndexChange += ScrollHotbar;
+            controller.Model.OnModelChanged += ModelChanged;
+        }
+
+        void SetSprites()
+        {
             ReadOnlySpan<InventoryItem> hotbar = controller.Hotbar;
 
-            if (slots.Length != hotbar.Length) 
+            if (slots.Length != hotbar.Length)
                 Debug.LogError("Hotbar Slots length do not match controller");
 
-            for (int i  = 0; i < hotbar.Length; i++)
+            for (int i = 0; i < hotbar.Length; i++)
             {
                 if (hotbar[i] != null)
                     slots[i].image.sprite = hotbar[i].item.sprite;
             }
+        }
 
-            controller.OnHotbarIndexChange += ScrollHotbar;
+        private void ModelChanged()
+        {
+            SetSprites();
         }
 
         protected override void OnEnable()
@@ -40,6 +51,7 @@ namespace Inventory
             if (controller != null)
             {
                 controller.OnHotbarIndexChange += ScrollHotbar;
+                controller.Model.OnModelChanged += ModelChanged;
             }
         }
 
@@ -48,6 +60,7 @@ namespace Inventory
             base.OnDisable();
 
             controller.OnHotbarIndexChange -= ScrollHotbar;
+            controller.Model.OnModelChanged -= ModelChanged;
         }
 
         void ScrollHotbar(int index)

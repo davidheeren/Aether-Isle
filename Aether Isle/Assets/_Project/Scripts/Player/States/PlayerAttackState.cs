@@ -15,6 +15,8 @@ namespace Game
         {
             this.data = data;
             this.components = components;
+
+            throw new System.Exception("Should not be using this State");
         }
 
         [System.Serializable]
@@ -39,7 +41,7 @@ namespace Game
         {
             base.EnterState();
 
-            dir = components.aimDirection.AimDirection;
+            //dir = aimDirection.AimDirection;
 
             //data.projectile.Spawn(components, data.damageMask, components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90);
             SFXManager.Instance.PlaySFXClip(data.attackSFX, components.transform.position);

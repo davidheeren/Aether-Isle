@@ -10,14 +10,16 @@ namespace Game
 
         DamageApplier applier;
 
-        public void Spawn(LayerMask damageMask, DamageData damageData, ActorComponents source, Vector2 pos, float rot, Transform parent = null)
+        public ProjectileDamage Spawn(LayerMask damageMask, DamageData damageData, ActorComponents source, Vector2 pos, float rot, Transform parent = null)
         {
             ProjectileDamage spawn = Instantiate(this, pos, Quaternion.Euler(0, 0, rot));
 
             if (parent != null) spawn.transform.parent = parent; // Projectiles do not move properly without a rigidbody when they have a moving parent
 
-            spawn.applier = new DamageApplier(damageMask, damageData, DamageApplier.DamageDirection.Rotation, source, transform);
+            spawn.applier = new DamageApplier(damageMask, damageData, DamageApplier.DamageDirection.Rotation, source, spawn.transform);
             spawn.damageMask = damageMask;
+
+            return spawn;
 
             // Not sure why we need the tag
             //if (!spawn.CompareTag("Projectile")) 

@@ -90,16 +90,6 @@ MonoBehaviour:
       m_Bits: 128
     duration: 0.25
     cooldown: 0.5
-  attackData:
-    moveAttackDirSpeed: 2
-    projectile: {fileID: 7040936197774290868, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
-    damageMask:
-      serializedVersion: 2
-      m_Bits: 128
-    attackSFX: {fileID: 8300000, guid: bd553016455b53143a890100e4e4c6c6, type: 3}
-    animation: {fileID: 11400000, guid: 114b8f54e771089429fe125fed9d53a3, type: 2}
-    duration: 0.25
-    cooldown: 0.25
   swimData:
     speedModifier: {fileID: 11400000, guid: a0a119578dd3c5f4cabe4496c73bd3f2, type: 2}
     aimGraphic: {fileID: 1805550755161401474}
@@ -134,7 +124,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3988776961111551003}
   animator: {fileID: 2369715705981750697}
   shadowRenderer: {fileID: 8953322674473544345}
-  fireRenderer: {fileID: 3660933262485268437}
+  fireAnimator: {fileID: 5110554131835146521}
 --- !u!50 &8272798343029940250
 Rigidbody2D:
   serializedVersion: 5
@@ -6254,17 +6244,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire
       objectReference: {fileID: 0}
-    - target: {fileID: 7328127227608943859, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
-      propertyPath: m_SortingOrder
-      value: 51
-      objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: -0.125
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6308,8 +6294,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
   m_PrefabInstance: {fileID: 6304058184837851942}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &3660933262485268437 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 7328127227608943859, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
+--- !u!114 &5110554131835146521 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -7957624819802490305, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
   m_PrefabInstance: {fileID: 6304058184837851942}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c7678f0030dd449b681f42ebfdf03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

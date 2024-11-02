@@ -6,6 +6,6 @@ namespace Inventory
     [CreateAssetMenu(menuName = "Inventory/Resource")]
     public class ResourceData : ItemData
     {
-        public override bool CanDisplayCount => true;
+        public override bool Stackable => true;
     }
 }

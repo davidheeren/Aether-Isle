@@ -15,7 +15,7 @@ namespace Game
         [SerializeField] PlayerIdleState.Data idleData;
         [SerializeField] PlayerMoveState.Data moveData;
         [SerializeField] PlayerDashState.Data dashData;
-        [SerializeField] PlayerAttackState.Data attackData;
+        //[SerializeField] PlayerAttackState.Data attackData;
         [SerializeField] PlayerSwimState.Data swimData;
         [SerializeField] PlayerIdleState.Data swimIdleData;
         [SerializeField] PlayerMoveState.Data swimMoveData;
@@ -47,7 +47,7 @@ namespace Game
                                 new PlayerIdleState(swimIdleData, components)));
 
             Node dashBranch = new LockNullModifier(dashData.duration, 1, dashData.duration, new PlayerDashState(dashData, components));
-            Node attackBranch = new LockNullModifier(attackData.duration, 2, attackData.cooldown, new PlayerAttackState(attackData, components));
+            //Node attackBranch = new LockNullModifier(attackData.duration, 2, attackData.cooldown, new PlayerAttackState(attackData, components));
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(

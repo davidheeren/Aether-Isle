@@ -2,52 +2,33 @@ using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(SpriteRenderer))]
-    public class Chest : MonoBehaviour, IInteractable
+    public class Chest : InteractableMB
     {
         [SerializeField] Sprite openChestSprite;
         [SerializeField] AudioClip openChestSFX;
         Sprite closeChestSprite;
-        SpriteRenderer sr;
-
-        Material _material;
-        public Material Material => _material;
-        public Vector2 Position => transform.position;
 
         bool isOpened = false;
 
-        private void Awake()
+        protected override void Awake()
         {
-            sr = GetComponent<SpriteRenderer>();
-            _material = sr.material;
-            closeChestSprite = sr.sprite;
+            base.Awake();
+
+            closeChestSprite = spriteRenderer.sprite;
         }
 
-        public bool CanInteract()
+        public override void Interact(ActorComponents playerComponents)
         {
-            return true;
-        }
+            base.Interact(playerComponents);
 
-        public void Interact(ActorComponents playerComponents)
-        {
             if (!isOpened)
-                sr.sprite = openChestSprite;
+                spriteRenderer.sprite = openChestSprite;
             else
-                sr.sprite = closeChestSprite;
+                spriteRenderer.sprite = closeChestSprite;
 
             isOpened = !isOpened;
 
             SFXManager.Instance.PlaySFXClip(openChestSFX, transform.position);
-        }
-
-        public bool CanContinue()
-        {
-            return false;
-        }
-
-        public void UpdateInteract()
-        {
-            
         }
     }
 }

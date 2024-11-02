@@ -7,6 +7,6 @@ namespace Inventory
         public string id;
         public Sprite sprite;
 
-        public virtual bool CanDisplayCount => false;
+        public virtual bool Stackable => false;
     }
 }

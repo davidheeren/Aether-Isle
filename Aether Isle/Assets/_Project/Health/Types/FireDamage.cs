@@ -20,7 +20,7 @@ namespace DamageSystem
         public override void Enter()
         {
             ApplyDamageStunKnockback(data.damage, data.stunTime, data.knockbackSpeed, direction);
-            components.fireRenderer.enabled = true;
+            components.fireAnimator.PlayFirstAnimation();
 
             tickTimer = new Timer(data.fireTickDelay);
         }
@@ -42,7 +42,7 @@ namespace DamageSystem
 
         public override void Exit()
         {
-            components.fireRenderer.enabled = false;
+            components.fireAnimator.Stop();
         }
     }
 }

@@ -36,7 +36,9 @@ namespace SpriteAnimator
 
             ProcessAnimations();
             SetupDictionary();
-            SetupFirstAnimation();
+
+            if (playFirstAnimationOnAwake)
+                PlayFirstAnimation();
         }
 
         private void ProcessAnimations()
@@ -55,13 +57,10 @@ namespace SpriteAnimator
             }
         }
 
-        private void SetupFirstAnimation()
+        public void PlayFirstAnimation()
         {
             if (animations.Length > 0)
-            {
-                if (playFirstAnimationOnAwake)
-                    Play(animations[0]);
-            }
+                Play(animations[0]);
         }
 
         void SetupDictionary()
