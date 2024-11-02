@@ -11,5 +11,6 @@ namespace Game
         public void Interact(ActorComponents playerComponents);
         public bool CanContinue();
         public void UpdateInteract();
+        public void ExitInteract();
     }
 }

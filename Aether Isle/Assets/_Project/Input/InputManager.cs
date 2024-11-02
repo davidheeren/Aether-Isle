@@ -20,43 +20,29 @@ namespace Game
             input = new GameInput();
             input.Enable();
 
-            HandleSchemeSubscriptions(true);
+            HandleSchemeSubscriptions();
         }
 
         private void OnDestroy()
         {
-            HandleSchemeSubscriptions(false);
             input.Disable();
         }
 
-        void HandleSchemeSubscriptions(bool subscribe)
+        void HandleSchemeSubscriptions()
         {
             foreach (InputAction a in input.Game.Get())
             {
                 if (a != input.Game.MousePosition)
-                {
-                    if (subscribe)
-                        a.performed += SetControlScheme;
-                    else
-                        a.performed -= SetControlScheme;
-                }
+                    a.performed += SetControlScheme;
             }
 
             foreach (InputAction a in input.UI.Get())
             {
                 if (a != input.UI.Point)
-                {
-                    if (subscribe)
-                        a.performed += SetControlScheme;
-                    else
-                        a.performed -= SetControlScheme;
-                }
+                    a.performed += SetControlScheme;
             }
 
-            if (subscribe)
-                input.Scene.Get().actionTriggered += SetControlScheme;
-            else
-                input.Scene.Get().actionTriggered -= SetControlScheme;
+            input.Scene.Get().actionTriggered += SetControlScheme;
         }
 
         private void SetControlScheme(InputAction.CallbackContext context)

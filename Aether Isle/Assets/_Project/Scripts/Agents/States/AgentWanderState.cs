@@ -9,7 +9,6 @@ namespace Game
     public class AgentWanderState : State
     {
         Data data;
-        ObjectStats stats;
         ObstacleAvoidance obstacleAvoidance;
         ActorComponents components;
 
@@ -18,10 +17,9 @@ namespace Game
         Vector2 targetDir;
         Vector2 home;
 
-        public AgentWanderState(Data data, ObjectStats stats, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
+        public AgentWanderState(Data data, ObstacleAvoidance obstacleAvoidance, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.stats = stats;
             this.obstacleAvoidance = obstacleAvoidance;
             this.components = components;
 
@@ -63,7 +61,7 @@ namespace Game
 
             Vector2 dir = obstacleAvoidance.GetDirectionFromDirection(targetDir);
 
-            float speed = stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
+            float speed = components.stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
             components.movement.Move(dir * speed);
         }
 

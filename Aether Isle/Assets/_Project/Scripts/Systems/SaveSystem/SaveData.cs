@@ -18,7 +18,7 @@ namespace Save
 
         public int coins;
 
-        public int sceneIndex = 1;
+        public int sceneIndex = 1; // Move to string
 
         // Unity's Vector2 has a normalized property that Newtonsoft has trouble serializing. It also cannot do float2
         [JsonIgnore] public Vector2 PlayerSpawnPos

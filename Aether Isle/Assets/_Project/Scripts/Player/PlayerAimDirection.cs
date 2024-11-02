@@ -3,9 +3,11 @@ using UnityEngine.InputSystem;
 
 namespace Game
 {
-    public class PlayerAimDirection : MonoBehaviour
+    public class PlayerAimDirection : MonoBehaviour, IAimDirection
     {
-        public Vector2 aimDir { get; private set; } = Vector2.up;
+        public Vector2 AimDirection => aimDir;
+
+        Vector2 aimDir = Vector2.up;
         public bool isLocked { get; private set; } = false;
 
         Camera cam;

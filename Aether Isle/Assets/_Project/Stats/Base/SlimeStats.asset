@@ -18,12 +18,11 @@ MonoBehaviour:
       info: 0
       values:
         _: 0
-        values: 0000000002000000
+        values: 00000000
       editor_input: 0
     values:
       _: 0
       values:
       - 2
-      - 1
-    editor_keyInput: 1
+    editor_keyInput: 2
     editor_valueInput: 0

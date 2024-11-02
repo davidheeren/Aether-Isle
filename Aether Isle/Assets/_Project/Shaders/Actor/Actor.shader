@@ -15,6 +15,7 @@ Shader "Custom/Actor"
         _StencilValue ("Stencil Value", Float) = 15
 
         _AlphaClip ("Alpha Clip", Float) = 0.5
+        _MainAlpha("Main Alpha", Range(0, 1)) = 1
     }
 
     SubShader
@@ -40,6 +41,7 @@ Shader "Custom/Actor"
             float _IceFactor;
             float4 _IceColor;
             float _AlphaClip;
+            float _MainAlpha;
         CBUFFER_END
 
         struct Attributes
@@ -93,6 +95,12 @@ Shader "Custom/Actor"
             return half4(grayscale, grayscale, grayscale, col.a);
         }
 
+        half4 Brighten(half4 color, half brightnessFactor)
+        {
+            return half4(color.rgb * brightnessFactor, color.a);
+        }
+
+
         ENDHLSL
 
         Pass
@@ -131,6 +139,7 @@ Shader "Custom/Actor"
                 if (main.a < _AlphaClip)
                     discard;
 
+                main = main * _MainAlpha;
 
                 if (_DieFactor > 0.5)
                 {
@@ -145,7 +154,7 @@ Shader "Custom/Actor"
                 if (_IceFactor > 0.5)
                 {
                     half4 lit = GetLitColor(main, i);
-                    return GetGrayscale(lit) * _IceColor;
+                    return Brighten(GetGrayscale(lit), 1.5) * _IceColor;
                 }
 
                 return GetLitColor(main * unity_SpriteColor, i);

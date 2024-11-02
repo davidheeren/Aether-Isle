@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(ObjectStats))]
+    [RequireComponent(typeof(ActorStats))]
     public class StatsTest : MonoBehaviour
     {
         [Button(nameof(AddModifier))]
@@ -12,11 +12,11 @@ namespace Game
         [Button(nameof(PrintStat))]
         [SerializeField] StatModifier modifier;
         [SerializeField] bool alwaysPrint;
-        ObjectStats stats;
+        ActorStats stats;
 
         void Awake()
         {
-            stats = GetComponent<ObjectStats>();
+            stats = GetComponent<ActorStats>();
         }
 
         private void Update()

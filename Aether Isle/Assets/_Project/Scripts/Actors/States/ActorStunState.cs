@@ -1,4 +1,5 @@
 using CustomInspector;
+using DamageSystem;
 using SpriteAnimator;
 using StateTree;
 using UnityEngine;
@@ -8,7 +9,6 @@ namespace Game
 {
     public class ActorStunState : State
     {
-        bool disableDamageDuringStun;
         int? lockDepth;
 
         Data data;
@@ -17,13 +17,11 @@ namespace Game
         Timer timer;
         EventSwitch eventSwitch;
 
-        DamageData damage;
-        Vector2? dir;
+        float stunTime;
 
-        public ActorStunState(Data data, bool disableDamageDuringStun, int? lockDepth, ActorComponents components, Node child = null) : base(child)
+        public ActorStunState(Data data, int? lockDepth, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.disableDamageDuringStun = disableDamageDuringStun;
             this.lockDepth = lockDepth;
 
             this.components = components;
@@ -47,25 +45,18 @@ namespace Game
             return happened;
         }
 
-        private void OnDamage(DamageData damage, Collider2D col, Collider2D source, Vector2? dir)
+        private void OnDamage(int damage, float stunTime, ActorComponents source)
         {
-            this.damage = damage;
-            this.dir = dir;
+            this.stunTime = stunTime;
         }
 
         protected override void EnterState()
         {
             base.EnterState();
 
-            if (disableDamageDuringStun)
-                components.health.canTakeDamage = false;
-
             LockSuperStates(lockDepth, true);
 
-            timer = new Timer(damage.stunTime);
-
-            if (dir != null)
-                components.rb.velocity = dir.Value * damage.knockbackSpeed;
+            timer = new Timer(stunTime);
 
             SFXManager.Instance.PlaySFXClip(data.stunSFX, components.transform.position);
 
@@ -84,9 +75,6 @@ namespace Game
         protected override void ExitState()
         {
             base.ExitState();
-
-            if (disableDamageDuringStun)
-                components.health.canTakeDamage = true;
 
             components.animator.Resume();
         }

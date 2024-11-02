@@ -9,7 +9,6 @@ namespace Game
     public class AgentChaseState : State
     {
         Data data;
-        ObjectStats stats;
         ActorMoveToPoint moveToPoint;
         TargetInfo targetInfo;
         ActorComponents components;
@@ -17,10 +16,9 @@ namespace Game
         Pathfinding.Pathfinder pathfinder;
         Timer timer;
 
-        public AgentChaseState(Data data, ObjectStats stats, ActorMoveToPoint moveToPoint, TargetInfo targetInfo, ActorComponents components, Node child = null) : base(child)
+        public AgentChaseState(Data data, ActorMoveToPoint moveToPoint, TargetInfo targetInfo, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.stats = stats;
             this.moveToPoint = moveToPoint;
             this.targetInfo = targetInfo;
             this.components = components;
@@ -53,7 +51,7 @@ namespace Game
                 timer.Reset();
             }
 
-            moveToPoint.Move(stats.GetStat(StatType.moveSpeed));
+            moveToPoint.Move(components.stats.GetStat(StatType.moveSpeed));
         }
     }
 }
