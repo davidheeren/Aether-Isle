@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Demo.unity
     guid: 1f0eed293dc2f854e85365147ebb77b4
+  - enabled: 1
+    path: Assets/_Project/Scenes/Lewis.unity
+    guid: 50add7af0f5c0d84b9cef93f93753510
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

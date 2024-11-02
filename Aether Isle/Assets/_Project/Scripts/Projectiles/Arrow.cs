@@ -25,7 +25,7 @@ namespace Game
         private void FixedUpdate()
         {
             if (!collided)
-                rb.velocity = transform.up * speed;
+                rb.linearVelocity = transform.up * speed;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -39,7 +39,7 @@ namespace Game
                 return;
 
             collided = true;
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             col.enabled = false;
 
             transform.parent = collision.transform;

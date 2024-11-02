@@ -5,10 +5,12 @@ using UnityEngine;
 
 
 
+
+
     public class InventoryManager : MonoBehaviour
     {
-        [SerializeField] ItemDatabase database;
-        public Item[] items = new Item[20];
+        //[SerializeField] ItemDatabase database;
+        //public Item[] items = new Item[20];
 
         private void Awake()
         {
@@ -17,11 +19,11 @@ using UnityEngine;
 
         void InitInventory()
         {
-            foreach (Item item in database.items)
+           // foreach (Item item in database.items)
             {
-                if (SaveSystem.SaveData.inventory.TryGetValue(item.index, out int value))
+                //if (SaveSystem.SaveData.inventory.TryGetValue(item.index, out int value))
                 {
-                    items[value] = item;
+                    //items[value] = item;
                 }
             }
         }

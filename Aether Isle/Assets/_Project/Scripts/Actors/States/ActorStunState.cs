@@ -65,7 +65,7 @@ namespace Game
             timer = new Timer(damage.stunTime);
 
             if (dir != null)
-                components.rb.velocity = dir.Value * damage.knockbackSpeed;
+                components.rb.linearVelocity = dir.Value * damage.knockbackSpeed;
 
             SFXManager.Instance.PlaySFXClip(data.stunSFX, components.transform.position);
 

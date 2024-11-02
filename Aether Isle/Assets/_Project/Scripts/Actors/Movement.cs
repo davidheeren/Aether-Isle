@@ -47,10 +47,10 @@ namespace Game
             float acceleration = wasSetLastFrame ? currentAccelerationForce : currentDecelerationForce;
 
 
-            Vector2 velocity = Smoothing.ExpDecay(rb.velocity, targetVelocity, acceleration / rb.mass, Time.fixedDeltaTime);
+            Vector2 velocity = Smoothing.ExpDecay(rb.linearVelocity, targetVelocity, acceleration / rb.mass, Time.fixedDeltaTime);
 
 
-            rb.velocity = velocity;
+            rb.linearVelocity = velocity;
 
             ResetValues();
 

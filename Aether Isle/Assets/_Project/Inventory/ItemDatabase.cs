@@ -4,6 +4,10 @@ using UnityEngine;
 namespace Inventory
 {
     [CreateAssetMenu(menuName = "Inventory/ItemDatabase")]
+    
+    
+    
+    
     public class ItemDatabase : ScriptableObject
     {
         [SerializeField] Item[] items;

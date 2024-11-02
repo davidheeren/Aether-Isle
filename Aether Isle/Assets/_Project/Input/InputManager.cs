@@ -15,7 +15,7 @@ namespace Game
 
         public event Action<ControlScheme> OnControlSchemeChange;
 
-        void Awake()
+         void Awake()
         {
             input = new GameInput();
             input.Enable();
@@ -38,7 +38,7 @@ namespace Game
             input.Scene.Get().actionTriggered -= OnActionTriggered;
         }
 
-        private void OnActionTriggered(InputAction.CallbackContext context)
+        public void OnActionTriggered(InputAction.CallbackContext context)
         {
             // NOTE: In input editor, for each control scheme edit it so that it has the correct devices with "required" turned off
 
