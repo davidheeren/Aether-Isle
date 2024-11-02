@@ -1,31 +1,19 @@
 using UnityEngine;
+using Game;
 using UnityEngine.InputSystem;
-
 public class TreeChopping2D : MonoBehaviour
 {
     public GameObject woodPrefab; 
     public int woodDropCount = 3; 
 
-    private InputAction attackAction;
-
-    private void Awake()
-    {
-      
-        var playerInput = new PlayerInput();
-        attackAction = InputManager.Instance.input.Game.Attack;
-
-        // Subscribe to the performed event
-        attackAction.performed += OnAttack;
-    }
-
     private void OnEnable()
     {
-        attackAction.Enable();
+        InputManager.Instance.input.Game.Attack.performed += OnAttack;
     }
 
     private void OnDisable()
     {
-        attackAction.Disable();
+        InputManager.Instance.input.Game.Attack.performed -= OnAttack;
     }
 
     private void OnAttack(InputAction.CallbackContext context)
