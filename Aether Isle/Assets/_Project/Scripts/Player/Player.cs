@@ -1,6 +1,7 @@
 using Inventory;
 using StateTree;
 using Stats;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Game
@@ -19,6 +20,7 @@ namespace Game
         [SerializeField] PlayerSwimState.Data swimData;
         [SerializeField] PlayerIdleState.Data swimIdleData;
         [SerializeField] PlayerMoveState.Data swimMoveData;
+        
 
         [Header("Conditions")]
         [SerializeField] CheckGroundCondition.Data swimConditionData;
@@ -66,6 +68,9 @@ namespace Game
                             new ActorStunState(stunData, null, components),
                             new ActorDieState(dieData, components),
                             notHitBranch));
+
+
+                   
         }
     }
 }
