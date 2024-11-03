@@ -8,13 +8,11 @@ namespace Game
     public class PlayerMoveState : State
     {
         Data data;
-        ObjectStats stats;
         ActorComponents components;
 
-        public PlayerMoveState(Data data, ObjectStats stats, ActorComponents components, Node child = null) : base(child)
+        public PlayerMoveState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
-            this.stats = stats;
             this.components = components;
         }
 
@@ -43,7 +41,7 @@ namespace Game
         {
             base.UpdateState();
 
-            float speed = stats.GetStat(StatType.moveSpeed);
+            float speed = components.stats.GetStat(StatType.moveSpeed);
             components.movement.Move(InputManager.Instance.input.Game.Move.ReadValue<Vector2>() * speed);
         }
 

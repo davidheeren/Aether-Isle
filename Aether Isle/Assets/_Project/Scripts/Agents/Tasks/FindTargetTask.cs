@@ -1,5 +1,7 @@
-﻿using StateTree;
+﻿using DamageSystem;
+using StateTree;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Utilities;
 
 namespace Game
@@ -30,28 +32,49 @@ namespace Game
             components.health.OnDamageParams += OnDamage;
         }
 
-        private void OnDamage(DamageData damage, Collider2D col, Collider2D source, Vector2? dir)
+        private void OnDamage(int damage, float stunTime, ActorComponents source)
         {
             // Sets its own target to the new damage
-            if (source.TryGetComponent<Target>(out Target tar))
+            //if (source.TryGetComponent<Target>(out Target tar))
+            //{
+            //    if (!tar.isActiveAndEnabled) return;
+
+            //    targetInfo.SetNewTarget(tar, CheckLOS(source?.col, data.alertDetectionRadius));
+
+            //    rememberTargetTimer.SetDelay(data.rememberAggravateTargetTime).Reset();
+
+            //    //Debug.Log("Hit aggravated: " + components.gameObject.name);
+
+            //    // Loops over all aggravateable objects of its own layer
+            //    Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
+
+            //    foreach (Collider2D overlap in overlaps)
+            //    {
+            //        if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
+            //        {
+            //            aggravate.Aggravate(tar);
+            //        }
+            //    }
+            //}
+
+            if (source == null) return;
+            if (source.target == null) return;
+            if (!source.target.isActiveAndEnabled) return;
+
+            targetInfo.SetNewTarget(source.target, CheckLOS(source?.col, data.alertDetectionRadius));
+
+            rememberTargetTimer.SetDelay(data.rememberAggravateTargetTime).Reset();
+
+            //Debug.Log("Hit aggravated: " + components.gameObject.name);
+
+            // Loops over all aggravateable objects of its own layer
+            Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
+
+            foreach (Collider2D overlap in overlaps)
             {
-                if (!tar.isActiveAndEnabled) return;
-
-                targetInfo.SetNewTarget(tar, CheckLOS(source, data.alertDetectionRadius));
-
-                rememberTargetTimer.SetDelay(data.rememberAggravateTargetTime).Reset();
-
-                //Debug.Log("Hit aggravated: " + components.gameObject.name);
-
-                // Loops over all aggravateable objects of its own layer
-                Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
-
-                foreach (Collider2D overlap in overlaps)
+                if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
                 {
-                    if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
-                    {
-                        aggravate.Aggravate(tar);
-                    }
+                    aggravate.Aggravate(source.target);
                 }
             }
         }

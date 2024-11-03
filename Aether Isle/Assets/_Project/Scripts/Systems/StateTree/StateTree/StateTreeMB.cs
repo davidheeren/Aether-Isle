@@ -2,15 +2,21 @@ using UnityEngine;
 
 namespace StateTree
 {
-    public class StateTreeMB : MonoBehaviour
+    public class StateTreeMB : MonoBehaviour, IStateTree
     {
         [SerializeField] protected RootState.Data rootStateData;
         protected RootState rootState;
         public RootState RootState => rootState;
 
+        [ContextMenu("Print Current States")]
+        void printCurrentStates() => rootState.PrintCurrentStates();
+
         protected virtual void Update() => rootState.UpdateStateTree();
         protected virtual void FixedUpdate() => rootState.FixedUpdateStateTree();
         protected virtual void OnDestroy() => rootState.DestroyStateTree();
+
+        // OnEnable
+        // OnDisable
 
         //protected virtual void OnDrawGizmos() => rootState.OnDrawGizmos();
         //protected virtual void OnDrawGizmosSelected() => rootState.OnDrawGizmosSelected();

@@ -2,6 +2,7 @@ using UnityEngine;
 using StateTree;
 using SpriteAnimator;
 using Utilities;
+using Stats;
 
 namespace Game
 {
@@ -81,7 +82,8 @@ namespace Game
             if (lungeTimer.IsStopped) 
                 return;
 
-            components.movement.Move(lungeDir * data.speed);
+            float speed = components.stats.GetStat(StatType.moveSpeed, data.speed);
+            components.movement.Move(lungeDir * speed);
 
             if (lungeTimer.IsDone)
             {

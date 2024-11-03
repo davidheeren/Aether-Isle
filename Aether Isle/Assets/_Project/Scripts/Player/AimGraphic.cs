@@ -11,7 +11,7 @@ namespace Game
 
         private void Update()
         {
-            float targetAngle = Mathf.Atan2(aim.aimDir.y, aim.aimDir.x) * Mathf.Rad2Deg - 90;
+            float targetAngle = Mathf.Atan2(aim.AimDirection.y, aim.AimDirection.x) * Mathf.Rad2Deg - 90;
 
             transform.eulerAngles = Vector3.forward * Smoothing.ExpDecayAngle(transform.eulerAngles.z, targetAngle, decay, Time.deltaTime);
         }

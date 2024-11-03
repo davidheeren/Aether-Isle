@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84762e1e1cd9fcc4d9b429a07be18257, type: 3}
+  m_Name: TestSword 2
+  m_EditorClassIdentifier: 
+  id: Sword Weapon 2
+  sprite: {fileID: 2086793111, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
+  durationTime: 0.15
+  cooldownTime: 0.2
+  damageData: {fileID: 11400000, guid: ae16333ee4f337e499832bed82345de7, type: 2}
+  projectile: {fileID: 1807486907745600937, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
+  speed: 3
+  animation: {fileID: 11400000, guid: 114b8f54e771089429fe125fed9d53a3, type: 2}
+  swingSFX: {fileID: 8300000, guid: bd553016455b53143a890100e4e4c6c6, type: 3}
+  equipSFX: {fileID: 8300000, guid: 33bbb3a38a538dd4d981ac13df1e97a9, type: 3}

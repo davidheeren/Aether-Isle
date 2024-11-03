@@ -8,7 +8,7 @@ namespace SpriteAnimator
     public class SpriteAnimatorController : MonoBehaviour
     {
         [SerializeField] float fps = 12;
-        [SerializeField] bool playFirsAnimationOnAwake;
+        [SerializeField] bool playFirstAnimationOnAwake;
         [SerializeField] SpriteAnimation[] animations;
 
         private SpriteRenderer sr;
@@ -36,7 +36,9 @@ namespace SpriteAnimator
 
             ProcessAnimations();
             SetupDictionary();
-            SetupFirstAnimation();
+
+            if (playFirstAnimationOnAwake)
+                PlayFirstAnimation();
         }
 
         private void ProcessAnimations()
@@ -50,20 +52,15 @@ namespace SpriteAnimator
 
             if (temp.Count != animations.Length)
             {
-                Debug.LogWarning("Some animations are null: " + name);
+                Debug.LogWarning("Some animations are null or duplicates: " + name);
                 animations = temp.ToArray();
             }
         }
 
-        private void SetupFirstAnimation()
+        public void PlayFirstAnimation()
         {
             if (animations.Length > 0)
-            {
-                currentAnimation = animations[0];
-
-                if (playFirsAnimationOnAwake)
-                    Play(currentAnimation);
-            }
+                Play(animations[0]);
         }
 
         void SetupDictionary()
@@ -101,10 +98,9 @@ namespace SpriteAnimator
                     if (currentAnimation.loop)
                         Restart();
                     else
-                    {
                         Stop();
-                        return;
-                    }
+
+                    return;
                 }
 
                 currentSpriteIndex++;
@@ -120,8 +116,14 @@ namespace SpriteAnimator
         public void Play(SpriteAnimation animation)
         {
             if (animation == null) { Debug.LogWarning("Animation is null"); return; }
-            if (currentAnimation != animation) OnAnimationChanged?.Invoke();
-            currentAnimation = animation;
+            if (animation.Sprites.Length == 0) { Debug.LogWarning("Animation has no sprites"); return; }
+
+            if (currentAnimation != animation)
+            {
+                OnAnimationChanged?.Invoke();
+                currentAnimation = animation;
+            }
+
             Restart();
         }
 

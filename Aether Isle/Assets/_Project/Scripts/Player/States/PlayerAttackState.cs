@@ -8,22 +8,22 @@ namespace Game
     {
         Data data;
         ActorComponents components;
-        PlayerAimDirection aim;
 
-        Vector2 initialAimDir;
+        Vector2 dir;
 
-        public PlayerAttackState(Data data, ActorComponents components, PlayerAimDirection aim, Node child = null) : base(child)
+        public PlayerAttackState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;
-            this.aim = aim;
+
+            throw new System.Exception("Should not be using this State");
         }
 
         [System.Serializable]
         public class Data
         {
             public float moveAttackDirSpeed = 1f;
-            public DamageProjectile projectile;
+            public ProjectileDamage projectile;
             public LayerMask damageMask;
             public AudioClip attackSFX;
             public SpriteAnimation animation;
@@ -41,9 +41,9 @@ namespace Game
         {
             base.EnterState();
 
-            initialAimDir = aim.aimDir;
+            //dir = aimDirection.AimDirection;
 
-            data.projectile.Spawn(components.col, data.damageMask, components.transform.position + (Vector3)aim.aimDir * 0.75f, Mathf.Atan2(initialAimDir.y, initialAimDir.x) * Mathf.Rad2Deg - 90);
+            //data.projectile.Spawn(components, data.damageMask, components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90);
             SFXManager.Instance.PlaySFXClip(data.attackSFX, components.transform.position);
             components.animator.Play(data.animation);
         }
@@ -52,7 +52,7 @@ namespace Game
         {
             base.UpdateState();
 
-            components.movement.Move(initialAimDir * data.moveAttackDirSpeed);
+            components.movement.Move(dir * data.moveAttackDirSpeed);
         }
     }
 }

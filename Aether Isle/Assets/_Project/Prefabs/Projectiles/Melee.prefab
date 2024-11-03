@@ -13,9 +13,13 @@ GameObject:
   - component: {fileID: 1280451412584975640}
   - component: {fileID: 2122538596896592859}
   - component: {fileID: 116924069840068445}
+<<<<<<< HEAD
   - component: {fileID: 6517814105394293651}
   - component: {fileID: 7040936197774290868}
   - component: {fileID: 2110136573340431509}
+=======
+  - component: {fileID: 1807486907745600937}
+>>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
   m_Layer: 0
   m_Name: Melee
   m_TagString: Projectile
@@ -106,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fps: 12
-  playFirsAnimationOnAwake: 1
+  playFirstAnimationOnAwake: 1
   animations:
   - {fileID: 11400000, guid: 53f6f6a194367e14da1d9878efce957b, type: 2}
 --- !u!61 &2122538596896592859
@@ -168,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 0.2
---- !u!114 &6517814105394293651
+--- !u!114 &1807486907745600937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,6 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8749031412601284731}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: d170e744e41bf1d468a306a0fe39afae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -195,6 +200,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78d9b8adc101ac34d912959939b2d4b7, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: d0bc2d60676b4ec4da3c3fd203d91037, type: 3}
+>>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2110136573340431509

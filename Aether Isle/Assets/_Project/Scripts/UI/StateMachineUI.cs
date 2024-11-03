@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game
 {
     public class StateMachineUI : MonoBehaviour
     {
-        [SerializeField] UnityEngine.EventSystems.EventSystem eventSystem;
         [SerializeField] GameObject initialState;
 
         public bool canUseBackInput = true;
@@ -16,17 +15,13 @@ namespace Game
 
         void Awake()
         {
-            if (eventSystem == null)
-                eventSystem = GameObject.FindAnyObjectByType<UnityEngine.EventSystems.EventSystem>();
-            if (eventSystem == null)
-                Debug.LogError("UI Statemachine needs an event system");
 
             if (initialState != null)
                 SetState(initialState);
 
             InputManager.Instance.input.UI.Navigate.performed += OnNavigateInput;
             InputManager.Instance.input.UI.Back.performed += OnBackInput;
-            InputManager.Instance.input.UI.Point.performed += OnPoint;
+            InputManager.Instance.input.UI.DeltaMouse.performed += OnPoint;
         }
 
         private void OnDestroy()
@@ -35,7 +30,7 @@ namespace Game
             {
                 InputManager.Instance.input.UI.Navigate.performed -= OnNavigateInput;
                 InputManager.Instance.input.UI.Back.performed -= OnBackInput;
-                InputManager.Instance.input.UI.Point.performed -= OnPoint;
+                InputManager.Instance.input.UI.DeltaMouse.performed -= OnPoint;
             }
         }
 
@@ -45,7 +40,7 @@ namespace Game
                 states.Peek().gameObject.SetActive(false);
 
             states.Clear();
-            eventSystem.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
         public void Back()
@@ -80,8 +75,8 @@ namespace Game
 
         void ExitState(State state)
         {
-            if (eventSystem.currentSelectedGameObject != null)
-                state.lastSelected = eventSystem.currentSelectedGameObject;
+            if (EventSystem.current.currentSelectedGameObject != null)
+                state.lastSelected = EventSystem.current.currentSelectedGameObject;
 
             state.gameObject.SetActive(false);
         }
@@ -90,13 +85,13 @@ namespace Game
         {
             if (states.Count > 0)
             {
-                eventSystem.SetSelectedGameObject(states.Peek().lastSelected);
+                EventSystem.current.SetSelectedGameObject(states.Peek().lastSelected);
             }
         }
 
         private void OnNavigateInput(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (eventSystem.currentSelectedGameObject == null)
+            if (EventSystem.current.currentSelectedGameObject == null)
                 SetSelected();
         }
 
@@ -107,9 +102,7 @@ namespace Game
         }
         private void OnPoint(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            print("POINT");
-            if (InputManager.Instance.currentControlScheme != InputManager.ControlScheme.None)
-                eventSystem.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
         public void PrintButton(Button button)

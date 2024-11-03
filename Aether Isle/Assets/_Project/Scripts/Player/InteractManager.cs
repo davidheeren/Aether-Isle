@@ -40,7 +40,7 @@ namespace Game
             }
 
             if (InputManager.Instance.input.Game.Interact.WasPressedThisFrame())
-                currentInteractable?.Interact(null);
+                currentInteractable?.Interact(GetComponentInParent<ActorComponents>()); // TODO fix GetComponent
         }
 
         public IInteractable GetClosestInteractable()

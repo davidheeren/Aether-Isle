@@ -3,7 +3,11 @@
     public enum StatType
     {
         moveSpeed,
-        attackRateMultiplier,
-        damageMultiplier
+        attackRate,
+        invulnerableTime,
+        knockbackApply,
+        knockbackReceive,
+        stunTimeApply,
+        stunTimeReceive
     }
 }

@@ -3,47 +3,47 @@ using UnityEngine;
 
 namespace Inventory
 {
-    [CustomEditor(typeof(ItemDatabase))]
-    [CanEditMultipleObjects]
-    public class ItemDatabaseEditor : Editor
-    {
-        SerializedProperty itemsProperty;
-        ItemDatabase itemDatabase;
+    //[CustomEditor(typeof(ItemDatabase))]
+    //[CanEditMultipleObjects]
+    //public class ItemDatabaseEditor : Editor
+    //{
+    //    SerializedProperty itemsProperty;
+    //    ItemDatabase itemDatabase;
 
-        const string propertyName = "items";
+    //    const string propertyName = "items";
 
-        void OnEnable()
-        {
-            itemsProperty = serializedObject.FindProperty(propertyName);
-            itemDatabase = target as ItemDatabase;
+    //    void OnEnable()
+    //    {
+    //        itemsProperty = serializedObject.FindProperty(propertyName);
+    //        itemDatabase = target as ItemDatabase;
 
-            if (itemsProperty == null) Debug.LogError("property name:" + propertyName + " not found");
-        }
+    //        if (itemsProperty == null) Debug.LogError("property name:" + propertyName + " not found");
+    //    }
 
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
+    //    public override void OnInspectorGUI()
+    //    {
+    //        serializedObject.Update();
 
-            EditorGUI.BeginChangeCheck();
+    //        EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.PropertyField(itemsProperty);
+    //        EditorGUILayout.PropertyField(itemsProperty);
 
-            bool itemsChanged = false;
-            if (EditorGUI.EndChangeCheck())
-            {
-                itemDatabase.OnItemsChanged();
-                itemsChanged = true;
-            }
+    //        bool itemsChanged = false;
+    //        if (EditorGUI.EndChangeCheck())
+    //        {
+    //            itemDatabase.OnItemsChanged();
+    //            itemsChanged = true;
+    //        }
 
-            serializedObject.ApplyModifiedProperties();
+    //        serializedObject.ApplyModifiedProperties();
 
-            if (itemsChanged)
-                itemDatabase.OnItemsChangesApplied();
-        }
+    //        if (itemsChanged)
+    //            itemDatabase.OnItemsChangesApplied();
+    //    }
 
-        private void OnDisable()
-        {
-            itemDatabase.OnEditorDisable();
-        }
-    }
+    //    private void OnDisable()
+    //    {
+    //        itemDatabase.OnEditorDisable();
+    //    }
+    //}
 }

@@ -8,16 +8,14 @@ namespace Game
     {
         Data data;
         ActorComponents components;
-        Target target;
 
         Vector2 dashDir;
         LayerMask initialExcludeLayers;
 
-        public PlayerDashState(Data data, ActorComponents components, Target target, Node child = null) : base(child)
+        public PlayerDashState(Data data, ActorComponents components, Node child = null) : base(child)
         {
             this.data = data;
             this.components = components;
-            this.target = target;
 
             initialExcludeLayers = components.col.excludeLayers;
         }
@@ -43,8 +41,7 @@ namespace Game
             base.EnterState();
 
             components.col.excludeLayers = initialExcludeLayers | data.dashMask;
-            components.health.canTakeDamage = false;
-            target.DisablePosition();
+            components.target.DisablePosition();
 
             components.animator.Play(data.animation);
 
@@ -63,9 +60,8 @@ namespace Game
         {
             base.ExitState();
 
-            components.health.canTakeDamage = true;
             components.col.excludeLayers = initialExcludeLayers;
-            target.EnablePosition();
+            components.target.EnablePosition();
         }
     }
 }

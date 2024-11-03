@@ -90,7 +90,7 @@ namespace Pathfinding
 
             foreach (Node node in grid)
             {
-                node.neighbors = GetNeighbors(node.gridPosition);
+                node.validNeighbors = GetValidNeighbors(node.gridPosition);
             }
 
             sw.Stop();
@@ -99,18 +99,24 @@ namespace Pathfinding
 
         public void UpdateGrid(Bounds bounds)
         {
-            Node bottomLeft = GetNodeFromWorldPosition(bounds.center - bounds.extents);
-            Node topRight = GetNodeFromWorldPosition(bounds.center + bounds.extents);
+            Vector2Int bottomLeft = GetNodeFromWorldPosition(bounds.center - bounds.extents).gridPosition;
+            Vector2Int topRight = GetNodeFromWorldPosition(bounds.center + bounds.extents).gridPosition;
 
-            for (int i = bottomLeft.gridPosition.x - 1; i <= topRight.gridPosition.x + 1; i++)
+            List<Node> newNodes = new List<Node>();
+
+
+            for (int i = Mathf.Max(bottomLeft.x - 1, 0); i <= Mathf.Min(topRight.x + 1, gridSize.x - 1); i++)
             {
-                for (int j = bottomLeft.gridPosition.y - 1; j <= topRight.gridPosition.y + 1; j++)
+                for (int j = Mathf.Max(bottomLeft.y - 1, 0); j <= Mathf.Min(topRight.y + 1, gridSize.y - 1); j++)
                 {
-                    if (OutsideOfGrid(i, j))
-                        continue;
-
                     CreateNode(new Vector2Int(i, j));
+                    newNodes.Add(grid[i, j]);
                 }
+            }
+
+            foreach (Node node in newNodes)
+            {
+                node.validNeighbors = GetValidNeighbors(node.gridPosition);
             }
 
 #if UNITY_EDITOR
@@ -235,33 +241,67 @@ namespace Pathfinding
             return null;
         }
 
-        List<Node> GetNeighbors(Vector2Int gridPos)
+        List<Node> GetValidNeighbors(Vector2Int gridPos) 
         {
             List<Node> neighbors = new List<Node>();
 
-            for (int i = -1; i <= 1; i++)
+            for (int i = -1; i <= 1; i++) // i,j is offset
             {
                 for (int j = -1; j <= 1; j++)
                 {
-                    if (i == 0 && j == 0)
-                        continue;
+                    if (i == 0 && j == 0) 
+                        continue; // Ignore center
 
-                    int checkX = gridPos.x + i;
-                    int checkY = gridPos.y + j;
-
-                    if (checkX >= 0 && checkX < gridSize.x && checkY >= 0 && checkY < gridSize.y)
-                    {
-                        neighbors.Add(grid[checkX, checkY]);
-                    }
+                    if (i == 0 || j == 0)
+                        AddSide(new Vector2Int(i, j));
+                    else
+                        AddDiagonal(new Vector2Int(j, i));
                 }
+            }
+
+            void AddSide(Vector2Int offset)
+            {
+                Vector2Int neighborPos = gridPos + offset;
+
+                if (OutsideOfGrid(neighborPos))
+                    return;
+
+                if (!grid[neighborPos.x, neighborPos.y].walkable)
+                    return;
+
+                neighbors.Add(grid[neighborPos.x, neighborPos.y]);
+            }
+
+            void AddDiagonal(Vector2Int offset)
+            {
+                Vector2Int neighborPos = gridPos + offset;
+
+                if (OutsideOfGrid(neighborPos)) 
+                    return;
+
+                if (!grid[neighborPos.x, neighborPos.y].walkable)
+                    return;
+
+                Vector2Int a = neighborPos + new Vector2Int(-offset.x, 0);
+                Vector2Int b = neighborPos + new Vector2Int(0, -offset.y);
+
+                if (OutsideOfGrid(a) || OutsideOfGrid(b))
+                    return;
+
+                // If a diagonal with edges are unwalkable then it should not be a neighbor
+                if (!grid[a.x, a.y].walkable && !grid[b.x, b.y].walkable)
+                    return;
+
+                neighbors.Add(grid[neighborPos.x, neighborPos.y]);
             }
 
             return neighbors;
         }
 
+        bool OutsideOfGrid(Vector2Int pos) => OutsideOfGrid(pos.x, pos.y);
         bool OutsideOfGrid(int x, int y)
         {
-            return x < 0 || x >= grid.GetLength(0) || y < 0 || y >= grid.GetLength(1);
+            return x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.y;
         }
 
         [Serializable]

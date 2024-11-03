@@ -10,6 +10,6 @@ namespace Stats
         [field: SerializeField] public StatType statType { get; private set; }
 
         public abstract float priority { get; }
-        public abstract float ModifyStat(float stat);
+        public abstract float ModifyStat(float baseStat, float modifiedStat);
     }
 }

@@ -4,19 +4,18 @@ using System;
 
 namespace Pathfinding
 {
-    [Serializable]
     public class Node : IHeapItem<Node>
     {
-        [field: SerializeField] public bool walkable { get; private set; }
-        [field: SerializeField] public Vector2 worldPosition { get; private set; }
-        [field: SerializeField] public Vector2Int gridPosition { get; private set; }
-        [NonSerialized] public List<Node> neighbors; // Serializing neighbors is a very bad idea
+        public bool walkable { get; private set; }
+        public Vector2 worldPosition { get; private set; }
+        public Vector2Int gridPosition { get; private set; }
+        public List<Node> validNeighbors; // List of nodes that can be searched from this node
 
         public int gCost;
         public int hCost;
-        [field: SerializeField] public int penalty {  get; private set; }
+        public int penalty {  get; private set; }
 
-        [NonSerialized] public Node parent;
+        public Node parent;
         int _heapIndex;
 
         public int fCost { get { return gCost + hCost; } }
@@ -44,5 +43,11 @@ namespace Pathfinding
             }
             return -compare;
         }
+    }
+
+    public class Neighbor
+    {
+        Vector2Int offset;
+        Node node;
     }
 }
