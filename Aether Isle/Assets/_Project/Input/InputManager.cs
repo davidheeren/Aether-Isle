@@ -2,8 +2,8 @@ using Input;
 using UnityEngine.InputSystem;
 using Utilities;
 using UnityEngine;
-using System.Collections;
 using System;
+using CustomInspector;
 
 namespace Game
 {
@@ -11,7 +11,7 @@ namespace Game
     {
         public GameInput input { get; private set; }
 
-        public ControlScheme currentControlScheme { get; private set; } = ControlScheme.None;
+        [field: SerializeField, ReadOnly] public ControlScheme currentControlScheme { get; private set; } = ControlScheme.None;
 
         public event Action<ControlScheme> OnControlSchemeChange;
 
@@ -19,26 +19,37 @@ namespace Game
         {
             input = new GameInput();
             input.Enable();
-        }
 
-        IEnumerator Start()
-        {
-            // The mouse input get used the first frame so we want to ignore that for setting the control scheme
-            yield return null;
-
-            input.Game.Get().actionTriggered += OnActionTriggered;
-            input.UI.Get().actionTriggered += OnActionTriggered;
-            input.Scene.Get().actionTriggered += OnActionTriggered;
+            HandleSchemeSubscriptions();
         }
 
         private void OnDestroy()
         {
-            input.Game.Get().actionTriggered -= OnActionTriggered;
-            input.UI.Get().actionTriggered -= OnActionTriggered;
-            input.Scene.Get().actionTriggered -= OnActionTriggered;
+            input.Disable();
         }
 
+<<<<<<< HEAD
         public void OnActionTriggered(InputAction.CallbackContext context)
+=======
+        void HandleSchemeSubscriptions()
+        {
+            foreach (InputAction a in input.Game.Get())
+            {
+                if (a != input.Game.MousePosition)
+                    a.performed += SetControlScheme;
+            }
+
+            foreach (InputAction a in input.UI.Get())
+            {
+                if (a != input.UI.Point)
+                    a.performed += SetControlScheme;
+            }
+
+            input.Scene.Get().actionTriggered += SetControlScheme;
+        }
+
+        private void SetControlScheme(InputAction.CallbackContext context)
+>>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
         {
             // NOTE: In input editor, for each control scheme edit it so that it has the correct devices with "required" turned off
 
@@ -67,43 +78,6 @@ namespace Game
                 currentControlScheme = newControlScheme;
 
             //context.action.GetBindingDisplayString
-        }
-
-        public void EnableGameInput(bool enable)
-        {
-            if (enable)
-            {
-                input.Game.Enable();
-
-            }
-            else
-                input.Game.Disable();
-        }
-
-        public void EnableSceneInput(bool enable)
-        {
-            if (enable)
-                input.Scene.Enable();
-            else
-                input.Scene.Disable();
-        }
-
-        public void EnableUIInput(bool enable)
-        {
-            if (enable)
-                input.UI.Enable();
-            else
-                input.UI.Disable();
-        }
-        public void EnableInput(bool enable)
-        {
-            if (enable)
-            {
-                input.Game.Enable();
-
-            }
-            else
-                input.Game.Disable();
         }
 
         public enum ControlScheme

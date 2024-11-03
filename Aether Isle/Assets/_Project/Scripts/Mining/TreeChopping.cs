@@ -1,5 +1,7 @@
 using UnityEngine;
+using Game;
 using UnityEngine.InputSystem;
+<<<<<<< HEAD
 using Game;
 
 public class TreeChopping2D : MonoBehaviour
@@ -20,6 +22,22 @@ public class TreeChopping2D : MonoBehaviour
         InputManager.Instance.input.Game.Attack.performed -= OnAttack;
     }
 
+=======
+public class TreeChopping2D : MonoBehaviour
+{
+    public GameObject woodPrefab; 
+    public int woodDropCount = 3; 
+
+    private void OnEnable()
+    {
+        InputManager.Instance.input.Game.Attack.performed += OnAttack;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.input.Game.Attack.performed -= OnAttack;
+    }
+>>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
 
     private void OnAttack(InputAction.CallbackContext context)
     {
