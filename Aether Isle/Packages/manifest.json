@@ -11,10 +11,7 @@
     "com.unity.render-pipelines.universal": "17.0.3",
     "com.unity.test-framework": "1.4.5",
     "com.unity.timeline": "1.8.7",
-<<<<<<< HEAD
     "com.unity.toolchain.win-x86_64-linux-x86_64": "2.0.9",
-=======
->>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.4",
     "com.wooshii.foldericons": "https://github.com/WooshiiDev/Unity-Folder-Icons.git",

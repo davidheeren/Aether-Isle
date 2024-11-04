@@ -21,12 +21,9 @@ GameObject:
   - component: {fileID: 3367582257713908701}
   - component: {fileID: -6804236372151145118}
   - component: {fileID: -8560277172237634033}
-<<<<<<< HEAD
   - component: {fileID: 7983074755565116847}
   - component: {fileID: 290756412362626607}
-=======
   - component: {fileID: 8305550346596256037}
->>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -300,13 +297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   database: {fileID: 11400000, guid: 018eb80b0915e054c80fc792cd65a656, type: 2}
-<<<<<<< HEAD
-  inventoryLength: 8
---- !u!114 &7983074755565116847
-=======
   testItems: []
---- !u!114 &8305550346596256037
->>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
+--- !u!114 &7983074755565116847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,16 +307,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1021286478059127579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< HEAD
-  m_Script: {fileID: 11500000, guid: c9a8ef25743f4d44da002390a676cb52, type: 3}
+  m_Script: {fileID: 11500000, guid: a17999ee52d528346aff9defd089af51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodPrefab: {fileID: 0}
-  woodDropCount: 0
-  rayLength: 2.83
-  treeLayerMask:
-    serializedVersion: 2
-    m_Bits: 2048
+  baseStats: {fileID: 11400000, guid: 2de166c8722badf4483376bd79742a16, type: 2}
+  initialModifiers: []
 --- !u!114 &290756412362626607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,13 +324,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e5f5cc830cfaa4186b93d4d8ace713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-=======
+--- !u!114 &8305550346596256037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a17999ee52d528346aff9defd089af51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 2de166c8722badf4483376bd79742a16, type: 2}
+  baseStats: {fileID: 0}
   initialModifiers: []
->>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
 --- !u!1 &1137874522100965792
 GameObject:
   m_ObjectHideFlags: 0

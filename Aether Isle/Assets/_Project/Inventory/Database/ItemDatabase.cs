@@ -7,6 +7,12 @@ namespace Inventory
     [CreateAssetMenu(menuName = "Inventory/ItemDatabase")]
     public class ItemDatabase : ScriptableObject
     {
+        // TODO:
+        //   Make generic type
+        //   Delete Duplicates and nulls methods
+        //   Get all types methods
+        //   Delete types with "test" in their name
+
         [Button(nameof(ValidateItems))]
         [Button(nameof(SortItems))]
         [ReadOnly] public string buttons = "buttons";

@@ -17,7 +17,7 @@ MonoBehaviour:
   durationTime: 0.25
   cooldownTime: 0.5
   damageData: {fileID: 11400000, guid: 1b8a14424f1acc14a9e0dcabc6b47822, type: 2}
-  projectile: {fileID: 1807486907745600937, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
+  projectile: {fileID: 1383071879743707108, guid: e1bc4d1e13786734eb91c8c4bbffcf30, type: 3}
   speed: 1
   animation: {fileID: 11400000, guid: 114b8f54e771089429fe125fed9d53a3, type: 2}
   swingSFX: {fileID: 8300000, guid: bd553016455b53143a890100e4e4c6c6, type: 3}

@@ -15,7 +15,7 @@ namespace Game
 
         public event Action<ControlScheme> OnControlSchemeChange;
 
-         void Awake()
+        void Awake()
         {
             input = new GameInput();
             input.Enable();
@@ -28,9 +28,6 @@ namespace Game
             input.Disable();
         }
 
-<<<<<<< HEAD
-        public void OnActionTriggered(InputAction.CallbackContext context)
-=======
         void HandleSchemeSubscriptions()
         {
             foreach (InputAction a in input.Game.Get())
@@ -49,7 +46,6 @@ namespace Game
         }
 
         private void SetControlScheme(InputAction.CallbackContext context)
->>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
         {
             // NOTE: In input editor, for each control scheme edit it so that it has the correct devices with "required" turned off
 

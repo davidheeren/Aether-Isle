@@ -128,7 +128,10 @@ namespace Inventory
 
                 foreach (SerializedItem sItem in sItems)
                 {
-                    InventoryItem item = new InventoryItem(database.GetItem(sItem.id), sItem.count);
+                    ItemData itemData = database.GetItem(sItem.id);
+                    if (itemData == null) continue;
+
+                    InventoryItem item = new InventoryItem(itemData, sItem.count);
                     if (sItem.inventoryIndex >= 0 && sItem.inventoryIndex < Length)
                         items[sItem.inventoryIndex] = item;
                     else

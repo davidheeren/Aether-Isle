@@ -56,14 +56,7 @@ namespace Game
 
             LockSuperStates(lockDepth, true);
 
-<<<<<<< HEAD
-            timer = new Timer(damage.stunTime);
-
-            if (dir != null)
-                components.rb.linearVelocity = dir.Value * damage.knockbackSpeed;
-=======
             timer = new Timer(stunTime);
->>>>>>> b8623f768dc5b72aae3f97972c9fcd5ce03603f4
 
             SFXManager.Instance.PlaySFXClip(data.stunSFX, components.transform.position);
 
