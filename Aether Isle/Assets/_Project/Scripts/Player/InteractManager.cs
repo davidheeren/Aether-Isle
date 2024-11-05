@@ -34,9 +34,9 @@ namespace Game
             IInteractable newInteractable = GetClosestInteractable();
             if (newInteractable != currentInteractable)
             {
-                currentInteractable?.Material.SetFloat("_Outline", 0);
+                currentInteractable?.Material.SetFloat("_OutlineFactor", 0);
                 currentInteractable = newInteractable;
-                currentInteractable?.Material.SetFloat("_Outline", 1);
+                currentInteractable?.Material.SetFloat("_OutlineFactor", 1);
             }
 
             if (InputManager.Instance.input.Game.Interact.WasPressedThisFrame())

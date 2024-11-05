@@ -1,6 +1,7 @@
 ﻿using DamageSystem;
 using Game;
 using UnityEngine;
+using UnityEngine.Search;
 
 namespace Inventory
 {
@@ -9,6 +10,7 @@ namespace Inventory
     {
         public float arrowSpeed = 10;
         public DamageData damageData;
+        [SearchContext("p: t:prefab")]
         public ProjectileDamage projectile;
 
         public override Useable CreateUseable(ActorComponents components)

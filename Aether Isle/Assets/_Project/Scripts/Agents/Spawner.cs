@@ -4,6 +4,7 @@ using StateTree;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Search;
 using Utilities;
 
 namespace Game
@@ -21,6 +22,7 @@ namespace Game
         [SerializeField] bool spawnOnAwake = false;
 
         [Header("Enemy")]
+        [SearchContext("p: t:prefab dir:Actors")]
         [SerializeField] GameObject prefab;
         [SerializeField] int count = 3;
         [SerializeField] float randomOffsetRange;
