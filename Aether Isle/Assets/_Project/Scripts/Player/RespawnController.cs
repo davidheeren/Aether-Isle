@@ -1,9 +1,10 @@
 using UnityEngine;
-using Game;
 using System.Collections;
 using System;
 
 
+
+namespace Game { 
 public class RespawnController : MonoBehaviour 
 {
 
@@ -37,5 +38,6 @@ public class RespawnController : MonoBehaviour
         transform.position = startPos;
 
     }
+}
 }
 
