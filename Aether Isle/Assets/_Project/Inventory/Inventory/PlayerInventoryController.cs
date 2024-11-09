@@ -68,11 +68,25 @@ namespace Inventory
 
         void OnScroll(int offset)
         {
-            currentHotbarIndex = (currentHotbarIndex + hotbarLength + offset) % hotbarLength;
-            OnHotbarIndexChange?.Invoke(currentHotbarIndex);
+            for (int i = 1; i < hotbarLength; i++)
+            {
+                int index = (currentHotbarIndex + hotbarLength + offset * i) % hotbarLength;
+                InventoryItem item = model.GetItem(hotbarRange.Start.Value + index);
 
-            InventoryItem item = model.GetItem(hotbarRange.Start.Value + currentHotbarIndex);
-            OnHotbarItemChange?.Invoke(item);
+                if (item != null)
+                {
+                    currentHotbarIndex = index;
+                    OnHotbarIndexChange?.Invoke(currentHotbarIndex);
+                    OnHotbarItemChange?.Invoke(item);
+                    break;
+                }
+            }
+
+            //currentHotbarIndex = (currentHotbarIndex + hotbarLength + offset) % hotbarLength;
+            //OnHotbarIndexChange?.Invoke(currentHotbarIndex);
+
+            //InventoryItem item = model.GetItem(hotbarRange.Start.Value + currentHotbarIndex);
+            //OnHotbarItemChange?.Invoke(item);
         }
 
         [ContextMenu("Set Test Hotbar")]

@@ -20,10 +20,6 @@ namespace Game
             spawn.damageMask = damageMask;
 
             return spawn;
-
-            // Not sure why we need the tag
-            //if (!spawn.CompareTag("Projectile")) 
-            //    Debug.LogWarning("Projectiles tag is not Projectile");
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

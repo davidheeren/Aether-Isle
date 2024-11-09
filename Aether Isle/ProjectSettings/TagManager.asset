@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Projectile
   - tree
+  - Test
   layers:
   - Default
   - TransparentFX

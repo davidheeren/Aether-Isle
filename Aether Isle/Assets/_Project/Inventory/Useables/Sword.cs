@@ -41,7 +41,7 @@ namespace Inventory
 
             SFXManager.Instance.PlaySFXClip(data.swingSFX, components.transform.position);
 
-            data.projectile.Spawn(damageMask.DamageMask, data.damageData, components,components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90);
+            data.projectile.Spawn(damageMask.DamageMask, data.damageData, components,components.transform.position + (Vector3)dir * 0.75f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90, components.transform);
 
             components.animator.Play(data.animation);
         }
