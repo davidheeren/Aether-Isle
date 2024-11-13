@@ -30,7 +30,7 @@ namespace Inventory
             if (!cooldownTimer.IsDone)
                 return false;
 
-            bool input = InputManager.Instance.input.Game.Attack.WasPressedThisFrame() && !isEntered;
+            bool input = InputManager.Instance.input.Game.Use.WasPressedThisFrame() && !isEntered;
 
             return !durationTimer.IsDone || input;
         }

@@ -48,18 +48,21 @@ namespace Utilities
         // https://www.gamedev.net/forums/topic/401165-target-prediction-system--target-leading/
         public static Vector2 TargetPrediction(Vector2 targetPos, Vector2 targetVel, Vector2 startPos, float projectileSpeed)
         {
-            if (projectileSpeed < targetVel.magnitude)
-            {
-                // TODO: projectile can be slower than target speed and still intersect. Check what this function returns if no intersection
-                Debug.LogWarning("Bullet is slower than target velocity");
-                return targetPos;
-            }
-
             float a = (projectileSpeed * projectileSpeed) - (Vector2.Dot(targetVel, targetVel));
             float b = -2 * Vector2.Dot(targetPos - startPos, targetVel);
             float c = -Vector2.Dot(targetPos - startPos, targetPos - startPos);
             Vector2 quad = Quadratic(a, b, c);
             float t = Mathf.Max(quad.x, quad.y);
+
+            if (!float.IsNormal(t) || t < 0)
+            {
+                // If 0, either of infinities or NaN
+                // If t < 0
+
+                Debug.LogWarning("Projectile slower than target, t: " + t);
+                return targetPos;
+            }
+
             Vector2 targetPred = targetPos + (targetVel * t);
             return targetPred;
         }
@@ -94,9 +97,7 @@ namespace Utilities
             float distFac = Mathf.InverseLerp(radius, 0, dist) * 0.5f;
             float angleFac = Mathf.InverseLerp(180, 0, deltaAngle) * 0.5f;
 
-            return (distFac * (1 - angleFactor01)) + (angleFac * angleFactor01);
-
-            //return Mathf.Pow(distFac, angleFactor01) * Mathf.Pow(angleFac, 1 - angleFactor01);
+            return (distFac * (1 - angleFactor01) * 2) + (angleFac * angleFactor01 * 2);
         }
 
         public static bool InRadius(Vector2 pos, Vector2 targetPos, float radius)

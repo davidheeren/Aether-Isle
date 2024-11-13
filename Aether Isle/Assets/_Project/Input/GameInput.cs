@@ -48,6 +48,15 @@ namespace Input
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""HotbarNumber"",
+                    ""type"": ""Value"",
+                    ""id"": ""1beb0538-fbad-4491-bef2-2d36161b2f96"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""MousePosition"",
                     ""type"": ""Value"",
                     ""id"": ""2a708a4b-9b0f-46d1-9a63-c79dc93275d3"",
@@ -84,7 +93,7 @@ namespace Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""2cbef3d4-30bd-4691-9751-51b52239741e"",
                     ""expectedControlType"": """",
@@ -256,6 +265,39 @@ namespace Input
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""c01acbe8-21a4-4257-87fc-4eeebd162f32"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""47030322-7032-4e41-a2ec-12bd85ff93df"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""b63335b1-dcf3-49bb-90ca-e9ab8068cde1"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""645874f0-f65c-49ec-93d1-4105f6fa793c"",
                     ""path"": ""<Mouse>/position"",
@@ -350,7 +392,7 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Attack"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -361,7 +403,18 @@ namespace Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Attack"",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5faf7b5b-c3da-4584-8cc5-c33465a75b4b"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -406,6 +459,94 @@ namespace Input
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
                     ""action"": ""DeltaMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a7552ea-cbe5-4735-99ca-946b261a7e38"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46f82316-383c-4329-b9da-83d4b65577e7"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39dc99ba-f66f-4fc5-8606-19158fad6293"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90f543a0-2794-4588-a6bf-c82c93d9b67d"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ac57f0d-75fc-4e7f-b1a9-51437946579d"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc14558c-b991-43b0-9f19-a6f414424e88"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=6)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c977457-7667-48ec-8672-6f721aae8336"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=7)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fc37433-a442-4651-8b52-b8d5cb271ad3"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=8)"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""HotbarNumber"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -844,11 +985,12 @@ namespace Input
             m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
             m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
             m_Game_Scroll = m_Game.FindAction("Scroll", throwIfNotFound: true);
+            m_Game_HotbarNumber = m_Game.FindAction("HotbarNumber", throwIfNotFound: true);
             m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
             m_Game_DeltaMouse = m_Game.FindAction("DeltaMouse", throwIfNotFound: true);
             m_Game_AimDir = m_Game.FindAction("AimDir", throwIfNotFound: true);
             m_Game_LockAim = m_Game.FindAction("LockAim", throwIfNotFound: true);
-            m_Game_Attack = m_Game.FindAction("Attack", throwIfNotFound: true);
+            m_Game_Use = m_Game.FindAction("Use", throwIfNotFound: true);
             m_Game_Dash = m_Game.FindAction("Dash", throwIfNotFound: true);
             m_Game_Interact = m_Game.FindAction("Interact", throwIfNotFound: true);
             // UI
@@ -932,11 +1074,12 @@ namespace Input
         private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
         private readonly InputAction m_Game_Move;
         private readonly InputAction m_Game_Scroll;
+        private readonly InputAction m_Game_HotbarNumber;
         private readonly InputAction m_Game_MousePosition;
         private readonly InputAction m_Game_DeltaMouse;
         private readonly InputAction m_Game_AimDir;
         private readonly InputAction m_Game_LockAim;
-        private readonly InputAction m_Game_Attack;
+        private readonly InputAction m_Game_Use;
         private readonly InputAction m_Game_Dash;
         private readonly InputAction m_Game_Interact;
         public struct GameActions
@@ -945,11 +1088,12 @@ namespace Input
             public GameActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Game_Move;
             public InputAction @Scroll => m_Wrapper.m_Game_Scroll;
+            public InputAction @HotbarNumber => m_Wrapper.m_Game_HotbarNumber;
             public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
             public InputAction @DeltaMouse => m_Wrapper.m_Game_DeltaMouse;
             public InputAction @AimDir => m_Wrapper.m_Game_AimDir;
             public InputAction @LockAim => m_Wrapper.m_Game_LockAim;
-            public InputAction @Attack => m_Wrapper.m_Game_Attack;
+            public InputAction @Use => m_Wrapper.m_Game_Use;
             public InputAction @Dash => m_Wrapper.m_Game_Dash;
             public InputAction @Interact => m_Wrapper.m_Game_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Game; }
@@ -967,6 +1111,9 @@ namespace Input
                 @Scroll.started += instance.OnScroll;
                 @Scroll.performed += instance.OnScroll;
                 @Scroll.canceled += instance.OnScroll;
+                @HotbarNumber.started += instance.OnHotbarNumber;
+                @HotbarNumber.performed += instance.OnHotbarNumber;
+                @HotbarNumber.canceled += instance.OnHotbarNumber;
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
@@ -979,9 +1126,9 @@ namespace Input
                 @LockAim.started += instance.OnLockAim;
                 @LockAim.performed += instance.OnLockAim;
                 @LockAim.canceled += instance.OnLockAim;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
@@ -998,6 +1145,9 @@ namespace Input
                 @Scroll.started -= instance.OnScroll;
                 @Scroll.performed -= instance.OnScroll;
                 @Scroll.canceled -= instance.OnScroll;
+                @HotbarNumber.started -= instance.OnHotbarNumber;
+                @HotbarNumber.performed -= instance.OnHotbarNumber;
+                @HotbarNumber.canceled -= instance.OnHotbarNumber;
                 @MousePosition.started -= instance.OnMousePosition;
                 @MousePosition.performed -= instance.OnMousePosition;
                 @MousePosition.canceled -= instance.OnMousePosition;
@@ -1010,9 +1160,9 @@ namespace Input
                 @LockAim.started -= instance.OnLockAim;
                 @LockAim.performed -= instance.OnLockAim;
                 @LockAim.canceled -= instance.OnLockAim;
-                @Attack.started -= instance.OnAttack;
-                @Attack.performed -= instance.OnAttack;
-                @Attack.canceled -= instance.OnAttack;
+                @Use.started -= instance.OnUse;
+                @Use.performed -= instance.OnUse;
+                @Use.canceled -= instance.OnUse;
                 @Dash.started -= instance.OnDash;
                 @Dash.performed -= instance.OnDash;
                 @Dash.canceled -= instance.OnDash;
@@ -1190,11 +1340,12 @@ namespace Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);
+            void OnHotbarNumber(InputAction.CallbackContext context);
             void OnMousePosition(InputAction.CallbackContext context);
             void OnDeltaMouse(InputAction.CallbackContext context);
             void OnAimDir(InputAction.CallbackContext context);
             void OnLockAim(InputAction.CallbackContext context);
-            void OnAttack(InputAction.CallbackContext context);
+            void OnUse(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
         }

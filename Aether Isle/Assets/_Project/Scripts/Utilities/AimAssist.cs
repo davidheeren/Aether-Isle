@@ -13,7 +13,7 @@ namespace Utilities
         readonly float threshold;
         readonly float angleFac;
 
-        public AimAssist(LayerMask aimMask, LayerMask obstacleMask, float radius, float threshold = 0.35f, float angleFac = 0.8f)
+        public AimAssist(LayerMask aimMask, LayerMask obstacleMask, float radius, float threshold = 0.7f, float angleFac = 0.8f)
         {
             this.aimMask = aimMask;
             this.obstacleMask = obstacleMask;
@@ -59,9 +59,14 @@ namespace Utilities
             if (closestCollider == null)
                 return aimDirection;
 
+            //Vector2 targetPos =
+            //    closestCollider.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb)
+            //    ? Maths.TargetPrediction(closestCollider.transform.position, rb.linearVelocity, position, projectileSpeed)
+            //    : closestCollider.transform.position;
+
             Vector2 targetPos =
-                closestCollider.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb)
-                ? Maths.TargetPrediction(closestCollider.transform.position, rb.linearVelocity, position, projectileSpeed)
+                closestCollider.TryGetComponent<Movement>(out Movement move)
+                ? Maths.TargetPrediction(closestCollider.transform.position, move.targetVelocity, position, projectileSpeed)
                 : closestCollider.transform.position;
 
             Vector2 targetDir = targetPos - position;
