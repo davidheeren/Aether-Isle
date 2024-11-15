@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 7983074755565116847}
   - component: {fileID: 290756412362626607}
   - component: {fileID: 8305550346596256037}
+  - component: {fileID: -1865043714672736013}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -338,6 +339,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats: {fileID: 0}
   initialModifiers: []
+--- !u!210 &-1865043714672736013
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 50
+  m_SortAtRoot: 0
 --- !u!1 &1137874522100965792
 GameObject:
   m_ObjectHideFlags: 0
@@ -6129,7 +6142,7 @@ Transform:
   m_GameObject: {fileID: 8943215012785741438}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: -0.375, z: 0}
+  m_LocalPosition: {x: 0.4375, y: -0.3125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6179,7 +6192,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 55
-  m_Sprite: {fileID: 1671065659, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
+  m_Sprite: {fileID: 672203303, guid: cfdc3be591ef4af41bbd589298fd0d63, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6294,7 +6307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.125
+      value: -0.4375
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.z

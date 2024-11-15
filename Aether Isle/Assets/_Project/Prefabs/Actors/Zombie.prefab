@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 2253225280846299221}
   - component: {fileID: -1814526223723732841}
   - component: {fileID: 5908609311947400523}
+  - component: {fileID: -634254280074098977}
   m_Layer: 7
   m_Name: Zombie
   m_TagString: Untagged
@@ -379,6 +380,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 019c993f645769b478d7ef88d5f447da, type: 2}
   initialModifiers: []
+--- !u!210 &-634254280074098977
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697161190766838628}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 50
+  m_SortAtRoot: 0
 --- !u!1001 &818713456278963098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -397,7 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.125
+      value: -0.4375
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.z

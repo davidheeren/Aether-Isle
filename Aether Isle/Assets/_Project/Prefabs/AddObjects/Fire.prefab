@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7420287376825777435}
   - component: {fileID: 7328127227608943859}
-  - component: {fileID: -4994358487667320817}
   - component: {fileID: -7957624819802490305}
   m_Layer: 0
   m_Name: Fire
@@ -77,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 55
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -89,18 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!210 &-4994358487667320817
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6045984677222947420}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 50
-  m_SortAtRoot: 1
 --- !u!114 &-7957624819802490305
 MonoBehaviour:
   m_ObjectHideFlags: 0

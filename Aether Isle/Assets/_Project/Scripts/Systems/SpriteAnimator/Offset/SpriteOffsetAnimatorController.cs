@@ -39,16 +39,38 @@ namespace SpriteAnimator
 
         private void OnAnimationChanged()
         {
-            currentOffset = null;
+            TryGetMatchingOffset(controller.currentAnimation, out SpriteOffsetAnimation offset);
+            currentOffset = offset;
+            // Offset will be null if no matches
+        }
 
-            foreach (SpriteOffsetAnimation offset in offsets)
+        [ContextMenu("Set First Offset")]
+        private void SetFirstOffset()
+        {
+            if (controller == null) return;
+
+            if (!controller.TryGetAnimation(0, out SpriteAnimation anim)) return;
+
+            if (!TryGetMatchingOffset(anim, out SpriteOffsetAnimation offset)) return;
+
+            if (offset.offsets.Length == 0) return;
+
+            transform.localPosition = offset.offsets[0];
+        }
+
+        private bool TryGetMatchingOffset(SpriteAnimation anim, out SpriteOffsetAnimation offset)
+        {
+            foreach (SpriteOffsetAnimation o in offsets)
             {
-                if (offset.animation == controller.currentAnimation)
+                if (o.animation == anim)
                 {
-                    currentOffset = offset;
-                    break;
+                    offset = o;
+                    return true;
                 }
             }
+
+            offset = null;
+            return false;
         }
     }
 }

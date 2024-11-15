@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1462062120745488599}
   - component: {fileID: 4455031601018375334}
   - component: {fileID: 3026379072318902942}
-  - component: {fileID: 6096542272303151129}
   - component: {fileID: 9090097649252147577}
   m_Layer: 3
   m_Name: Big_Tree_D
@@ -128,19 +127,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!210 &6096542272303151129
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5569596157140445957}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 50
-  m_SortAtRoot: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &9090097649252147577
 MonoBehaviour:
   m_ObjectHideFlags: 0
