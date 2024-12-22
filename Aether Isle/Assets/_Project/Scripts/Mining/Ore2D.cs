@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace Game
 {
-    public class Tree2D : MonoBehaviour
+    public class Ore2D : MonoBehaviour
     {
         public int health = 3;
         [SerializeField] ItemPickup dropPrefab;
@@ -13,14 +13,14 @@ namespace Game
         public void TakeDamage(int damage)
         {
             health -= damage;
-            if(health <= 0)
+            if (health <= 0)
             {
-                DropWood();
+                DropOre();
                 Destroy(gameObject);
             }
         }
 
-        private void DropWood()
+        private void DropOre()
         {
             dropPrefab.Spawn(transform.position, item);
         }
