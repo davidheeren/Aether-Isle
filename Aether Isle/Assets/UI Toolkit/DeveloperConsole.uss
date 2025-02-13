@@ -1,0 +1,13 @@
+.text-field {
+    font-size: 20px;
+}
+
+.list-view {
+    font-size: 20px;
+    flex-grow: 1;
+}
+
+.console-background {
+    flex-grow: 0.5;
+    background-color: rgba(108, 143, 170, 0.5);
+}

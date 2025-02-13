@@ -48,7 +48,7 @@ namespace Game
             if (lungeTimer.IsDone) return false;
             if (!targetInfo.hasLOS) return false;
 
-            if ((targetInfo.target.position - (Vector2)components.transform.position).sqrMagnitude > data.range * data.range)
+            if ((targetInfo.target.Position - (Vector2)components.transform.position).sqrMagnitude > data.range * data.range)
                 return false;
 
             return true;
@@ -76,7 +76,7 @@ namespace Game
                 lungeTimer.Reset();
 
                 components.animator.Play(data.lungeAnimation);
-                lungeDir = (targetInfo.target.position - (Vector2)components.transform.position).normalized;
+                lungeDir = (targetInfo.target.Position - (Vector2)components.transform.position).normalized;
             }
 
             if (lungeTimer.IsStopped) 

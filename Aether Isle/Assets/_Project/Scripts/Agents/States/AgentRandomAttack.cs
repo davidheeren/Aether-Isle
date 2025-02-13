@@ -39,7 +39,7 @@ namespace Game
 
         protected override bool CanEnterState()
         {
-            Vector2 deltaPos = targetInfo.target.position - (Vector2)components.transform.position;
+            Vector2 deltaPos = targetInfo.target.Position - (Vector2)components.transform.position;
             return deltaPos.sqrMagnitude <= data.attackRange * data.attackRange;
         }
 
@@ -63,7 +63,7 @@ namespace Game
                 randomTimer.Reset();
             }
 
-            Vector2 targetDir = obstacleAvoidance.GetDirectionFromPoint(targetInfo.target.position + offset);
+            Vector2 targetDir = obstacleAvoidance.GetDirectionFromPoint(targetInfo.target.Position + offset);
 
             float speed = components.stats.GetStat(StatType.moveSpeed) * data.speedMultiplier;
             components.movement.Move(targetDir * speed);

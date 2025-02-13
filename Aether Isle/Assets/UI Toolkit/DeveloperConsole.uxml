@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/DeveloperConsole.uss?fileID=7433441132597879392&amp;guid=edac99f5abc640a4195310cf2a9472ef&amp;type=3#DeveloperConsole" />
+    <ui:VisualElement class="console-background">
+        <ui:ListView name="list-view" focusable="false" class="list-view" />
+        <ui:TextField label="Text Field" name="text-field" />
+    </ui:VisualElement>
+</ui:UXML>

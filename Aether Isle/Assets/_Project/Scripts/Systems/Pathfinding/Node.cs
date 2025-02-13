@@ -45,7 +45,7 @@ namespace Pathfinding
         }
     }
 
-    public class Neighbor
+    public struct Neighbor
     {
         Vector2Int offset;
         Node node;

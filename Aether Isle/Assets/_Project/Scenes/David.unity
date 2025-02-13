@@ -2702,7 +2702,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1110738646}
-  - component: {fileID: 1110738645}
+  - component: {fileID: 1110738648}
+  - component: {fileID: 1110738647}
   m_Layer: 0
   m_Name: A* Pathfinding
   m_TagString: Untagged
@@ -2710,25 +2711,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1110738645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110738644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3220a02b95071df4291170fa0aab4f3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unWalkableMask:
-    serializedVersion: 2
-    m_Bits: 24
-  initialGridWorldSize: {x: 65, y: 35}
-  nodeDiameter: 1
-  overlapCircleOffset: -0.02
-  pathLayers: []
 --- !u!4 &1110738646
 Transform:
   m_ObjectHideFlags: 0
@@ -2744,6 +2726,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2030886117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1110738647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110738644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849bc5b8271b8984ca9df896854cd14a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1110738648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110738644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c957992fe292ff04b9c5df0af970e215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unWalkableMask:
+    serializedVersion: 2
+    m_Bits: 24
+  initialGridWorldSize: {x: 60, y: 35}
+  nodeDiameter: 1
+  overlapCircleOffset: -0.02
+  pathLayers: []
 --- !u!1 &1143034537
 GameObject:
   m_ObjectHideFlags: 0
@@ -23791,7 +23804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0a4dbff1ce8d74fa6d108d2254e11d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 36ebcc4b17046c54ea00256eec1e3fa8, type: 2}
+  item: {fileID: 11400000, guid: 31c92ab32a3823a4096fb527d952d15a, type: 2}
 --- !u!212 &1581422835
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23836,7 +23849,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: -1504933233, guid: 3589b88e6c15a6549bf5e90f30b641b4, type: 3}
+  m_Sprite: {fileID: 1539615945, guid: cfdc3be591ef4af41bbd589298fd0d63, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

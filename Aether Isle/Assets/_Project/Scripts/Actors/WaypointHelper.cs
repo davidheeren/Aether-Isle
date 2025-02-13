@@ -93,7 +93,7 @@ namespace Game
             return this;
         }
 
-        public WaypointHelper Reset()
+        public WaypointHelper ResetIndex()
         {
             SetIndex(0);
             return this;

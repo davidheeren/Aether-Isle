@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestKnockbackSword
   m_EditorClassIdentifier: 
   id: TestKnockbackSword
-  sprite: {fileID: 422012461, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
+  sprite: {fileID: 672203303, guid: cfdc3be591ef4af41bbd589298fd0d63, type: 3}
   durationTime: 0.5
   cooldownTime: 0.5
   damageData: {fileID: 11400000, guid: f9c85d6a878cac942af4266c4c70857b, type: 2}

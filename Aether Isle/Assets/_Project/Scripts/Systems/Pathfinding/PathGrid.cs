@@ -135,21 +135,18 @@ namespace Pathfinding
             Vector2 bottomLeft = positionAtGridCreation - new Vector2(gridWorldSize.x / 2, gridWorldSize.y / 2);
             Vector2 worldPos = bottomLeft + new Vector2(gridPos.x * nodeDiameter + nodeDiameter / 2, gridPos.y * nodeDiameter + nodeDiameter / 2);
 
-            bool walkable = !Physics2D.OverlapCircle(worldPos, nodeDiameter / 2 + overlapCircleOffset, unWalkableMask);
+            Collider2D col = Physics2D.OverlapCircle(worldPos, nodeDiameter / 2 + overlapCircleOffset, unWalkableMask | allPenaltiesMask);
+            bool walkable = !(col != null && CompareMask(unWalkableMask, col.gameObject.layer));
             int penalty = 0;
 
-            if (walkable)
+            if (walkable && col != null)
             {
-                Collider2D col = Physics2D.OverlapCircle(worldPos, nodeDiameter / 2 + overlapCircleOffset, allPenaltiesMask);
-                if (col != null)
+                foreach (PathLayer pathLayer in pathLayers)
                 {
-                    foreach (PathLayer pathLayer in pathLayers)
+                    if (CompareMask(pathLayer.mask, col.gameObject.layer))
                     {
-                        if (CompareMask(pathLayer.mask, col.gameObject.layer))
-                        {
-                            penalty = pathLayer.penalty;
-                            break;
-                        }
+                        penalty = pathLayer.penalty;
+                        break;
                     }
                 }
             }
@@ -243,7 +240,7 @@ namespace Pathfinding
 
         List<Node> GetValidNeighbors(Vector2Int gridPos) 
         {
-            List<Node> neighbors = new List<Node>();
+            List<Node> neighbors = new List<Node>(8);
 
             for (int i = -1; i <= 1; i++) // i,j is offset
             {

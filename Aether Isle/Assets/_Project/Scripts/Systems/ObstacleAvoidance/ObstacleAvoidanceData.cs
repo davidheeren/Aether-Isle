@@ -11,6 +11,6 @@ namespace Game
         public LayerMask avoidanceMask;
 
         [Header("Debug")]
-        public bool drayRays;
+        public bool drawRays;
     }
 }

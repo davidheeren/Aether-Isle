@@ -1,12 +1,14 @@
+using SpatialPartition;
 using UnityEngine;
 
 namespace Game
 {
     [RequireComponent(typeof(Collider2D))]
-    public class Target : MonoBehaviour
+    public class Target : MonoBehaviour, ISpatialGridEntry
     {
         Vector2 lastKnownPosition;
-        public Vector2 position => positionEnabled ? transform.position : lastKnownPosition;
+        public Vector2 Position => positionEnabled ? transform.position : lastKnownPosition;
+        public int Layer => Layer;
 
         bool positionEnabled = true;
 

@@ -6,23 +6,7 @@ namespace Utilities
     {
         private static T _instance;
 
-        public static T Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = FindFirstObjectByType<T>();
-                if (_instance == null)
-                {
-                    //Debug.Log("Created Singleton of type: " + typeof(T));
-                    GameObject obj = new GameObject(typeof(T) + " Singleton");
-                    _instance = obj.AddComponent<T>();
-                }
-
-                return _instance;
-            }
-        }
-
+        public static T Instance => GetInstanceHelper(_instance);
 
         public static T RawInstance
         {
@@ -36,6 +20,20 @@ namespace Utilities
         public static bool HasInstance()
         {
             return _instance != null;
+        }
+
+        public static T GetInstanceHelper(T instance)
+        {
+            if (_instance == null)
+                _instance = FindFirstObjectByType<T>();
+            if (_instance == null)
+            {
+                //Debug.Log("Created Singleton of type: " + typeof(T));
+                GameObject obj = new GameObject(typeof(T) + " Singleton");
+                _instance = obj.AddComponent<T>();
+            }
+
+            return _instance;
         }
     }
 }

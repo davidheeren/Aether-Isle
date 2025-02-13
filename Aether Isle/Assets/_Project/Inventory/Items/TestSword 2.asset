@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestSword 2
   m_EditorClassIdentifier: 
   id: Sword Weapon 2
-  sprite: {fileID: 2086793111, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
+  sprite: {fileID: -1545980596, guid: cfdc3be591ef4af41bbd589298fd0d63, type: 3}
   durationTime: 0.15
   cooldownTime: 0.2
   damageData: {fileID: 11400000, guid: ae16333ee4f337e499832bed82345de7, type: 2}

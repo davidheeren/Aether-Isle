@@ -75,15 +75,15 @@ namespace Pathfinding
 
         Vector2[] RetracePath(Node start, Node end)
         {
-            List<Vector2> path = new List<Vector2>();
+            Stack<Vector2> path = new Stack<Vector2>();
             Node currentNode = end;
 
             while(currentNode != start)
             {
-                path.Add(currentNode.worldPosition);
+                path.Push(currentNode.worldPosition);
                 currentNode = currentNode.parent;
             }
-            path.Reverse();
+
             return path.ToArray();
         }
 
