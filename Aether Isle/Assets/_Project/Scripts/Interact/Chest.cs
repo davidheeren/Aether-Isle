@@ -17,9 +17,9 @@ namespace Game
             closeChestSprite = spriteRenderer.sprite;
         }
 
-        public override void Interact(ActorComponents playerComponents)
+        public override void EnterInteract(ActorComponents playerComponents)
         {
-            base.Interact(playerComponents);
+            base.EnterInteract(playerComponents);
 
             if (!isOpened)
                 spriteRenderer.sprite = openChestSprite;

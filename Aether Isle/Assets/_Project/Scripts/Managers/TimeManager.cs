@@ -14,11 +14,11 @@ namespace Game
         //    InputManager.Instance.input.Scene.Pause.performed += OnRestart;
         //}
 
-        private void OnDestroy()
-        {
-            //if (InputManager.HasInstance())
-            //    InputManager.Instance.input.Scene.Pause.performed -= OnRestart;
-        }
+        //private void OnDestroy()
+        //{
+        //    //if (InputManager.HasInstance())
+        //    //    InputManager.Instance.input.Scene.Pause.performed -= OnRestart;
+        //}
 
         //private void OnRestart(UnityEngine.InputSystem.InputAction.CallbackContext context)
         //{

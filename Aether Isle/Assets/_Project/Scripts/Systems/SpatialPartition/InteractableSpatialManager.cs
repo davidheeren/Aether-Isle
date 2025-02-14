@@ -3,7 +3,7 @@ using Utilities;
 
 namespace SpatialPartition
 {
-    public class TargetSpatialManager : SpatialHashGrid<Target, TargetSpatialManager>
+    public class InteractableSpatialManager : SpatialHashGrid<IInteractable, InteractableSpatialManager>
     {
         private void FixedUpdate()
         {

@@ -9,6 +9,7 @@ namespace Game
         Vector2 lastKnownPosition;
         public Vector2 Position => positionEnabled ? transform.position : lastKnownPosition;
         public int Layer => Layer;
+        public bool Moveable => true;
 
         bool positionEnabled = true;
 

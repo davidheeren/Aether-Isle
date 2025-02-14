@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 namespace SpatialPartition
 {
-    public class SpatialHashGrid<T> : MonoBehaviour where T : ISpatialGridEntry
+    public class SpatialHashGrid<T, U> : Singleton<U> where T : ISpatialGridEntry where U : MonoBehaviour
     {
         protected readonly Dictionary<Vector2Int, HashSet<T>> entries = new Dictionary<Vector2Int, HashSet<T>>();
         protected readonly Dictionary<T, Vector2Int> cellPositions = new Dictionary<T, Vector2Int>();
@@ -24,6 +26,29 @@ namespace SpatialPartition
                     }
                 }
             }
+        }
+
+        HashSet<T> entriesToUpdate = new HashSet<T>();
+        protected void UpdateEntriesPosition()
+        {
+            foreach (T t in AllEntries)
+            {
+                if (!t.Moveable)
+                    continue;
+
+                if (cellPositions[t] != WorldToCellPosition(t.Position))
+                {
+                    entriesToUpdate.Add(t);
+                }
+            }
+
+            foreach (T t in entriesToUpdate)
+            {
+                Remove(t);
+                Add(t);
+            }
+
+            entriesToUpdate.Clear();
         }
 
         public void Add(T value)
@@ -49,8 +74,7 @@ namespace SpatialPartition
             cellPositions.Remove(value);
         }
 
-        public List<T> GetEntriesInRadius(Vector2 position, float radius) => GetEntriesInRadius(position, radius, -1);
-        public List<T> GetEntriesInRadius(Vector2 position, float radius, LayerMask mask)
+        public List<T> GetEntriesInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
         {
             List<T> res = new List<T>();
             Vector2Int center = WorldToCellPosition(position);
@@ -63,7 +87,10 @@ namespace SpatialPartition
 
                 foreach (T entry in hashSet)
                 {
-                    if (InRadius(position, entry.Position, radius) && LayerMaskContains(mask, entry.Layer))
+                    if (filter != null && !filter.Invoke(entry))
+                        continue;
+
+                    if (InRadius(position, entry.Position, radius))
                         res.Add(entry);
                 }
             }
@@ -71,9 +98,7 @@ namespace SpatialPartition
             return res;
         }
 
-        /// <summary>First not ordered but in closest ring</summary>
-        public T GetEntryInRadius(Vector2 position, float radius) => GetEntryInRadius(position, radius, -1);
-        public T GetEntryInRadius(Vector2 position, float radius, LayerMask mask)
+        public T GetEntryInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
         {
             Vector2Int center = WorldToCellPosition(position);
             int cellRadius = WorldToCellRadius(radius);
@@ -87,7 +112,10 @@ namespace SpatialPartition
 
                     foreach (T entry in hashSet)
                     {
-                        if (InRadius(position, entry.Position, radius) && LayerMaskContains(mask, entry.Layer))
+                        if (filter != null && !filter.Invoke(entry))
+                            continue;
+
+                        if (InRadius(position, entry.Position, radius))
                             return entry;
                     }
                 }
@@ -95,16 +123,14 @@ namespace SpatialPartition
 
             return default;
         }
-
-        public bool TryGetEntryInRadius(Vector2 position, float radius, out T closestEntry) => TryGetEntryInRadius(position, radius, -1, out closestEntry);
-        public bool TryGetEntryInRadius(Vector2 position, float radius, LayerMask mask, out T entry)
+        public bool TryGetEntryInRadius(Vector2 position, float radius, out T entry) => TryGetEntryInRadius(position, radius, null, out entry);
+        public bool TryGetEntryInRadius(Vector2 position, float radius, Func<T, bool> filter, out T entry)
         {
-            entry = GetEntryInRadius(position, radius, mask);
+            entry = GetEntryInRadius(position, radius, filter);
             return !EqualityComparer<T>.Default.Equals(entry, default);
         }
 
-        public T GetClosestEntryInRadius(Vector2 position, float radius) => GetClosestEntryInRadius(position, radius, -1);
-        public T GetClosestEntryInRadius(Vector2 position, float radius, LayerMask mask)
+        public T GetClosestEntryInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
         {
             Vector2Int center = WorldToCellPosition(position);
             int cellRadius = WorldToCellRadius(radius);
@@ -121,12 +147,12 @@ namespace SpatialPartition
 
                     foreach (T entry in hashSet)
                     {
-                        if (!LayerMaskContains(mask, entry.Layer))
+                        if (filter != null && !filter.Invoke(entry))
                             continue;
 
                         float sqrDist = (position - entry.Position).sqrMagnitude;
 
-                        if (sqrDist > radius)
+                        if (sqrDist > radius * radius)
                             continue;
 
                         if (sqrDist < closestSqrDist)
@@ -140,11 +166,10 @@ namespace SpatialPartition
 
             return closestEntry;
         }
-
-        public bool TryGetClosestEntryInRadius(Vector2 position, float radius, out T closestEntry) => TryGetClosestEntryInRadius(position, radius, -1, out closestEntry);
-        public bool TryGetClosestEntryInRadius(Vector2 position, float radius, LayerMask mask, out T closestEntry)
+        public bool TryGetClosestEntryInRadius(Vector2 position, float radius, out T closestEntry) => TryGetClosestEntryInRadius(position, radius, null, out closestEntry);
+        public bool TryGetClosestEntryInRadius(Vector2 position, float radius, Func<T, bool> filter, out T closestEntry)
         {
-            closestEntry = GetClosestEntryInRadius(position, radius, mask);
+            closestEntry = GetClosestEntryInRadius(position, radius, filter);
             return !EqualityComparer<T>.Default.Equals(closestEntry, default);
         }
 
@@ -161,11 +186,6 @@ namespace SpatialPartition
         protected bool InRadius(Vector2 a, Vector2 b, float radius)
         {
             return (a - b).sqrMagnitude <= radius;
-        }
-
-        public static bool LayerMaskContains(LayerMask mask, int layer)
-        {
-            return mask == -1 || (mask & (1 << layer)) != 0;
         }
 
         protected HashSet<T> GetInitializedValue(Vector2Int cell)
@@ -217,6 +237,6 @@ namespace SpatialPartition
     public interface ISpatialGridEntry
     {
         public Vector2 Position { get; }
-        public int Layer { get; }
+        public bool Moveable { get; }
     }
 }

@@ -33,7 +33,7 @@ namespace Game
 
         protected override bool CanEnterState()
         {
-            return InputManager.Instance.input.Game.Dash.WasPressedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
+            return InputManager.Instance.input.Game.Dash.WasPerformedThisFrame() && InputManager.Instance.input.Game.Move.ReadValue<Vector2>() != Vector2.zero;
         }
 
         protected override void EnterState()

@@ -1,7 +1,6 @@
 using Inventory;
 using StateTree;
 using Stats;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Game
@@ -19,6 +18,7 @@ namespace Game
         [SerializeField] PlayerSwimState.Data swimData;
         [SerializeField] PlayerIdleState.Data swimIdleData;
         [SerializeField] PlayerMoveState.Data swimMoveData;
+        [SerializeField] PlayerInteractState.Data interactData;
         
 
         [Header("Conditions")]
@@ -52,8 +52,8 @@ namespace Game
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(
                                     new PlayerUseableState(components, inventoryController),
+                                    new PlayerInteractState(interactData, components, 1),
                                     dashBranch,
-                                    //attackBranch,
                                     new PlayerMoveState(moveData, components),
                                     new PlayerIdleState(idleData, components)));
 
