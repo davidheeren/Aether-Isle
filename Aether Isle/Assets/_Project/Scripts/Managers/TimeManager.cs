@@ -29,10 +29,10 @@ namespace Game
 
         private void Update()
         {
-            if (InputManager.Instance.input.Scene.Pause.WasPressedThisFrame())
-            {
-                SceneSwitcher.Instance.Restart();
-            }
+            //if (InputManager.Instance.input.Scene.Pause.WasPressedThisFrame())
+            //{
+            //    SceneSwitcher.Instance.Restart();
+            //}
         }
 
         private void OnApplicationQuit()

@@ -31,6 +31,14 @@ namespace Inventory
             SaveSystem.OnSave += SaveItems;
         }
 
+        public void Clear()
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i] = null;
+            }
+        }
+
         public InventoryItem GetItem(int index)
         {
             ValidateRange(index);

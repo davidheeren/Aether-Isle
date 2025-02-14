@@ -1,13 +1,22 @@
 .text-field {
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .list-view {
-    font-size: 20px;
+    font-size: 24px;
     flex-grow: 1;
 }
 
 .console-background {
     flex-grow: 0.5;
-    background-color: rgba(108, 143, 170, 0.5);
+    background-color: rgba(108, 143, 170, 0.75);
+}
+
+.text-field > .unity-base-text-field__label {
+    display: none;
+}
+
+.hints {
+    height: 80px;
+    font-size: 18px;
 }

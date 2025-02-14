@@ -65,6 +65,7 @@ namespace Inventory
         void OnScroll(InputAction.CallbackContext context)
         {
             int offset = -(int)context.ReadValue<float>(); // we flip positive/negative
+
             OnScroll(offset);
         }
 
@@ -123,6 +124,12 @@ namespace Inventory
             {
                 print(item?.item.id);
             }
+        }
+
+        public void ClearInventory()
+        {
+            model.Clear();
+            //OnHotbarItemChange?.Invoke();
         }
     }
 }

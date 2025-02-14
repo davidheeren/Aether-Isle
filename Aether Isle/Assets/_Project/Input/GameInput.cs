@@ -236,7 +236,7 @@ namespace Input
                     ""id"": ""86dd8d55-8fb7-40c7-8fd6-1a27c72497f8"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""groups"": """",
                     ""action"": ""Scroll"",
                     ""isComposite"": true,
@@ -949,6 +949,56 @@ namespace Input
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Developer"",
+            ""id"": ""d4f8f9a9-3545-486a-8634-cd442f9da32a"",
+            ""actions"": [
+                {
+                    ""name"": ""Console"",
+                    ""type"": ""Button"",
+                    ""id"": ""7484e797-5e26-4db2-ad68-6e53290ef0a2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""27725d71-510c-45d6-9132-650e1ad51c36"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Console"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""59bae89f-579a-4454-a268-d3b60faf9097"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Console"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""7f0b768f-4a4c-425a-930e-fc102b700f0c"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Console"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1004,6 +1054,9 @@ namespace Input
             // Scene
             m_Scene = asset.FindActionMap("Scene", throwIfNotFound: true);
             m_Scene_Pause = m_Scene.FindAction("Pause", throwIfNotFound: true);
+            // Developer
+            m_Developer = asset.FindActionMap("Developer", throwIfNotFound: true);
+            m_Developer_Console = m_Developer.FindAction("Console", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -1011,6 +1064,7 @@ namespace Input
             UnityEngine.Debug.Assert(!m_Game.enabled, "This will cause a leak and performance issues, GameInput.Game.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, GameInput.UI.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_Scene.enabled, "This will cause a leak and performance issues, GameInput.Scene.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Developer.enabled, "This will cause a leak and performance issues, GameInput.Developer.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -1318,6 +1372,52 @@ namespace Input
             }
         }
         public SceneActions @Scene => new SceneActions(this);
+
+        // Developer
+        private readonly InputActionMap m_Developer;
+        private List<IDeveloperActions> m_DeveloperActionsCallbackInterfaces = new List<IDeveloperActions>();
+        private readonly InputAction m_Developer_Console;
+        public struct DeveloperActions
+        {
+            private @GameInput m_Wrapper;
+            public DeveloperActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Console => m_Wrapper.m_Developer_Console;
+            public InputActionMap Get() { return m_Wrapper.m_Developer; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(DeveloperActions set) { return set.Get(); }
+            public void AddCallbacks(IDeveloperActions instance)
+            {
+                if (instance == null || m_Wrapper.m_DeveloperActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_DeveloperActionsCallbackInterfaces.Add(instance);
+                @Console.started += instance.OnConsole;
+                @Console.performed += instance.OnConsole;
+                @Console.canceled += instance.OnConsole;
+            }
+
+            private void UnregisterCallbacks(IDeveloperActions instance)
+            {
+                @Console.started -= instance.OnConsole;
+                @Console.performed -= instance.OnConsole;
+                @Console.canceled -= instance.OnConsole;
+            }
+
+            public void RemoveCallbacks(IDeveloperActions instance)
+            {
+                if (m_Wrapper.m_DeveloperActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IDeveloperActions instance)
+            {
+                foreach (var item in m_Wrapper.m_DeveloperActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_DeveloperActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public DeveloperActions @Developer => new DeveloperActions(this);
         private int m_KeyboardSchemeIndex = -1;
         public InputControlScheme KeyboardScheme
         {
@@ -1361,6 +1461,10 @@ namespace Input
         public interface ISceneActions
         {
             void OnPause(InputAction.CallbackContext context);
+        }
+        public interface IDeveloperActions
+        {
+            void OnConsole(InputAction.CallbackContext context);
         }
     }
 }
