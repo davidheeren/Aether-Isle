@@ -74,7 +74,7 @@ namespace SpatialPartition
             cellPositions.Remove(value);
         }
 
-        public List<T> GetEntriesInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
+        public List<T> FindEntriesInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
         {
             List<T> res = new List<T>();
             Vector2Int center = WorldToCellPosition(position);
@@ -98,7 +98,7 @@ namespace SpatialPartition
             return res;
         }
 
-        public T GetEntryInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
+        public T FindEntryInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
         {
             Vector2Int center = WorldToCellPosition(position);
             int cellRadius = WorldToCellRadius(radius);
@@ -123,14 +123,14 @@ namespace SpatialPartition
 
             return default;
         }
-        public bool TryGetEntryInRadius(Vector2 position, float radius, out T entry) => TryGetEntryInRadius(position, radius, null, out entry);
-        public bool TryGetEntryInRadius(Vector2 position, float radius, Func<T, bool> filter, out T entry)
+        public bool TryFindEntryInRadius(Vector2 position, float radius, out T entry) => TryFindEntryInRadius(position, radius, null, out entry);
+        public bool TryFindEntryInRadius(Vector2 position, float radius, Func<T, bool> filter, out T entry)
         {
-            entry = GetEntryInRadius(position, radius, filter);
+            entry = FindEntryInRadius(position, radius, filter);
             return !EqualityComparer<T>.Default.Equals(entry, default);
         }
 
-        public T GetClosestEntryInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
+        public T FindClosestEntryInRadius(Vector2 position, float radius, Func<T, bool> filter = null)
         {
             Vector2Int center = WorldToCellPosition(position);
             int cellRadius = WorldToCellRadius(radius);
@@ -166,10 +166,10 @@ namespace SpatialPartition
 
             return closestEntry;
         }
-        public bool TryGetClosestEntryInRadius(Vector2 position, float radius, out T closestEntry) => TryGetClosestEntryInRadius(position, radius, null, out closestEntry);
-        public bool TryGetClosestEntryInRadius(Vector2 position, float radius, Func<T, bool> filter, out T closestEntry)
+        public bool TryFindClosestEntryInRadius(Vector2 position, float radius, out T closestEntry) => TryFindClosestEntryInRadius(position, radius, null, out closestEntry);
+        public bool TryFindClosestEntryInRadius(Vector2 position, float radius, Func<T, bool> filter, out T closestEntry)
         {
-            closestEntry = GetClosestEntryInRadius(position, radius, filter);
+            closestEntry = FindClosestEntryInRadius(position, radius, filter);
             return !EqualityComparer<T>.Default.Equals(closestEntry, default);
         }
 

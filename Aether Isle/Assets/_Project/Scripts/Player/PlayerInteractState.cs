@@ -45,7 +45,7 @@ namespace Game
             if (isActive) // We don't want to update the interactable when interacting
                 return;
 
-            IInteractable newInteractable = interactableSpatialManager.GetClosestEntryInRadius(components.transform.position, data.radius, InteractableFilter);
+            IInteractable newInteractable = interactableSpatialManager.FindClosestEntryInRadius(components.transform.position, data.radius, InteractableFilter);
 
             if (newInteractable != currentInteractable)
             {

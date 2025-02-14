@@ -106,6 +106,8 @@ namespace Game
             else
                 this.waypoints = new Vector2[0];
 
+            ResetIndex();
+
             return this;
         }
 

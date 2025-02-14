@@ -39,9 +39,9 @@ namespace Game
 
         private void OnPathFound(Vector2[] path)
         {
-            waypointHelper.SetWaypoints(path).ResetIndex();
+            waypointHelper.SetWaypoints(path);
 
-            Debug.Log($"Actor received callback path received in: {sw.ElapsedMilliseconds} ms");
+            //Debug.Log($"Actor received callback path received in: {sw.ElapsedMilliseconds} ms");
         }
 
         public void Move(float speed)

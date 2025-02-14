@@ -8,13 +8,12 @@ namespace Game
     {
         Vector2 lastKnownPosition;
         public Vector2 Position => positionEnabled ? transform.position : lastKnownPosition;
-        public int Layer => Layer;
         public bool Moveable => true;
 
         bool positionEnabled = true;
 
         public Collider2D col { get; private set; }
-        public bool isPlayer { get; private set; }
+        //public bool isPlayer { get; private set; }
         public bool isAlive { get; private set; } = true;
 
         Health health;
@@ -31,7 +30,9 @@ namespace Game
         private void Awake()
         {
             col = GetComponent<Collider2D>();
-            isPlayer = CompareTag("Player");
+            //isPlayer = CompareTag("Player");
+
+            TargetSpatialManager.Instance.Add(this);
 
             if (TryGetComponent<Health>(out health))
             {
@@ -42,6 +43,11 @@ namespace Game
         void OnDie()
         {
             isAlive = false;
+
+            if (TargetSpatialManager.TryGetInstance(out TargetSpatialManager i))
+            {
+                i.Remove(this);
+            }
         }
     }
 }

@@ -103,6 +103,8 @@ MonoBehaviour:
   swimMoveData:
     animation: {fileID: 11400000, guid: 2c9990df7f1e0cd42a53bb1754dca299, type: 2}
     SFXLoop: {fileID: 1599018523067815074}
+  interactData:
+    radius: 2
   swimConditionData:
     layerMask:
       serializedVersion: 2
