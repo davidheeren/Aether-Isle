@@ -35,6 +35,7 @@ namespace DeveloperConsole
         private void EnterConsole()
         {
             InputManager.Instance.input.Game.Disable();
+            Time.timeScale = 0;
 
             document.enabled = true;
             inConsole = true;
@@ -58,6 +59,7 @@ namespace DeveloperConsole
         private void ExitConsole()
         {
             InputManager.Instance.input.Game.Enable();
+            Time.timeScale = 1;
 
             document.enabled = false;
             inConsole = false;

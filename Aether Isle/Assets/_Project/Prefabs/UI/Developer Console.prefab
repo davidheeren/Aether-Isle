@@ -77,3 +77,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946fefce85b06b24c9092ea9eb8d1269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemDatabase: {fileID: 11400000, guid: 018eb80b0915e054c80fc792cd65a656, type: 2}
+  itemPickup: {fileID: 5016850073392537595, guid: 9ef617e5789f83549bfb792e3be311fd, type: 3}

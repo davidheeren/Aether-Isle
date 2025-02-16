@@ -4,12 +4,18 @@ using System.Text.RegularExpressions;
 using System;
 using UnityEngine;
 using System.Linq;
+using Inventory;
 
 namespace DeveloperConsole
 {
     [RequireComponent(typeof(DeveloperConsoleUI))]
     public class DeveloperConsole : MonoBehaviour
     {
+        // Serialized 
+        public ItemDatabase itemDatabase;
+        public ItemPickup itemPickup;
+
+
         public readonly Dictionary<string, IDeveloperCommand> commands = new Dictionary<string, IDeveloperCommand>();
         private readonly PrefixTree prefixTree = new PrefixTree();
 
@@ -160,9 +166,18 @@ namespace DeveloperConsole
             string output = "";
             for (int i = 0; i < length; i++)
             {
-                output += $" <{parameters[i].ParameterType.Name}: {parameters[i].Name}>";
+                output += $" <{GetTypeAlias(parameters[i].ParameterType)}: {parameters[i].Name}>";
             }
             return output;
+
+            string GetTypeAlias(Type type)
+            {
+                return type == typeof(int) ? "int" :
+                       type == typeof(float) ? "float" :
+                       type == typeof(string) ? "string" :
+                       type == typeof(bool) ? "bool" :
+                       type.Name;
+            }
         }
 
         public string CommandInfo(IDeveloperCommand command)
@@ -231,7 +246,7 @@ namespace DeveloperConsole
 
         public void Invoke(DeveloperConsole console)
         {
-            console.PrintConsole("Usage example: 'test_command(Int32: x, Int32: y)' -- Type: 'test_command 6 8'");
+            console.PrintConsole("Example hint: 'example <int: num>' -- You type: 'example 8'");
             console.PrintConsole("Available commands:");
             console.TestPrintCommands();
         }

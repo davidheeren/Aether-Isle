@@ -966,7 +966,7 @@
                 {
                     "name": "binding",
                     "id": "7f0b768f-4a4c-425a-930e-fc102b700f0c",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",

@@ -24,6 +24,24 @@ namespace Inventory
 
         [SerializeField] ItemData[] items;
 
+        public IEnumerable<ItemData> Items
+        {
+            get
+            {
+                for (int i = 0; i < items.Length; i++)
+                {
+                    yield return items[i];
+                }
+            }
+        }
+
+        public bool TryGetItem(string id, out ItemData item)
+        {
+            item = items.FirstOrDefault(x => x.id == id);
+
+            return item != null;
+        }
+
         public ItemData GetItem(string id)
         {
             ItemData item = items.FirstOrDefault(x => x.id == id);
