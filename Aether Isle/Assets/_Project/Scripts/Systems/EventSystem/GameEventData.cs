@@ -24,7 +24,7 @@ namespace CustomEventSystem
             if (data is T)
                 return (T)data;
 
-            Debug.LogError("Type: " + typeof(T) + " is not the same as data: " + data);
+            Debug.LogError("Type: " + typeof(T) + " is not the same as data: " + data + " of type: " + data.GetType().Name);
             return default;
         }
 

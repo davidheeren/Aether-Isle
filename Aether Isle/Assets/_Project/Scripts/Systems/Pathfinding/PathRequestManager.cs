@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Pathfinding
@@ -55,7 +54,7 @@ namespace Pathfinding
         private void Update()
         {
             // Process responses on the main thread
-            while (responses.TryDequeue(out PathResponse response))
+            while (responses.Count > 0 && responses.TryDequeue(out PathResponse response))
             {
                 response.callback.Invoke(response.path);
             }
@@ -72,7 +71,7 @@ namespace Pathfinding
             requests.Enqueue(new PathRequest(start, end, callback));
         }
 
-        public void ProcessPathRequests(object state)
+        private void ProcessPathRequests(object state)
         {
             while(isRunning)
             {

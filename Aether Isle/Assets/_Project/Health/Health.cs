@@ -1,6 +1,5 @@
 using DamageSystem;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,16 +10,19 @@ namespace Game
     [RequireComponent(typeof(ActorComponents))]
     public class Health : MonoBehaviour
     {
-        [field: SerializeField] public int maxHealth { get; private set; } = 3;
+        [SerializeField] float maxHealth  = 3;
+        [SerializeField] float rechargeValue = 0;
+        [SerializeField] float rechargeWaitTime = 10;
         [SerializeField] float invulnerableTime = 0;
-        public int currentHealth { get; private set; }
+        public float CurrentHealth => healthValue.Value;
+        public float MaxHealth => healthValue.maxValue;
 
         [NonSerialized] public bool canTakeDamage = true; // Won't allow current health to change
         public bool isInvulnerable { get; private set; } = false; // Won't allow new damage types to be added
         public bool isDead { get; private set; } = false;
 
-        public event Action<int, float, ActorComponents> OnDamageParams;
-        public event Action OnDamage;
+        public event Action<float, float, ActorComponents> OnDamage;
+        public event Action<float> OnHealthAdd;
         public event Action OnDie;
 
         Dictionary<Type, Damage> damages = new Dictionary<Type, Damage>();
@@ -28,10 +30,14 @@ namespace Game
 
         Timer invulnerableTimer;
 
+        RechargingValue healthValue;
+
         private void Awake()
         {
             components = GetComponent<ActorComponents>();
-            currentHealth = maxHealth;
+
+            healthValue = new RechargingValue(maxHealth, rechargeValue, rechargeWaitTime);
+            healthValue.OnAddValue += OnRechargeValueAdd;
 
             if (invulnerableTime > 0)
                 invulnerableTimer = new Timer(invulnerableTime).Stop();
@@ -42,6 +48,24 @@ namespace Game
         {
             UpdateInvulnerableTimer();
             UpdateDamage();
+            healthValue.UpdateRecharge();
+        }
+
+        // Listens to recharging value
+        private void OnRechargeValueAdd(float add)
+        {
+            OnHealthAdd?.Invoke(add);
+        }
+
+        // Testing for now need to call params event
+        public void RestoreHealth()
+        {
+            healthValue.RestoreValue();
+        }
+
+        public void AddHealth(float add)
+        {
+            healthValue.AddValue(add);
         }
 
         void UpdateInvulnerableTimer()
@@ -77,24 +101,19 @@ namespace Game
         #endregion
 
         #region Damage Health
-        public void Damage(int damage, float stunTime, ActorComponents sourceComponents)
+        public void Damage(float damage, float stunTime, ActorComponents sourceComponents)
         {
             if (!canTakeDamage || isDead)
                 return;
 
-            currentHealth -= damage;
-
-            // Invoke Events
-            OnDamageParams?.Invoke(damage, stunTime, sourceComponents);
-            OnDamage?.Invoke();
+            healthValue.SubtractValue(damage);
+            OnDamage?.Invoke(damage, stunTime, sourceComponents);
 
             // Apply Death
-            if (currentHealth <= 0)
+            if (healthValue.Value == 0)
             {
-                currentHealth = 0;
                 isDead = true;
                 OnDie?.Invoke();
-                //StartCoroutine(nameof(ClearDamages)); // Change to coroutine if needed later
             }
             else
             {
@@ -118,7 +137,7 @@ namespace Game
 
         public void AddDamage(Damage damage)
         {
-            if (isInvulnerable || isDead)
+            if (isInvulnerable || isDead || !canTakeDamage)
                 return;
 
             if (damage == null) { Debug.LogError("Damage should never be null"); return; }

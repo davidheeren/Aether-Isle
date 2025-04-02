@@ -15,9 +15,9 @@ namespace DeveloperConsole
         public ItemDatabase itemDatabase;
         public ItemPickup itemPickup;
 
-
         public readonly Dictionary<string, IDeveloperCommand> commands = new Dictionary<string, IDeveloperCommand>();
         private readonly PrefixTree prefixTree = new PrefixTree();
+        public readonly Stack<IDeveloperCommand> history = new Stack<IDeveloperCommand>();
 
         DeveloperConsoleUI consoleUI;
 
@@ -44,24 +44,6 @@ namespace DeveloperConsole
             // Find all non-abstract classes that implement IDebugCommand
             IEnumerable<Type> commandTypes = assembly.GetTypes()
                 .Where(t => typeof(IDeveloperCommand).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
-            // Instantiate and register each found command
-            //foreach (Type type in commandTypes) // No sorting
-            //{
-            //    ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
-            //    if (constructor != null) // Only instantiate if a parameterless constructor exists
-            //    {
-            //        if (Activator.CreateInstance(type) is IDeveloperCommand command)
-            //        {
-            //            if (command.Enabled)
-            //                RegisterCommand(command);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Debug.LogError($"Skipping {type.Name}: No parameterless constructor found.");
-            //    }
-            //}
 
             // Instantiate, filter enabled commands, and sort by ID
             List<IDeveloperCommand> commands = commandTypes
@@ -126,7 +108,7 @@ namespace DeveloperConsole
                 }
                 catch (Exception)
                 {
-                    consoleUI.PrintConsole($"Error: Invalid argument: <{inputs[i + 1]}> for parameter <{parameters[i].ParameterType.Name}: {parameters[i].Name}>");
+                    consoleUI.PrintConsole($"Error: Invalid argument: <{inputs[i + 1]}> for parameter <{GetTypeAlias(parameters[i].ParameterType)}: {parameters[i].Name}>");
                     return;
                 }
             }
@@ -134,6 +116,7 @@ namespace DeveloperConsole
             try
             {
                 method.Invoke(command, convertedArgs);
+                history.Push(command);
             }
             catch (TargetInvocationException ex)
             {
@@ -169,15 +152,15 @@ namespace DeveloperConsole
                 output += $" <{GetTypeAlias(parameters[i].ParameterType)}: {parameters[i].Name}>";
             }
             return output;
+        }
 
-            string GetTypeAlias(Type type)
-            {
-                return type == typeof(int) ? "int" :
-                       type == typeof(float) ? "float" :
-                       type == typeof(string) ? "string" :
-                       type == typeof(bool) ? "bool" :
-                       type.Name;
-            }
+        private string GetTypeAlias(Type type)
+        {
+            return type == typeof(int) ? "int" :
+                   type == typeof(float) ? "float" :
+                   type == typeof(string) ? "string" :
+                   type == typeof(bool) ? "bool" :
+                   type.Name;
         }
 
         public string CommandInfo(IDeveloperCommand command)
@@ -185,7 +168,7 @@ namespace DeveloperConsole
             return $"{command.ID}{GetParametersInfoString(command)} -> {command.Description}";
         }
 
-        private string[] SplitAndFormat(string input)
+        public string[] SplitAndFormat(string input)
         {
             input = input.Trim(); // Remove leading and trailing spaces
 
@@ -235,7 +218,7 @@ namespace DeveloperConsole
         public bool Enabled => true; // Override this to not include on start
 
         // Ex: public void Invoke(string msg, int count, DebugConsole debugConsole);
-        // can have any number of parameters and optional DebugConsole at very end
+        //  can have any number of parameters and optional DebugConsole at very end
     }
 
     public class HelpDebugCommand : IDeveloperCommand
@@ -252,7 +235,27 @@ namespace DeveloperConsole
         }
     }
 
-    public class ClearDebugCommand : IDeveloperCommand
+    public class InfoCommand : IDeveloperCommand
+    {
+        public string ID => "info";
+
+        public string Description => "Displays info about a command";
+
+        public void Invoke(string command, DeveloperConsole console)
+        {
+            if (console.commands.TryGetValue(command, out IDeveloperCommand iCommand))
+            {
+                console.PrintConsole(console.CommandInfo(iCommand));
+            }
+            else
+            {
+                console.PrintConsole($"Error: '{command}' not found");
+            }
+        }
+    }
+
+
+    public class ClearCommand : IDeveloperCommand
     {
         public string ID => "clear";
 
@@ -264,7 +267,7 @@ namespace DeveloperConsole
         }
     }
 
-    public class MathOperationDebugCommand : IDeveloperCommand
+    public class MathOperationCommand : IDeveloperCommand
     {
         public bool Enabled => false;
 

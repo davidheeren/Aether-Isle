@@ -6,8 +6,11 @@ namespace Game
     public class Shopkeeper : InteractableMB
     {
         [SerializeField] float interactTime;
+        [SerializeField] float yOffset = -0.5f;
 
         Timer t;
+
+        public override Vector2 Position => transform.position + Vector3.one * yOffset;
 
         protected override void Awake()
         {

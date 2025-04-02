@@ -1,9 +1,10 @@
-﻿
+﻿using System;
+
 namespace StateTree
 {
     public class EventCondition : Condition
     {
-        EventSwitch eventSwitch;
+        //EventSwitch eventSwitch;
 
         //public EventCondition(EventSwitch eventSwitch, Node child = null) : base(child)
         //{
@@ -15,7 +16,8 @@ namespace StateTree
 
         public override bool Calculate()
         {
-            return eventSwitch.Happened;
+            //return eventSwitch.Happened;
+            throw new NotImplementedException();
         }
 
         protected override void Destroy()

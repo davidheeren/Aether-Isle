@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
 using System.Collections;
-using System;
 using Game;
+using System.Linq;
 
 
 namespace DeveloperConsole
@@ -13,22 +13,27 @@ namespace DeveloperConsole
     {
         private List<string> logs = new List<string>();
 
-        DeveloperConsole developerConsole;
+        private DeveloperConsole console;
 
+        private UIDocument document;
         private VisualElement root;
         private ListView listView;
         private TextField textField;
         private ListView hints;
 
-        UIDocument document;
         private bool inConsole;
+
+        //private int historyIndex = -1;
+        //private int completionIndex = -1;
+
+        // TODO: history and auto-completion
 
         private void Start()
         {
             if (!TryGetComponent<UIDocument>(out document))
                 Debug.LogError("Document not here");
 
-            if (!TryGetComponent<DeveloperConsole>(out developerConsole))
+            if (!TryGetComponent<DeveloperConsole>(out console))
                 Debug.LogError("DeveloperConsoleUI needs a DeveloperConsole component");
         }
 
@@ -65,6 +70,8 @@ namespace DeveloperConsole
             inConsole = false;
 
             textField.UnregisterCallback<ChangeEvent<string>>(OntTextChanged);
+
+            console.history.Clear();
         }
 
         private void Update()
@@ -85,13 +92,35 @@ namespace DeveloperConsole
 
         private void OntTextChanged(ChangeEvent<string> evt)
         {
+            // Empty Hints
             if (string.IsNullOrEmpty(textField.text))
             {
                 SetHintsToHelp();
                 return;
             }
 
-            SetHints(developerConsole.GetCommandListFromPrefix(textField.text));
+            // Info command hints
+            string[] inputs = console.SplitAndFormat(textField.text);
+            string infoID = "info";
+            if (console.commands.ContainsKey(infoID) && inputs[0] == infoID)
+            {
+                if (inputs.Length == 2)
+                {
+                    SetHints(console.GetCommandListFromPrefix(inputs[1]));
+                }
+                else if (inputs.Length == 1)
+                {
+                    SetHints(console.GetCommandListFromPrefix(""));
+                }
+                else
+                {
+                    SetHints(null);
+                }
+                return;
+            }
+
+            // Default hints
+            SetHints(console.GetCommandListFromPrefix(textField.text));
         }
 
         private void OnSubmit()
@@ -101,7 +130,7 @@ namespace DeveloperConsole
 
             PrintConsole("# " +  textField.value);
 
-            developerConsole.UpdateConsole(textField.text);
+            console.UpdateConsole(textField.text);
 
             textField.value = "";
             StartCoroutine(nameof(FocusCoroutine));
@@ -157,13 +186,18 @@ namespace DeveloperConsole
 
         private void SetHintsToHelp()
         {
-            if (!developerConsole.commands.TryGetValue("help", out IDeveloperCommand c))
+            if (!console.commands.TryGetValue("help", out IDeveloperCommand c))
             {
                 SetHints(null);
                 return;
             }
 
-            SetHints(new List<string>() { developerConsole.CommandInfo(c) });
+            SetHints(new List<string>() { console.CommandInfo(c) });
+        }
+
+        private void SetHintsToInfo(string[] inputs)
+        {
+            SetHints(console.commands.Values.Select(x => x.ID).ToList());
         }
     }
 }

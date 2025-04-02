@@ -199,7 +199,7 @@ namespace DeveloperConsole
         }
     }
 
-    public class PrintLevels : IDeveloperCommand
+    public class PrintLevelsCommand : IDeveloperCommand
     {
         public string ID => "print_levels";
 
@@ -214,7 +214,7 @@ namespace DeveloperConsole
         }
     }
 
-    public class LoadLevel : IDeveloperCommand
+    public class LoadLevelCommand : IDeveloperCommand
     {
         public string ID => "load_level";
 
@@ -223,6 +223,36 @@ namespace DeveloperConsole
         public void Invoke(string level, DeveloperConsole console)
         {
             SceneManager.LoadScene(level);
+        }
+    }
+
+    public class RestoreHealthCommand : IDeveloperCommand
+    {
+        public string ID => "restore_health";
+
+        public string Description => "Restores all the player's health";
+
+        public void Invoke(DeveloperConsole console)
+        {
+            if (!DeveloperCommandHelper.TryGetComponentOnPlayer<Health>(console, out Health health))
+                return;
+
+            health.RestoreHealth();
+        }
+    }
+
+    public class AddHealthCommand : IDeveloperCommand
+    {
+        public string ID => "add_health";
+
+        public string Description => "Adds to the player's health";
+
+        public void Invoke(float amount, DeveloperConsole console)
+        {
+            if (!DeveloperCommandHelper.TryGetComponentOnPlayer<Health>(console, out Health health))
+                return;
+
+            health.AddHealth(amount);
         }
     }
 }

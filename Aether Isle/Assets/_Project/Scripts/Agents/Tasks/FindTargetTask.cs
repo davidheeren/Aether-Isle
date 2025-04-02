@@ -28,10 +28,10 @@ namespace Game
             lookForTargetTimer = new Timer(data.updateTime);
             rememberTargetTimer = new Timer(1).ForceDone();
 
-            components.health.OnDamageParams += OnDamage;
+            components.health.OnDamage += OnDamage;
         }
 
-        private void OnDamage(int damage, float stunTime, ActorComponents source)
+        private void OnDamage(float damage, float stunTime, ActorComponents source)
         {
             if (source == null) return;
             if (source.target == null) return;

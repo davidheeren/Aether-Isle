@@ -15,7 +15,8 @@ namespace Game
         ActorComponents components;
 
         Timer timer;
-        EventSwitch eventSwitch;
+
+        bool stunEventSwitch;
 
         float stunTime;
 
@@ -27,8 +28,7 @@ namespace Game
             this.components = components;
 
             canReenter = true;
-            eventSwitch = new EventSwitch((action) => components.health.OnDamage += action);
-            components.health.OnDamageParams += OnDamage;
+            components.health.OnDamage += OnDamage;
         }
 
         [System.Serializable]
@@ -41,13 +41,15 @@ namespace Game
 
         protected override bool CanEnterState()
         {
-            bool happened = eventSwitch.Happened;
+            bool happened = stunEventSwitch;
+            stunEventSwitch = false;
             return happened;
         }
 
-        private void OnDamage(int damage, float stunTime, ActorComponents source)
+        private void OnDamage(float damage, float stunTime, ActorComponents source)
         {
             this.stunTime = stunTime;
+            stunEventSwitch = true;
         }
 
         protected override void EnterState()
@@ -83,8 +85,7 @@ namespace Game
         {
             base.Destroy();
 
-            eventSwitch.Dispose((action) => components.health.OnDamage -= action);
-            components.health.OnDamageParams -= OnDamage;
+            components.health.OnDamage -= OnDamage;
         }
     }
 }

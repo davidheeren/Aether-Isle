@@ -24589,7 +24589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2895701962911461491, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7323766476007780385, guid: b765ca52a93c9454db5e774928c8ac08, type: 3}
       propertyPath: _id
@@ -24749,6 +24749,7 @@ GameObject:
   - component: {fileID: 2011045374}
   - component: {fileID: 2011045373}
   - component: {fileID: 2011045376}
+  - component: {fileID: 2011045377}
   m_Layer: 3
   m_Name: NPC
   m_TagString: Untagged
@@ -24763,7 +24764,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011045372}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -24826,6 +24827,8 @@ SpriteRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 9283754e4605b544b9bcdfab1d72dc9a, type: 2}
+  - {fileID: 2100000, guid: 2a9cee8d5b9ab054c8c312520fabb72b, type: 2}
+  - {fileID: 2100000, guid: 488c4f37736d4804bba7ecf96efa8b02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24885,6 +24888,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactTime: 2
+  yOffset: -1
+--- !u!114 &2011045377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011045372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9684c06d5d2073648a7a0e41a3d153c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 9283754e4605b544b9bcdfab1d72dc9a, type: 2}
+  - {fileID: 2100000, guid: 2a9cee8d5b9ab054c8c312520fabb72b, type: 2}
+  - {fileID: 2100000, guid: 488c4f37736d4804bba7ecf96efa8b02, type: 2}
 --- !u!1 &2030886116
 GameObject:
   m_ObjectHideFlags: 0

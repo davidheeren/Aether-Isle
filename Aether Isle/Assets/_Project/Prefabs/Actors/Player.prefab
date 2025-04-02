@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -4062663037219211520}
   - component: {fileID: 1203837206041879634}
   - component: {fileID: 9213849061626246228}
+  - component: {fileID: 165838483264451494}
   - component: {fileID: 4310884689642328341}
   - component: {fileID: 3367582257713908701}
   - component: {fileID: -6804236372151145118}
@@ -243,8 +244,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7ff18ffae85a4488fa5a73576b6dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <maxHealth>k__BackingField: 8
+  maxHealth: 3
+  rechargeValue: 1
+  rechargeWaitTime: 10
   invulnerableTime: 1
+--- !u!114 &165838483264451494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021286478059127579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e670fdbf95c714ba502264772f269b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 100
+  rechargeValue: 10
+  rechargeWaitTime: 1
 --- !u!114 &4310884689642328341
 MonoBehaviour:
   m_ObjectHideFlags: 0

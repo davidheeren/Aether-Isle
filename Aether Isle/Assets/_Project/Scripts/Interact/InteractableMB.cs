@@ -9,7 +9,7 @@ namespace Game
         protected SpriteRenderer spriteRenderer;
 
         public Material Material => spriteRenderer.material;
-        public Vector2 Position => transform.position;
+        public virtual Vector2 Position => transform.position;
         public virtual bool Moveable => false;
         public int Layer => gameObject.layer;
 

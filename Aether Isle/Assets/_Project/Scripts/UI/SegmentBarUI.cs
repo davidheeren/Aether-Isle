@@ -7,6 +7,8 @@ namespace Game
 {
     public class SegmentBarUI : MonoBehaviour
     {
+        // Obsolete Do not use
+
         [SerializeField] GameObject segmentTemplate;
         [SerializeField] int segmentCount = 8;
         [SerializeField] float initialOffset = -4;
@@ -29,9 +31,9 @@ namespace Game
             UpdateSegments(playerMaxHealth);
         }
 
-        void UpdateSegments(int health)
+        void UpdateSegments(float health)
         {
-            float healthPercent = health / (float)playerMaxHealth;
+            float healthPercent = health / playerMaxHealth;
 
             for (int i = 0; i < segments.Length; i++)
             {
@@ -43,12 +45,12 @@ namespace Game
 
         public void OnPlayerHealthChange(GameEventData data)
         {
-            UpdateSegments(data.GetData<int>());
+            UpdateSegments(data.GetData<float>());
         }
 
         public void OnPlayerSpawn(GameEventData data)
         {
-            playerMaxHealth = data.GetData<GameObject>().GetComponent<Health>().maxHealth;
+            playerMaxHealth = (int)data.GetData<GameObject>().GetComponent<Health>().MaxHealth;
             SetupSegments();
         }
     }

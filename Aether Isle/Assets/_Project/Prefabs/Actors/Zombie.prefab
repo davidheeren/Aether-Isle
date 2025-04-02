@@ -335,7 +335,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7ff18ffae85a4488fa5a73576b6dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <maxHealth>k__BackingField: 3
+  maxHealth: 3
+  rechargeValue: 0
+  rechargeWaitTime: 10
   invulnerableTime: 0
 --- !u!114 &2253225280846299221
 MonoBehaviour:
