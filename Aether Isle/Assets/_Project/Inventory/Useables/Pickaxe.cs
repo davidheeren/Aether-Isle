@@ -7,17 +7,17 @@ namespace Inventory
 {
     public class Pickaxe : Tool
     {
-        AxeData data;
+        PickaxeData data;
 
         IAimDirection aimDirection;
         IDamageMask damageMask;
 
         Vector2 dir;
 
-        public Pickaxe(PickaxeData data2, ActorComponents components) : base(data2, components)
+        public Pickaxe(PickaxeData data, ActorComponents components) : base(data, components)
 
         {
-            this.data = data2;
+            this.data = data;
             if (!components.TryGetComponent<IAimDirection>(out aimDirection))
                 throw new System.Exception("Items component should contain IAimDirection");
 

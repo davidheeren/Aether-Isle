@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 685fcb3c819f89e4291dba25b60d3de0, type: 3}
-  m_Name: TestAxe
+  m_Script: {fileID: 11500000, guid: a308ddcee006bb840b49bb7ac43d41aa, type: 3}
+  m_Name: TestPick
   m_EditorClassIdentifier: 
-  id: Axe Tool
-  sprite: {fileID: -910483840, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
+  id: Pickaxe Tool
+  sprite: {fileID: -344297624, guid: c49f4909a17c01e4d88c7a4dbb943b7c, type: 3}
   durationTime: 0.5
   cooldownTime: 0.5
   damageData: {fileID: 11400000, guid: f9c85d6a878cac942af4266c4c70857b, type: 2}
