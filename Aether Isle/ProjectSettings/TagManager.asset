@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Projectile
   - tree
-  - Test
+  - MineableOre
   layers:
   - Default
   - TransparentFX
