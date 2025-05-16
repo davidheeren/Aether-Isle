@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utilities;
 
 namespace Game
@@ -30,7 +31,7 @@ namespace Game
             timer.Reset();
         }
 
-        void OnHit()
+        void OnHit(float damage, float stunTime, ActorComponents source)
         {
             sr.SetPropertyFloat("_HitFactor", 1);
             timer.Reset();

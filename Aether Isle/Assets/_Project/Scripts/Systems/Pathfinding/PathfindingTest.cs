@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game;
+using UnityEngine;
 
 namespace Pathfinding
 {
@@ -6,60 +7,67 @@ namespace Pathfinding
     {
         [SerializeField] Transform target;
         [SerializeField] float speed = 1;
-        [SerializeField] float repeat = 0.5f;
+        //[SerializeField] int testCount = 100;
         [SerializeField] bool drawPath = true;
 
-        Pathfinder pathfinder;
+        //Pathfinder pathfinder;
+        PathRequestManager pathRequestManager;
 
-        Vector2[] path = new Vector2[0];
+        WaypointHelper waypointHelper = new WaypointHelper(new Vector2[0]);
 
-        int targetIndex = 0;
+        //int targetIndex = 0;
 
-        private void Awake()
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+        private void Start()
         {
-            pathfinder = new Pathfinder(PathGrid.Instance);
+            //pathfinder = new Pathfinder(PathGrid.Instance);
+            pathRequestManager = PathRequestManager.Instance;
 
-            InvokeRepeating(nameof(UpdatePath), 0, repeat);
+            pathRequestManager.FindPath(transform.position, target.position, OnPathReceived);
+            sw.Start();
         }
 
         private void Update()
         {
-            if (path == null)
+            Vector2? waypoint = waypointHelper.GetCurrentWaypoint(transform.position);
+
+            if (waypoint == null)
                 return;
 
-            Draw();
+            if (drawPath)
+                waypointHelper.DrawWaypoints();
 
-            if (path.Length == 0)
-                return;
+            Vector3 dir = ((Vector3)waypoint - transform.position).normalized;
 
-            Vector3 distTo = (Vector3)path[targetIndex] - transform.position;
-
-            if (distTo.sqrMagnitude < 0.25f)
-            {
-                if (targetIndex == path.Length - 1)
-                    return;
-                else
-                    targetIndex++;
-            }
-
-            transform.position += distTo.normalized * speed * Time.deltaTime;
+            transform.position += dir * speed * Time.deltaTime;
         }
 
-        private void Draw()
+        void OnPathReceived(Vector2[] path)
         {
-            if (!drawPath)
-                return;
+            waypointHelper.SetWaypoints(path);
 
-            for (int i = 1; i < path.Length; i++)
-            {
-                Debug.DrawLine(path[i - 1], path[i], Color.blue);
-            }
+            print($"Callback path received in: {sw.ElapsedMilliseconds} ms");
+            sw.Restart();
+
+            pathRequestManager.FindPath(transform.position, target.position, OnPathReceived);
         }
 
         void UpdatePath()
         {
-            targetIndex = 0;
-            path = pathfinder.FindPath(transform.position, target.position);
+            //path = pathfinder.FindPath(transform.position, target.position);
         }
+
+        //void UpdatePathLoop()
+        //{
+        //    System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+
+        //    for (int i = 0; i < testCount; i++)
+        //    {
+        //        UpdatePath();
+        //    }
+
+        //    Debug.Log("Legacy Path found in " + sw.ElapsedMilliseconds + " ms");
+        //}
     }
 }

@@ -1,5 +1,7 @@
 using CustomInspector;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace Inventory
@@ -13,11 +15,32 @@ namespace Inventory
         //   Get all types methods
         //   Delete types with "test" in their name
 
+        [Button(nameof(SetAllItems))]
+        [Button(nameof(RemoveNullAndDuplicates))]
+        [Button(nameof(RemoveTestItems))]
         [Button(nameof(ValidateItems))]
         [Button(nameof(SortItems))]
         [ReadOnly] public string buttons = "buttons";
 
         [SerializeField] ItemData[] items;
+
+        public IEnumerable<ItemData> Items
+        {
+            get
+            {
+                for (int i = 0; i < items.Length; i++)
+                {
+                    yield return items[i];
+                }
+            }
+        }
+
+        public bool TryGetItem(string id, out ItemData item)
+        {
+            item = items.FirstOrDefault(x => x.id == id);
+
+            return item != null;
+        }
 
         public ItemData GetItem(string id)
         {
@@ -35,14 +58,64 @@ namespace Inventory
             items = sortedItems;
         }
 
-        // Called when the array is modified in the inspector but before the changes are applied
-        //public void OnItemsChanged() { }
-        // Called when the array is modified and applied
-        //public void OnItemsChangesApplied() { }
-        //public void OnEditorDisable()
-        //{
-        //    ValidateItems();
-        //}
+
+        private void SetAllItems()
+        {
+#if UNITY_EDITOR
+
+            List<ItemData> allItems = new List<ItemData>();
+
+            string[] guids = AssetDatabase.FindAssets("t:ItemData", new[] { "Assets" });
+
+            foreach (string guid in guids)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+
+                // Load the asset as an Item and add it to the list if it is valid
+                ItemData itemData = AssetDatabase.LoadAssetAtPath<ItemData>(assetPath);
+
+                if (itemData != null)
+                {
+                    allItems.Add(itemData);
+                }
+            }
+
+            items = allItems.ToArray();
+            SortItems();
+
+#endif
+        }
+
+        private void RemoveTestItems()
+        {
+            List<ItemData> newItems = new List<ItemData>();
+
+            foreach (ItemData item in items)
+            {
+                // Or could be item.name
+                if (item.id.ToLower().Contains("test"))
+                    continue;
+
+                newItems.Add(item);
+            }
+
+            items = newItems.ToArray();
+        }
+
+        private void RemoveNullAndDuplicates()
+        {
+            HashSet<ItemData> newItems = new HashSet<ItemData>();
+
+            foreach (ItemData item in items)
+            {
+                if (item == null)
+                    continue;
+
+                newItems.Add(item);
+            }
+
+            items = newItems.ToArray();
+        }
 
         private void ValidateItems()
         {

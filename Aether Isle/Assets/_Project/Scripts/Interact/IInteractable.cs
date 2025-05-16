@@ -1,16 +1,16 @@
+using SpatialPartition;
 using UnityEngine;
 
 namespace Game
 {
-    public interface IInteractable
+    public interface IInteractable : ISpatialGridEntry
     {
         public Material Material { get; }
-        public Vector2 Position { get; }
 
         public bool CanInteract();
-        public void Interact(ActorComponents playerComponents);
         public bool CanContinue();
-        public void UpdateInteract();
-        public void ExitInteract();
+        public void EnterInteract(ActorComponents components);
+        public void UpdateInteract(ActorComponents components);
+        public void ExitInteract(ActorComponents components);
     }
 }

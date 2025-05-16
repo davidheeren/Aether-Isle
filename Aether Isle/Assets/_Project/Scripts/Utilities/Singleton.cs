@@ -14,15 +14,13 @@ namespace Utilities
                     _instance = FindFirstObjectByType<T>();
                 if (_instance == null)
                 {
-                    //Debug.Log("Created Singleton of type: " + typeof(T));
-                    GameObject obj = new GameObject(typeof(T) + " Singleton");
+                    GameObject obj = new GameObject(typeof(T).Name + " Singleton");
                     _instance = obj.AddComponent<T>();
                 }
 
                 return _instance;
             }
         }
-
 
         public static T RawInstance
         {
@@ -35,6 +33,13 @@ namespace Utilities
 
         public static bool HasInstance()
         {
+            return _instance != null;
+        }
+
+        public static bool TryGetInstance(out T instance)
+        {
+            instance = _instance;
+
             return _instance != null;
         }
     }

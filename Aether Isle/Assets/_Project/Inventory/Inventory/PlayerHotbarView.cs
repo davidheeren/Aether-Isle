@@ -59,8 +59,11 @@ namespace Inventory
         {
             base.OnDisable();
 
-            controller.OnHotbarIndexChange -= ScrollHotbar;
-            controller.Model.OnModelChanged -= ModelChanged;
+            if (controller != null)
+            {
+                controller.OnHotbarIndexChange -= ScrollHotbar;
+                controller.Model.OnModelChanged -= ModelChanged;
+            }
         }
 
         void ScrollHotbar(int index)

@@ -37,13 +37,13 @@ namespace Inventory
             return spawn;
         }
 
-        public override void Interact(ActorComponents playerComponents)
+        public override void EnterInteract(ActorComponents components)
         {
-            base.Interact(playerComponents);
+            base.EnterInteract(components);
 
             if (item == null) return;
 
-            if (!playerComponents.TryGetComponent<PlayerInventoryController>(out PlayerInventoryController controller))
+            if (!components.TryGetComponent<PlayerInventoryController>(out PlayerInventoryController controller))
             {
                 Debug.LogError("Player does not have an InventoryManager attached");
                 return;

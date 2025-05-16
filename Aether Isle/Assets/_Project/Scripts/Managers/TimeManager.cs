@@ -14,11 +14,11 @@ namespace Game
         //    InputManager.Instance.input.Scene.Pause.performed += OnRestart;
         //}
 
-        private void OnDestroy()
-        {
-            //if (InputManager.HasInstance())
-            //    InputManager.Instance.input.Scene.Pause.performed -= OnRestart;
-        }
+        //private void OnDestroy()
+        //{
+        //    //if (InputManager.HasInstance())
+        //    //    InputManager.Instance.input.Scene.Pause.performed -= OnRestart;
+        //}
 
         //private void OnRestart(UnityEngine.InputSystem.InputAction.CallbackContext context)
         //{
@@ -29,10 +29,10 @@ namespace Game
 
         private void Update()
         {
-            if (InputManager.Instance.input.Scene.Pause.WasPressedThisFrame())
-            {
-                SceneSwitcher.Instance.Restart();
-            }
+            //if (InputManager.Instance.input.Scene.Pause.WasPressedThisFrame())
+            //{
+            //    SceneSwitcher.Instance.Restart();
+            //}
         }
 
         private void OnApplicationQuit()

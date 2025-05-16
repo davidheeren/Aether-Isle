@@ -1,11 +1,15 @@
 using UnityEngine;
 using DamageSystem;
+using Inventory;
 
 namespace Game
 {
     [RequireComponent(typeof(Collider2D))]
     public class ProjectileDamage : MonoBehaviour
     {
+
+        private Axe axe;
+        
         public LayerMask damageMask { get; private set; }
 
         DamageApplier applier;
@@ -20,15 +24,20 @@ namespace Game
             spawn.damageMask = damageMask;
 
             return spawn;
-
-            // Not sure why we need the tag
-            //if (!spawn.CompareTag("Projectile")) 
-            //    Debug.LogWarning("Projectiles tag is not Projectile");
         }
+
+
+        public void Initialize(Axe axe)
+        {
+           this.axe = axe;
+        }
+
+
+
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            applier.Damage(collision);
+            applier.Damage(collision);    
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

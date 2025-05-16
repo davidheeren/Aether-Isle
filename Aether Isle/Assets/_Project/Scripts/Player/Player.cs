@@ -1,7 +1,6 @@
 using Inventory;
 using StateTree;
 using Stats;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Game
@@ -16,10 +15,10 @@ namespace Game
         [SerializeField] PlayerIdleState.Data idleData;
         [SerializeField] PlayerMoveState.Data moveData;
         [SerializeField] PlayerDashState.Data dashData;
-        //[SerializeField] PlayerAttackState.Data attackData;
         [SerializeField] PlayerSwimState.Data swimData;
         [SerializeField] PlayerIdleState.Data swimIdleData;
         [SerializeField] PlayerMoveState.Data swimMoveData;
+        [SerializeField] PlayerInteractState.Data interactData;
         
 
         [Header("Conditions")]
@@ -49,13 +48,12 @@ namespace Game
                                 new PlayerIdleState(swimIdleData, components)));
 
             Node dashBranch = new LockNullModifier(dashData.duration, 1, dashData.duration, new PlayerDashState(dashData, components));
-            //Node attackBranch = new LockNullModifier(attackData.duration, 2, attackData.cooldown, new PlayerAttackState(attackData, components));
 
             // Large Branches
             Node groundedBranch = new HolderState(new Selector(
                                     new PlayerUseableState(components, inventoryController),
+                                    new PlayerInteractState(interactData, components, 1),
                                     dashBranch,
-                                    //attackBranch,
                                     new PlayerMoveState(moveData, components),
                                     new PlayerIdleState(idleData, components)));
 
@@ -67,10 +65,7 @@ namespace Game
             rootState = new RootState(rootStateData, new Selector(
                             new ActorStunState(stunData, null, components),
                             new ActorDieState(dieData, components),
-                            notHitBranch));
-
-
-                   
+                            notHitBranch));                   
         }
     }
 }

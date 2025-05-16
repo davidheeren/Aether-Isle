@@ -40,7 +40,7 @@ namespace Game
                 return lastKnownPath.Peek();
             }
 
-            return target.position;
+            return target.Position;
         }
 
         public TargetInfo DisableTarget()
@@ -79,8 +79,8 @@ namespace Game
             }
             else
             {
-                lastKnownPath.Enqueue(target.position);
-                lastKnownPosition = target.position;
+                lastKnownPath.Enqueue(target.Position);
+                lastKnownPosition = target.Position;
             }
 
             return this;

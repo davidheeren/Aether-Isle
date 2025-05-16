@@ -6,7 +6,7 @@ namespace Utilities
     {
         public static bool Compare(this LayerMask layerMask, int layer)
         {
-            return (layerMask & (1 << layer)) != 0;
+            return (layerMask & (1 << layer)) != 0; // Double check that -1 returns all layers
         }
 
         // Only in Awake of after; not in constructor

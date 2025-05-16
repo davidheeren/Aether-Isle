@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 2253225280846299221}
   - component: {fileID: -1814526223723732841}
   - component: {fileID: 8168052975068967470}
+  - component: {fileID: 8005509679069979131}
   m_Layer: 7
   m_Name: Slime
   m_TagString: Untagged
@@ -336,7 +337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7ff18ffae85a4488fa5a73576b6dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <maxHealth>k__BackingField: 2
+  maxHealth: 3
+  rechargeValue: 0
+  rechargeWaitTime: 10
   invulnerableTime: 0
 --- !u!114 &2253225280846299221
 MonoBehaviour:
@@ -381,6 +384,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: b485a1f300f8538409e69735e2fc97cf, type: 2}
   initialModifiers: []
+--- !u!210 &8005509679069979131
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697161190766838628}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 50
+  m_SortAtRoot: 0
 --- !u!1001 &5549453306199264849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -470,7 +485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0625
+      value: -0.1875
       objectReference: {fileID: 0}
     - target: {fileID: 7420287376825777435, guid: feb6b3aa33912cb458481074b5aaee2d, type: 3}
       propertyPath: m_LocalPosition.z

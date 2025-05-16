@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01a45041f88f094e96334b887c06cb9, type: 3}
+  m_Name: TestIceArrow
+  m_EditorClassIdentifier: 
+  id: TestIceArrow
+  sprite: {fileID: 1290075092, guid: 3589b88e6c15a6549bf5e90f30b641b4, type: 3}
+  durationTime: 0.25
+  cooldownTime: 0.25
+  arrowSpeed: 12
+  damageData: {fileID: 11400000, guid: ae16333ee4f337e499832bed82345de7, type: 2}
+  projectile: {fileID: 3709832296542760128, guid: fa8ee4b7136128d4cb88f01784bea5c9, type: 3}

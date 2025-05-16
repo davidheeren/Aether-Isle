@@ -1,7 +1,6 @@
-﻿using DamageSystem;
+﻿using SpatialPartition;
 using StateTree;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Utilities;
 
 namespace Game
@@ -29,34 +28,11 @@ namespace Game
             lookForTargetTimer = new Timer(data.updateTime);
             rememberTargetTimer = new Timer(1).ForceDone();
 
-            components.health.OnDamageParams += OnDamage;
+            components.health.OnDamage += OnDamage;
         }
 
-        private void OnDamage(int damage, float stunTime, ActorComponents source)
+        private void OnDamage(float damage, float stunTime, ActorComponents source)
         {
-            // Sets its own target to the new damage
-            //if (source.TryGetComponent<Target>(out Target tar))
-            //{
-            //    if (!tar.isActiveAndEnabled) return;
-
-            //    targetInfo.SetNewTarget(tar, CheckLOS(source?.col, data.alertDetectionRadius));
-
-            //    rememberTargetTimer.SetDelay(data.rememberAggravateTargetTime).Reset();
-
-            //    //Debug.Log("Hit aggravated: " + components.gameObject.name);
-
-            //    // Loops over all aggravateable objects of its own layer
-            //    Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
-
-            //    foreach (Collider2D overlap in overlaps)
-            //    {
-            //        if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
-            //        {
-            //            aggravate.Aggravate(tar);
-            //        }
-            //    }
-            //}
-
             if (source == null) return;
             if (source.target == null) return;
             if (!source.target.isActiveAndEnabled) return;
@@ -68,15 +44,30 @@ namespace Game
             //Debug.Log("Hit aggravated: " + components.gameObject.name);
 
             // Loops over all aggravateable objects of its own layer
-            Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
 
-            foreach (Collider2D overlap in overlaps)
+            foreach (Target t in TargetSpatialManager.Instance.FindEntriesInRadius(components.transform.position, data.unAlertDetectionRadius, AggravateTargetFilter))
             {
-                if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
+                if (t.TryGetComponent<IAggravate>(out IAggravate aggravate))
                 {
                     aggravate.Aggravate(source.target);
                 }
             }
+
+
+            //Collider2D[] overlaps = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, components.gameObject.layer.GetLayerMask());
+
+            //foreach (Collider2D overlap in overlaps)
+            //{
+            //    if (overlap.TryGetComponent<IAggravate>(out IAggravate aggravate))
+            //    {
+            //        aggravate.Aggravate(source.target);
+            //    }
+            //}
+        }
+
+        bool AggravateTargetFilter(Target t)
+        {
+            return components.gameObject.layer == t.gameObject.layer;
         }
 
         public void Aggravate(Target target)
@@ -111,24 +102,39 @@ namespace Game
 
         void GetNewTarget()
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, data.targetMask);
+            //Collider2D[] cols = Physics2D.OverlapCircleAll(components.transform.position, data.unAlertDetectionRadius, data.targetMask);
 
-            foreach (Collider2D col in cols)
+            //foreach (Collider2D col in cols)
+            //{
+            //    if (!CheckLOS(col, data.unAlertDetectionRadius)) continue;
+
+            //    if (col.TryGetComponent<Target>(out Target target))
+            //    {
+            //        if (!target.isActiveAndEnabled) continue;
+
+            //        targetInfo.SetNewTarget(target, true);
+            //        rememberTargetTimer.SetDelay(data.rememberTargetTime).Reset();
+            //        break;
+            //    }
+            //}
+
+            Target t = TargetSpatialManager.Instance.FindClosestEntryInRadius(components.transform.position, data.unAlertDetectionRadius, NewTargetFilter);
+
+            if (t == null)
             {
-                if (!CheckLOS(col, data.unAlertDetectionRadius)) continue;
-
-                if (col.TryGetComponent<Target>(out Target target))
-                {
-                    if (!target.isActiveAndEnabled) continue;
-
-                    targetInfo.SetNewTarget(target, true);
-                    rememberTargetTimer.SetDelay(data.rememberTargetTime).Reset();
-                    break;
-                }
+                losColor = new Color(0, 0, 0, 0);
+                return;
             }
 
-            if (cols.Length == 0)
-                losColor = new Color(0, 0, 0, 0);
+            targetInfo.SetNewTarget(t, true);
+            rememberTargetTimer.SetDelay(data.rememberTargetTime).Reset();
+        }
+
+        bool NewTargetFilter(Target target)
+        {
+            return data.targetMask.Compare(target.gameObject.layer)
+                && CheckLOS(target.col, data.unAlertDetectionRadius)
+                && target.isActiveAndEnabled;
         }
 
         void CheckCurrentTarget()

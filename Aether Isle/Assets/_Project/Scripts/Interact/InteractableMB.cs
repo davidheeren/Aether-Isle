@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SpatialPartition;
+using UnityEngine;
 
 namespace Game
 {
@@ -6,27 +7,36 @@ namespace Game
     public abstract class InteractableMB : MonoBehaviour, IInteractable
     {
         protected SpriteRenderer spriteRenderer;
-        protected ActorComponents playerComponents;
 
         public Material Material => spriteRenderer.material;
-        public Vector2 Position => transform.position;
+        public virtual Vector2 Position => transform.position;
+        public virtual bool Moveable => false;
+        public int Layer => gameObject.layer;
 
         protected virtual void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public virtual bool CanContinue() => false;
+        private void OnEnable()
+        {
+            InteractableSpatialManager.Instance.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            if (InteractableSpatialManager.TryGetInstance(out InteractableSpatialManager instance))
+                instance.Remove(this);
+        }
 
         public virtual bool CanInteract() => true;
 
-        public virtual void Interact(ActorComponents playerComponents)
-        {
-            this.playerComponents = playerComponents;
-        }
+        public virtual bool CanContinue() => false;
 
-        public virtual void UpdateInteract() { }
+        public virtual void EnterInteract(ActorComponents components) { }
 
-        public virtual void ExitInteract() { }
+        public virtual void UpdateInteract(ActorComponents components) { }
+
+        public virtual void ExitInteract(ActorComponents components) { }
     }
 }

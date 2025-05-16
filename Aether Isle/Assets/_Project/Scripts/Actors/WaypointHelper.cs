@@ -93,7 +93,7 @@ namespace Game
             return this;
         }
 
-        public WaypointHelper Reset()
+        public WaypointHelper ResetIndex()
         {
             SetIndex(0);
             return this;
@@ -105,6 +105,8 @@ namespace Game
                 this.waypoints = waypoints;
             else
                 this.waypoints = new Vector2[0];
+
+            ResetIndex();
 
             return this;
         }

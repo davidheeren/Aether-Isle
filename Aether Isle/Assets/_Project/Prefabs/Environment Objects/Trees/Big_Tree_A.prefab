@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1462062120745488599}
   - component: {fileID: 4455031601018375334}
   - component: {fileID: 3026379072318902942}
-  - component: {fileID: 4959841847931402061}
   - component: {fileID: 2627240315150927251}
   m_Layer: 3
   m_Name: Big_Tree_A
@@ -66,12 +65,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.03010106, y: 0}
-  m_Radius: 1.0719204
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!212 &3026379072318902942
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -128,19 +127,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!210 &4959841847931402061
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5569596157140445957}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 50
-  m_SortAtRoot: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &2627240315150927251
 MonoBehaviour:
   m_ObjectHideFlags: 0

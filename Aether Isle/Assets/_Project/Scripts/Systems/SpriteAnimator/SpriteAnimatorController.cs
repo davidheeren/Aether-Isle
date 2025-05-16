@@ -21,7 +21,7 @@ namespace SpriteAnimator
         public bool isPaused { get; private set; }
         public bool isStopped { get; private set; }
 
-        private int currentSpriteIndex;
+        public int currentSpriteIndex { get; private set; }
 
         public event Action OnAnimationStart;
         public event Action OnAnimationDone;
@@ -120,8 +120,8 @@ namespace SpriteAnimator
 
             if (currentAnimation != animation)
             {
-                OnAnimationChanged?.Invoke();
                 currentAnimation = animation;
+                OnAnimationChanged?.Invoke();
             }
 
             Restart();

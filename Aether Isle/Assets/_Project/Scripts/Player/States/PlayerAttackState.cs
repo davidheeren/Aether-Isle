@@ -34,7 +34,7 @@ namespace Game
 
         protected override bool CanEnterState()
         {
-            return InputManager.Instance.input.Game.Attack.WasPressedThisFrame();
+            return InputManager.Instance.input.Game.Use.WasPressedThisFrame();
         }
 
         protected override void EnterState()
